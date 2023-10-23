@@ -10,7 +10,8 @@ export class LogInService {
     Metodo encargado de realizar el log in, 
   */
 
-  login(){
+  login(usurio: string, contraseña: string){
+    
     
   }
 }
