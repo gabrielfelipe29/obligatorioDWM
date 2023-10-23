@@ -1,0 +1,1 @@
+{"version":3,"file":"administrador.js","sourceRoot":"","sources":["../src/administrador.ts"],"names":[],"mappings":";AAAA,MAAM,aAAa;IAIf,YAAY,EAAU,EAAE,UAAkB;QACtC,IAAI,CAAC,UAAU,GAAG,UAAU,CAAC;QAC7B,IAAI,CAAC,EAAE,GAAG,EAAE,CAAC;IACjB,CAAC;IAEM,KAAK;QACR,oDAAoD;IACxD,CAAC;CACJ"}
