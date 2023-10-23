@@ -13,7 +13,26 @@ export class LogInComponent {
   user = ""
   pass = ""
 
+  userValid:Boolean = true
+  passValid:Boolean = true  
+
   onSubmit(form: NgForm) {
-    this.servicioRegistro.login(form.value.usuario, form.value.contraseña);
+
+    /* Va a recibir un array de bools, si tiene dos y ambos están en true, significa que esta todo bien
+    en caso contrario paso algo */
+    let response = this.servicioRegistro.login(form.value.usuario, form.value.contraseña);
+
+    if (response.length == 2){
+      this.userValid = response[0]
+      this.userValid = response[1]
+    } else {
+      alert("Ocurrio un error al enviar los datos al servidor, por favor repita el proceso")
+    }
+
+    if (this.userValid && this.passValid) {
+      // Continuar con la vista del administrador
+    }
+    
+
   }
 }
