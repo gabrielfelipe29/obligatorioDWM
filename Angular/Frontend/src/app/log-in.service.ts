@@ -7,7 +7,7 @@ import { InterceptorInterceptor } from './interceptor.interceptor';
 })
 export class LogInService {
 
-  constructor(private client: HttpClient, private inter: InterceptorInterceptor) { }
+  constructor(private client: HttpClient) { }
 
   /*
     Metodo encargado de realizar el log in, 
@@ -19,8 +19,6 @@ export class LogInService {
       "user": usurio,
       "password": contraseña
     }
-
-
 
     let userValid = false
     let passValid = false
@@ -41,10 +39,9 @@ export class LogInService {
           paraDevolver.push(passValid)
           // Ahora trabajamos con el body
         } else {
-          this.inter.setToken(response.body['token'])
-      /* Lógica para pasar a la pantalla de administrador */
+          /* Lógica para pasar a la pantalla de administrador */
 
-    }
+        }
       },
       (error: HttpResponse<any>) => {
         console.log("Hubo un error en el camino " + error)
@@ -52,7 +49,7 @@ export class LogInService {
       }
     );
 
-    return  paraDevolver
+    return paraDevolver
   }
 
   singUp(usuario: string, pass: string) {

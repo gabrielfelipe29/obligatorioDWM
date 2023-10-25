@@ -11,10 +11,12 @@ import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { BarraDeNavegacionComponent } from './barra-de-navegacion/barra-de-navegacion.component';
 import { PieDePaginaComponent } from './pie-de-pagina/pie-de-pagina.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
-import { HttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { LogInService } from './log-in.service';
 import { JuegoService } from './juego.service';
 import { PropuestasService } from './propuestas.service';
+import { InterceptorInterceptor } from './interceptor.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -31,9 +33,14 @@ import { PropuestasService } from './propuestas.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    
+    HttpClientModule
+
   ],
-  providers: [HttpClient, LogInService, JuegoService, PropuestasService],
+  providers: [HttpClient, LogInService, JuegoService, PropuestasService, {
+    provide: HTTP_INTERCEPTORS,// indicamos que tipo de interceptor es.
+    multi: true,
+    useClass: InterceptorInterceptor
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,9 +4,10 @@ import { LogInComponent } from './log-in/log-in.component';
 import { RegistradoComponent } from './registrado/registrado.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/inicioSesion', pathMatch: 'full'},
-  {path:'inicioSesion', component: LogInComponent},
-  {path:'inicio', component: RegistradoComponent}
+  /*   {path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, */
+  { path: '', component: LogInComponent },
+  { path: 'inicioSesion', component: LogInComponent },
+  { path: 'inicio', component: RegistradoComponent }
 ];
 
 @NgModule({
