@@ -40,6 +40,10 @@ export class SingUpComponent {
   }
 
   onSubmit(form: NgForm) {
+
+    this.userReasonsInvalid.splice(0, this.userReasonsInvalid.length);
+    this.passReasonsInvalid.splice(0, this.passReasonsInvalid.length);
+
     let expresionCompleta  = "^[A-Za-z0-9]$"
     let expresion1 = "[a-z]"
     let expresion2 = "[A-Z]"

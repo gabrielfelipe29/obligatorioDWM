@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LogInService } from '../log-in.service';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -8,7 +9,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent {
-  constructor(private servicioRegistro: LogInService) { }
+  constructor(private servicioRegistro: LogInService, private router: Router) { }
 
   user = ""
   pass = ""
@@ -16,7 +17,9 @@ export class LogInComponent {
   userValid: Boolean = true
   passValid: Boolean = true
 
-  unirseAlJuego() { }
+  signup(){
+    this.router.navigate(['/registro']);
+  }
 
   onSubmit(form: NgForm) {
 
@@ -34,6 +37,7 @@ export class LogInComponent {
 
     if (this.userValid && this.passValid) {
       // Continuar con la vista del administrador
+      this.router.navigate(['/inicio']);
     }
   }
 }
