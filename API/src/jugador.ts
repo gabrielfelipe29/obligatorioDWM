@@ -1,4 +1,4 @@
-class Jugador {
+export class Jugador {
     public id: number;
     public pseudonimo: String;
 

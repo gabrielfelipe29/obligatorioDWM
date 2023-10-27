@@ -1,4 +1,4 @@
-class Ranking {
+export class Ranking {
     public meGusta: number = 0;
     public noMeGusta: number = 0;
     public meDaIgual: number = 0;

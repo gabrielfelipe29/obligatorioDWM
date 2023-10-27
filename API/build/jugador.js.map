@@ -1,1 +1,1 @@
-{"version":3,"file":"jugador.js","sourceRoot":"","sources":["../src/jugador.ts"],"names":[],"mappings":";AAAA,MAAM,OAAO;IAIT,YAAY,EAAU,EAAE,UAAkB;QACtC,IAAI,CAAC,UAAU,GAAG,UAAU,CAAC;QAC7B,IAAI,CAAC,EAAE,GAAG,EAAE,CAAC;IACjB,CAAC;CAEJ"}
+{"version":3,"file":"jugador.js","sourceRoot":"","sources":["../src/jugador.ts"],"names":[],"mappings":";;;AAAA,MAAa,OAAO;IAIhB,YAAY,EAAU,EAAE,UAAkB;QACtC,IAAI,CAAC,UAAU,GAAG,UAAU,CAAC;QAC7B,IAAI,CAAC,EAAE,GAAG,EAAE,CAAC;IACjB,CAAC;CAEJ;AATD,0BASC"}
