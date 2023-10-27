@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { LogInService } from '../log-in.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sing-up',
@@ -9,7 +10,7 @@ import { LogInService } from '../log-in.service';
 })
 export class SingUpComponent {
 
-  constructor(private servicioRegistro:LogInService){}
+  constructor(private servicioRegistro:LogInService, private router: Router){}
   user = ""
   pass = ""
 
@@ -44,7 +45,7 @@ export class SingUpComponent {
     this.userReasonsInvalid.splice(0, this.userReasonsInvalid.length);
     this.passReasonsInvalid.splice(0, this.passReasonsInvalid.length);
 
-    let expresionCompleta  = "^[A-Za-z0-9]$"
+    let expresionCompleta  = "[A-Za-z0-9]"
     let expresion1 = "[a-z]"
     let expresion2 = "[A-Z]"
     let expresion3 = "[0-9]"
@@ -53,7 +54,6 @@ export class SingUpComponent {
     let regExp1 = new RegExp(expresion1)
     let regExp2= new RegExp(expresion2)
     let regExp3 = new RegExp(expresion3)
-
 
     // Esto no si es necesario o por Property Binding ya queda cargado el valor pero bueno
     this.user = form.value.usuario
@@ -72,8 +72,7 @@ export class SingUpComponent {
       } 
       if(!regExp3.test(this.pass)){
         this.passReasonsInvalid.push(" faltan numeros ")    
-      } 
-      
+      }    
     }
 
     if (!this.userValid){
@@ -84,9 +83,10 @@ export class SingUpComponent {
         this.userReasonsInvalid.push(" faltan numeros ")
       }
     }
-
+    console.log(this.userValid + " " + this.passValid)
     if (this.userValid && this.passValid) {
       this.servicioRegistro.singUp(this.user, this.pass);
+      this.router.navigate(['/inicio']);
     }
   }
 }
