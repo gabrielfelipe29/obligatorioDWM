@@ -1,0 +1,8 @@
+<h2>Propuestas Disponibles</h2>
+<ul class="propuestas">
+  <li *ngFor="let propuesta of propuestas">
+    <a routerLink="/detail/{{propuesta.id}}">
+      <span class="badge">{{propuesta.id}}</span> {{propuesta.nombre}}
+    </a>
+  </li>
+</ul>
