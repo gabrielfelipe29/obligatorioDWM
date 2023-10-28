@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Ranking = void 0;
 class Ranking {
     constructor() {
         this.meGusta = 0;
@@ -15,4 +17,5 @@ class Ranking {
         this.meDaIgual++;
     }
 }
+exports.Ranking = Ranking;
 //# sourceMappingURL=ranking.js.map

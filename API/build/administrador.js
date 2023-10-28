@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Administrador = void 0;
 class Administrador {
     constructor(id, contraseña) {
         this.contraseña = contraseña;
@@ -8,4 +10,5 @@ class Administrador {
         //verificar si existe el usuario en la base de datos
     }
 }
+exports.Administrador = Administrador;
 //# sourceMappingURL=administrador.js.map

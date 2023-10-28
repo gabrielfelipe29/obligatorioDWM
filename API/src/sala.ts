@@ -1,5 +1,7 @@
+import { Propuesta } from "./propuesta";
+import { Jugador } from "./jugador";
 
-class Sala {
+export class Sala {
     public id: number;
     public propuesta: Propuesta;
     //creador le asignamos el id del admin_

@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Sala = void 0;
 class Sala {
     constructor(id, propuesta, link, creador) {
         this.propuesta = propuesta;
@@ -10,4 +12,5 @@ class Sala {
         this.Jugadores.push(jugador);
     }
 }
+exports.Sala = Sala;
 //# sourceMappingURL=sala.js.map

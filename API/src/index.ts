@@ -1,14 +1,15 @@
 import express from 'express'
 import cardRouter from './routes/cards'
 import salaRouter from './routes/sala'
-import * as jose from 'jose'
+import { Administrador } from './administrador';
 
 
-const admin = new Administrador("admin", "admin");
+var admin = new Administrador("admin", "admin");
 let administradores: Administrador[] = [];
 administradores.push(admin);
 
 const app = express()
+var jwt = require('jsonwebtoken');
 app.use(express.json()) //middleware
 
 const PORT = 3000
@@ -22,31 +23,38 @@ app.use('/cards', cardRouter)
 app.use('/salas', salaRouter)
 
 //login del usuario
-app.post('login', (req, res) => {
+app.post('/login', (req, res) => {
     //se debe validar el usuario y asignarle el token
     try {
-
-        if (userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
-            //mandar token 
+        var token;
+        if (userExist(administradores, req.body.administrador.id, req.body.administrador.contraseña)) {
+            //usuario es administrador, entonces le mando el token
+            token = jwt.sign({
+                data: 'admin'
+            }, 'secret', { expiresIn: '1h' });
+            res.send(JSON.stringify({ "token": token }));
         } else {
+            //El usuario no existe
             res.status(401);
-            res.send("Error. Usuario no existe.")
+            res.send("Error. Administrador no existe.")
         }
-
 
     } catch (error) {
-        res.status(401);
-        res.send("Error.")
+        //hubo un error de formato
+        res.status(400);
+        res.send("Error. Formato JSON invalido.")
     }
 })
-//node jason web token
-function userExist(id: String, contraseña: String) {
-    administradores.forEach(x => {
+
+function userExist(listaUsuario: Administrador[], id: String, contraseña: String) {
+    var res = false;
+    listaUsuario.forEach(x => {
         if (x.id === id && x.contraseña === contraseña) {
-            return true;
+            res = true;
+            return;
         }
     })
-    return false;
+    return res;
 }
 
 

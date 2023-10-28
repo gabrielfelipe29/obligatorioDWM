@@ -1,4 +1,5 @@
-class Actividad {
+import { Ranking } from "./ranking";
+export class Actividad {
     public id: number;
     public titulo: String;
     public descripcion: String;
