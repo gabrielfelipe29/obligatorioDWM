@@ -1,15 +1,33 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.verifyUser = exports.db = void 0;
 const express_1 = __importDefault(require("express"));
-const cards_1 = __importDefault(require("./routes/cards"));
-const sala_1 = __importDefault(require("./routes/sala"));
-const administrador_1 = require("./administrador");
-var admin = new administrador_1.Administrador("admin", "admin");
-let administradores = [];
+/*
+import salaRouter from './routes/sala'
+import actividadRouter from './routes/actividad'
+import propuestaRouter from './routes/propuesta'
+*/
+const { MongoClient } = require("mongodb");
+const uri = "mongodb://admin:admin@localhost:27017/obligatorio?writeConcern=majority";
+exports.db = null;
+/*
+var admin = new Administrador("admin", "admin");
+let administradores: Administrador[] = [];
 administradores.push(admin);
+*/
+var secret = "secreto";
 const app = (0, express_1.default)();
 var jwt = require('jsonwebtoken');
 app.use(express_1.default.json()); //middleware
@@ -18,18 +36,21 @@ app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1');
 });
-app.use('/cards', cards_1.default);
-app.use('/salas', sala_1.default);
+/*
+app.use('/actividades', actividadRouter)
+app.use('/salas', salaRouter)
+app.use('/propuestas', propuestaRouter)
+*/
 //login del usuario
 app.post('/login', (req, res) => {
     //se debe validar el usuario y asignarle el token
     try {
         var token;
-        if (userExist(administradores, req.body.administrador.id, req.body.administrador.contraseña)) {
+        if (userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
             //usuario es administrador, entonces le mando el token
             token = jwt.sign({
                 data: 'admin'
-            }, 'secret', { expiresIn: '1h' });
+            }, secret, { expiresIn: '1h' });
             res.send(JSON.stringify({ "token": token }));
         }
         else {
@@ -44,16 +65,120 @@ app.post('/login', (req, res) => {
         res.send("Error. Formato JSON invalido.");
     }
 });
-function userExist(listaUsuario, id, contraseña) {
+app.post('/register', (req, res) => {
+    try {
+        if (userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
+            res.status(400);
+            res.send("Error. Usuario ya existe.");
+        }
+        else {
+            if (req.body.administrador.id == null || req.body.administrador.contraseña == null) {
+                res.status(400);
+                res.send("Error. Faltan parametros.");
+            }
+            else {
+                //agregar usuario a mongo. 
+                if (exports.db !== undefined && exports.db.collection('administradores').exists()) {
+                    exports.db.collection('administradores').insertOne({ 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña }, (err, result) => {
+                        if (err) {
+                            console.log("Error al insertar: " + err);
+                            res.status(500);
+                            res.send("Error al insertar. " + err);
+                        }
+                        else {
+                            console.log("Dato insertado: " + result.ops[0]);
+                        }
+                    });
+                }
+            }
+        }
+    }
+    catch (error) {
+        res.status(400);
+        res.send("Error. Mal formato de JSON.");
+    }
+});
+function userExist(id, contraseña) {
     var res = false;
-    listaUsuario.forEach(x => {
+    /*listaUsuario.forEach(x => {
         if (x.id === id && x.contraseña === contraseña) {
             res = true;
             return;
         }
-    });
+    })
+    return res;*/
+    try {
+        //verifico si existe la conexión y la coleccion administradores
+        if (exports.db !== null) {
+            //&& db.collection('administradores').exists()
+            var user = exports.db.administradores.findOne({ "id": id, "contraseña": contraseña });
+            if (user) {
+                //usuario existe
+                res = true;
+            }
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
     return res;
 }
+const verifyUser = (req, res, next) => {
+    try {
+        if (req.headers.authorization === undefined) {
+            res.status(400);
+            res.send("Error. Falta auth header.");
+        }
+        try {
+            if (req.headers.authorization.contains("Bearer")) {
+                var token = req.headers.authorization.split([" ", 1]);
+                jwt.verify(token, secret);
+                next();
+            }
+            else {
+                res.status(400);
+                res.send("Error. Falta bearer.");
+            }
+        }
+        catch (error) {
+            res.status(401);
+            res.send("Error. Token no válido.");
+        }
+    }
+    catch (error) {
+        res.status(400);
+        res.send("Error. Bad request.");
+    }
+};
+exports.verifyUser = verifyUser;
+// Create a new MongoClient
+const client = new MongoClient(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // Connect the client to the server
+            exports.db = yield client.connect(uri, function (err, dd) {
+                var user = dd.db('obligatorio').administradores.findOne({ "id": "admin", "contraseña": "admin" });
+                console.log("User: " + user);
+            });
+            exports.db = exports.db.db('obligatorio');
+            console.log(exports.db);
+            var user = yield exports.db.collection("administradores").findOne({ "id": "admin", "contraseña": "admin" });
+            console.log("User: " + user);
+            // Establish and verify connection
+            yield client.db().command({ ping: 1 });
+            console.log("Conectado a BDD.");
+        }
+        catch (error) {
+            console.log("Error al conectarse a BDD: " + error);
+            yield client.close();
+        }
+    });
+}
+run().catch(console.dir);
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

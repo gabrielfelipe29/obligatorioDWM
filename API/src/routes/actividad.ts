@@ -1,5 +1,6 @@
 import express from 'express'
 import { verifyUser } from '..'
+
 const router = express.Router()
 
 //todas las actividades
