@@ -1,6 +1,7 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { InterceptorInterceptor } from './interceptor.interceptor';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,53 +14,103 @@ export class LogInService {
     Metodo encargado de realizar el log in, 
   */
 
-  login(usurio: string, contraseña: string): Boolean[] {
-    let url = "http://localhost:3000/login";
+  async login(usuario: string, contraseña: string): Promise<Boolean[]> {
+    let url = "localhost:3000/login";
     let datos = {
-      "administrador" : {
-        "id": usurio,
+      "administrador": {
+        "id": usuario,
         "contraseña": contraseña
       }
-      
     }
 
-    let userValid = false
-    let passValid = false
+    console.log(datos);
 
-    let paraDevolver: Boolean[] = []
-    this.client.post(url, datos, { observe: 'response' }).subscribe(
-      (response: HttpResponse<any>) => {
-        // Si se da un error lo contenemos 
+    let paraDevolver: Boolean[] = [];
+
+    try {
+      const response: HttpResponse<any> | undefined = await this.client.post(url, datos, { observe: 'response' }).toPromise();
+
+      if (!response) {
+        // Handle the case where response is undefined
+        console.log("No se recibió respuesta de la solicitud.");
+        paraDevolver.push(false);
+      } else {
         if (response.status == 401) {
-          
-       /*    let responseBody = response.body
-          if (responseBody.hasOwnProperty('user')) {
-            userValid = responseBody['user'] == "valid";
-          }
-          if (responseBody.hasOwnProperty('pass')) {
-            passValid = responseBody['pass'] == "valid";
-          }
-          paraDevolver.push(userValid)
-          paraDevolver.push(passValid) */
-        } 
-        
+          // Realizar acciones para un error 401, si es necesario
+        }
+
+        if (response.status == 400) {
+          // Error en el formato del JSON
+          console.log("Error en el formato del JSON");
+          paraDevolver.push(false);
+        }
+
         if (response.status == 200) {
           localStorage.setItem("tokenApp", response.body.token);
           localStorage.setItem("userLogeado", "true");
-          /* Lógica para pasar a la pantalla de administrador */
-
+          // Lógica para pasar a la pantalla de administrador
+          paraDevolver.push(true);
         }
-      },
-      (error: HttpResponse<any>) => {
-        console.log("Hubo un error en el camino " + error)
-        paraDevolver.push(false)
       }
-    );
+    } catch (error) {
+      console.log("Hubo un error en el camino " + error);
+      paraDevolver.push(false);
+    }
 
-    return paraDevolver
+    return paraDevolver;
   }
+
+
 
   singUp(usuario: string, pass: string) {
 
+  }
+
+   hacerSolicitudPOST() {
+
+/*     let url = "localhost:3000/login"; */
+
+    let body = {
+      "administrador": {
+        "id": "admin",
+        "contraseña": "admin"
+      }
+    }
+    let bodyNuevo = JSON.stringify(body)
+
+
+
+/*     let headers = {
+      'Content-Type': 'application/json',
+    } */
+
+    const url = 'http://localhost:3000/login';
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      //'Access-Control-Allow-Origin': 'http://localhost:4200' // La URL de origen del cliente Angular
+    });
+
+    this.client.post(url, bodyNuevo, { headers }).subscribe(response => {
+      // Manejar la respuesta
+    });
+
+    return this.client.post(url, bodyNuevo,{headers}
+    ).pipe(tap(
+      (res: any) => {
+        if (res) {
+          console.log("Respuesta ", res)
+        }
+      })
+    );
+
+  /*   this.client.post(url, body, { headers })
+      .subscribe(
+        (data) => {
+          console.log('Respuesta exitosa:', data);
+        },
+        (error) => {
+          console.error('Error en la solicitud:', error);
+        }
+      ); */
   }
 }

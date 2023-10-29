@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LogInService } from '../log-in.service';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
@@ -8,7 +9,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent {
-  constructor(private servicioRegistro: LogInService) { }
+  constructor(private servicioRegistro: LogInService, private router: Router) { }
 
   user = ""
   pass = ""
@@ -18,12 +19,14 @@ export class LogInComponent {
 
   unirseAlJuego() { }
 
-  onSubmit(form: NgForm) {
+  async onSubmit(form: NgForm) {
 
     /* Va a recibir un array de bools, si tiene dos y ambos están en true, significa que esta todo bien
     en caso contrario paso algo */
-    let response = this.servicioRegistro.login(form.value.usuario, form.value.contraseña);
+    console.log(this.servicioRegistro.hacerSolicitudPOST())
+    //let result = await this.servicioRegistro.login(form.value.usuario, form.value.contraseña);
 
+    /* Como estba pensado para poner un aviso de contraseña o usuario incorrecto */
     /* if (response.length == 2) {
       this.userValid = response[0]
       this.userValid = response[1]
@@ -32,8 +35,15 @@ export class LogInComponent {
       alert("Ocurrio un error al enviar los datos al servidor, por favor repita el proceso")
     } */
 
-    if (this.userValid && this.passValid) {
+ /*    console.log(result[0])
+    if(result[0]) {
+      this.router.navigate(['/inicio']);
+    } else {
+      alert("Usuario invalido")
+    } */
+
+   /*  if (this.userValid && this.passValid) {
       // Continuar con la vista del administrador
-    }
+    } */
   }
 }

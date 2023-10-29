@@ -8,8 +8,11 @@ const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio'
 const uri =
     "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority";
+
 export var db: any = null;
 const client = new MongoClient(uri);
+
+
 
 /*
 var admin = new Administrador("admin", "admin");
@@ -23,6 +26,70 @@ app.use(express.json()) //middleware
 
 const PORT = 3000
 
+const cors = require('cors');
+const _ = require('lodash');
+const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
+
+// Constants
+const HOST = '0.0.0.0';
+
+
+
+/* Funciones del servidor
+     - Dar listas (datos para agregarlo) 
+     - Agregar lista al map
+     - Quitar lista del mapDeListas
+     - Mover card entre listas
+     - Agregar card a lista
+     - Quitar card de lista
+     - Devolver card
+     - Actualizar info card
+     - Actualizar info lista
+  */
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+//app.use(bodyParser.json());
+
+app.use(express.json())
+//app.use(cors(corsOptions));
+/* app.options('/', cors()) // enable pre-flight request for DELETE request
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
+  res.set({
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  });
+  next();
+}); */
+
+/* const corsOptions = {
+    origin: 'http://localhost:4200',
+    optionsSuccessStatus: 200 // Algunos navegadores requieren esta opción
+  }; */
+  
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    next();
+  });
+/*   app.use(cors()); */
+
+const bodyParserJSON = bodyParser.json();
+const bodyParserURLEncoded = bodyParser.urlencoded({ extended: true });
+
+app.use(bodyParserJSON);
+app.use(bodyParserURLEncoded);
+
+app.use(cors());
+///////////////////////////////////
+///////////////////////////////////
+
 app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1')
@@ -35,6 +102,7 @@ app.use('/propuestas', propuestaRouter)
 //login del usuario
 app.post('/login', async (req, res) => {
     //se debe validar el usuario y asignarle el token
+    console.log("llego")
     try {
         var token;
         //var user = await findOne("administradores", { 'id': req.body.administrador.id, "contraseña": req.body.administrador.contraseña })
