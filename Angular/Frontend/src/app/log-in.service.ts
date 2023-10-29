@@ -14,10 +14,13 @@ export class LogInService {
   */
 
   login(usurio: string, contraseña: string): Boolean[] {
-    let url = "https://mis-clientes-bb0c8-default-rtdb.firebaseio.com/login";
+    let url = "http://localhost:3000/login";
     let datos = {
-      "user": usurio,
-      "password": contraseña
+      "administrador" : {
+        "id": usurio,
+        "contraseña": contraseña
+      }
+      
     }
 
     let userValid = false
@@ -28,7 +31,8 @@ export class LogInService {
       (response: HttpResponse<any>) => {
         // Si se da un error lo contenemos 
         if (response.status == 401) {
-          let responseBody = response.body
+          
+       /*    let responseBody = response.body
           if (responseBody.hasOwnProperty('user')) {
             userValid = responseBody['user'] == "valid";
           }
@@ -36,9 +40,12 @@ export class LogInService {
             passValid = responseBody['pass'] == "valid";
           }
           paraDevolver.push(userValid)
-          paraDevolver.push(passValid)
-          // Ahora trabajamos con el body
-        } else {
+          paraDevolver.push(passValid) */
+        } 
+        
+        if (response.status == 200) {
+          localStorage.setItem("tokenApp", response.body.token);
+          localStorage.setItem("userLogeado", "true");
           /* Lógica para pasar a la pantalla de administrador */
 
         }

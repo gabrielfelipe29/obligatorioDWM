@@ -13,25 +13,12 @@ export class InterceptorInterceptor implements HttpInterceptor {
 
   constructor() {}
 
-  usuarioLogeado = false; 
-  token = ""
-
-  setToken(token:string){
-    this.token = token;
-    this.usuarioLogeado = true
-  }
-
-  destroyToken(){
-    this.token = ""
-    this.usuarioLogeado = false
-  }
-
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (this.usuarioLogeado) {
+    if (localStorage.getItem("userLogeado") && localStorage.getItem("userLogeado") == "true") {
       const reqCopy  = request.clone()
-      reqCopy.headers.set("Authorization", "Bear" + this.token)
+      reqCopy.headers.set("Authorization", "Bear" + localStorage.getItem("tokenApp"))
     } 
-
+    console.log("intercepte algo")
     return next.handle(request);
     
   }
