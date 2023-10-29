@@ -1,8 +1,24 @@
 <h1>Propuestas Disponibles</h1>
-<ul class="propuestas">
-  <li *ngFor="let propuesta of propuestas">
-    <a routerLink="/detail/{{propuesta.id}}">
-      <span class="badge">{{propuesta.id}}</span> {{propuesta.nombre}}
-    </a>
-  </li>
-</ul>
+<div>
+  <div *ngFor="let tarjeta of propuestas">
+    <div class="card">
+      <div class="tools">
+        <div class="circle">
+          <span class="red box"></span>
+        </div>
+        <div class="circle">
+          <span class="yellow box"></span>
+        </div>
+        <div class="circle">
+          <span class="green box"></span>
+        </div>
+      </div>
+      <div class="card__content">
+        <p class="title">{{ tarjeta.titulo }}</p>
+        <hr>
+        <p class="content">{{ tarjeta.descripcion }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

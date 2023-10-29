@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { PropuestasService } from '../propuestas.service';
 import { Propuesta } from '../propuesta';
 
 @Component({
@@ -6,8 +7,18 @@ import { Propuesta } from '../propuesta';
   templateUrl: './propuestas.component.html',
   styleUrls: ['./propuestas.component.css']
 })
-export class PropuestasComponent {
+export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
+
+  constructor(private servicio: PropuestasService) {
+    // Inyección de dependencias del servicio en el constructor
+  }
+
+  ngOnInit(): void {
+    this.servicio.obtenerPropuestas().subscribe(propuestas => {
+      this.propuestas = propuestas;
+    });
+  }
 }
 /*
 Tiene q haber un aviso a los demás para que así{

@@ -2,6 +2,7 @@ import { Actividad } from "./actividad";
 
 export interface Propuesta {
     id: number;
-    nombre: string;
-    actividades: Actividad[]
+    titulo: string;
+    descripcion: string;
+    actividades: Actividad[];
   }

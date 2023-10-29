@@ -16,6 +16,8 @@ import { LogInService } from './log-in.service';
 import { JuegoService } from './juego.service';
 import { PropuestasService } from './propuestas.service';
 import { InterceptorInterceptor } from './interceptor.interceptor';
+import { DetallesComponent } from './detalles/detalles.component';
+import { ActividadComponent } from './actividad/actividad.component';
 
 
 @NgModule({
@@ -27,7 +29,9 @@ import { InterceptorInterceptor } from './interceptor.interceptor';
     EncabezadoComponent,
     BarraDeNavegacionComponent,
     PieDePaginaComponent,
-    SingUpComponent
+    SingUpComponent,
+    DetallesComponent,
+    ActividadComponent
   ],
   imports: [
     BrowserModule,
