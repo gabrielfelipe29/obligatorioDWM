@@ -43,6 +43,7 @@ app.post('/login', async (req, res) => {
             token = jwt.sign({
                 data: "admin" //le paso el id que le asigno mongo
             }, secret, { expiresIn: '1h' });
+            res.status(200);
             res.send(JSON.stringify({ "token": token }));
         } else {
             //El usuario no existe
