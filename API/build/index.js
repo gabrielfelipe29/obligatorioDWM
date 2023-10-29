@@ -20,8 +20,10 @@ import actividadRouter from './routes/actividad'
 import propuestaRouter from './routes/propuesta'
 */
 const { MongoClient } = require("mongodb");
-const uri = "mongodb://admin:admin@localhost:27017/obligatorio?writeConcern=majority";
+const dbName = 'obligatorio';
+const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority";
 exports.db = null;
+const client = new MongoClient(uri);
 /*
 var admin = new Administrador("admin", "admin");
 let administradores: Administrador[] = [];
@@ -42,14 +44,15 @@ app.use('/salas', salaRouter)
 app.use('/propuestas', propuestaRouter)
 */
 //login del usuario
-app.post('/login', (req, res) => {
+app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //se debe validar el usuario y asignarle el token
     try {
         var token;
-        if (userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
+        //var user = await findOne("administradores", { 'id': req.body.administrador.id, "contraseña": req.body.administrador.contraseña })
+        if (yield userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
             //usuario es administrador, entonces le mando el token
             token = jwt.sign({
-                data: 'admin'
+                data: "admin" //le paso el id que le asigno mongo
             }, secret, { expiresIn: '1h' });
             res.send(JSON.stringify({ "token": token }));
         }
@@ -64,10 +67,10 @@ app.post('/login', (req, res) => {
         res.status(400);
         res.send("Error. Formato JSON invalido.");
     }
-});
-app.post('/register', (req, res) => {
+}));
+app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
+        if (yield userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
             res.status(400);
             res.send("Error. Usuario ya existe.");
         }
@@ -78,50 +81,38 @@ app.post('/register', (req, res) => {
             }
             else {
                 //agregar usuario a mongo. 
-                if (exports.db !== undefined && exports.db.collection('administradores').exists()) {
-                    exports.db.collection('administradores').insertOne({ 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña }, (err, result) => {
-                        if (err) {
-                            console.log("Error al insertar: " + err);
-                            res.status(500);
-                            res.send("Error al insertar. " + err);
-                        }
-                        else {
-                            console.log("Dato insertado: " + result.ops[0]);
-                        }
-                    });
+                try {
+                    yield exports.db.collection('administradores').insertOne({ 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
+                    res.status(200);
+                    res.send();
+                }
+                catch (error) {
+                    res.status(500);
+                    res.send("Error al insertar.");
                 }
             }
         }
     }
     catch (error) {
         res.status(400);
-        res.send("Error. Mal formato de JSON.");
+        res.send("Error: " + error);
     }
-});
+}));
 function userExist(id, contraseña) {
-    var res = false;
-    /*listaUsuario.forEach(x => {
-        if (x.id === id && x.contraseña === contraseña) {
-            res = true;
-            return;
-        }
-    })
-    return res;*/
-    try {
-        //verifico si existe la conexión y la coleccion administradores
-        if (exports.db !== null) {
-            //&& db.collection('administradores').exists()
-            var user = exports.db.administradores.findOne({ "id": id, "contraseña": contraseña });
-            if (user) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var res = false;
+        try {
+            var user = yield findOne("administradores", { 'id': id, "contraseña": contraseña });
+            if (user !== null) {
                 //usuario existe
                 res = true;
             }
         }
-    }
-    catch (error) {
-        console.log(error);
-    }
-    return res;
+        catch (error) {
+            console.log(error);
+        }
+        return res;
+    });
 }
 const verifyUser = (req, res, next) => {
     try {
@@ -151,26 +142,17 @@ const verifyUser = (req, res, next) => {
     }
 };
 exports.verifyUser = verifyUser;
-// Create a new MongoClient
-const client = new MongoClient(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // Connect the client to the server
-            exports.db = yield client.connect(uri, function (err, dd) {
-                var user = dd.db('obligatorio').administradores.findOne({ "id": "admin", "contraseña": "admin" });
-                console.log("User: " + user);
-            });
-            exports.db = exports.db.db('obligatorio');
-            console.log(exports.db);
-            var user = yield exports.db.collection("administradores").findOne({ "id": "admin", "contraseña": "admin" });
-            console.log("User: " + user);
-            // Establish and verify connection
+            exports.db = yield client.connect(uri);
+            exports.db = exports.db.db(dbName);
             yield client.db().command({ ping: 1 });
             console.log("Conectado a BDD.");
+            app.listen(PORT, () => {
+                console.log(`Server running on port ${PORT}`);
+            });
         }
         catch (error) {
             console.log("Error al conectarse a BDD: " + error);
@@ -178,8 +160,33 @@ function run() {
         }
     });
 }
+function findOne(coleccion, dato) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var res = null;
+        try {
+            if (exports.db !== null) {
+                res = yield exports.db.collection(coleccion).findOne(dato);
+            }
+        }
+        catch (error) {
+            console.log("Error: " + error);
+        }
+        return res;
+    });
+}
+function findMany(coleccion, dato) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var res = null;
+        try {
+            if (exports.db !== null) {
+                res = yield exports.db.collection(coleccion).find(dato);
+            }
+        }
+        catch (error) {
+            console.log("Error: " + error);
+        }
+        return res;
+    });
+}
 run().catch(console.dir);
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 //# sourceMappingURL=index.js.map

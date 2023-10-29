@@ -5,10 +5,12 @@ import actividadRouter from './routes/actividad'
 import propuestaRouter from './routes/propuesta'
 */
 const { MongoClient } = require("mongodb");
-
+const dbName = 'obligatorio'
 const uri =
-    "mongodb://admin:admin@localhost:27017/obligatorio?writeConcern=majority";
+    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority";
 export var db: any = null;
+const client = new MongoClient(uri);
+
 /*
 var admin = new Administrador("admin", "admin");
 let administradores: Administrador[] = [];
@@ -31,14 +33,15 @@ app.use('/salas', salaRouter)
 app.use('/propuestas', propuestaRouter)
 */
 //login del usuario
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     //se debe validar el usuario y asignarle el token
     try {
         var token;
-        if (userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
+        //var user = await findOne("administradores", { 'id': req.body.administrador.id, "contraseña": req.body.administrador.contraseña })
+        if (await userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
             //usuario es administrador, entonces le mando el token
             token = jwt.sign({
-                data: 'admin'
+                data: "admin" //le paso el id que le asigno mongo
             }, secret, { expiresIn: '1h' });
             res.send(JSON.stringify({ "token": token }));
         } else {
@@ -54,10 +57,10 @@ app.post('/login', (req, res) => {
     }
 })
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
 
     try {
-        if (userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
+        if (await userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
             res.status(400);
             res.send("Error. Usuario ya existe.")
         } else {
@@ -66,49 +69,34 @@ app.post('/register', (req, res) => {
                 res.send("Error. Faltan parametros.")
             } else {
                 //agregar usuario a mongo. 
-                if (db !== undefined && db.collection('administradores').exists()) {
-
-                    db.collection('administradores').insertOne(
-                        { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña }, (err: any, result: any) => {
-                            if (err) {
-                                console.log("Error al insertar: " + err);
-                                res.status(500);
-                                res.send("Error al insertar. " + err);
-                            } else {
-                                console.log("Dato insertado: " + result.ops[0]);
-                            }
-                        });
-
+                try {
+                    await db.collection('administradores').insertOne(
+                        { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
+                    res.status(200);
+                    res.send();
+                } catch (error) {
+                    res.status(500);
+                    res.send("Error al insertar.")
                 }
             }
         }
 
     } catch (error) {
         res.status(400);
-        res.send("Error. Mal formato de JSON.")
+        res.send("Error: " + error);
     }
 
 })
 
-function userExist(id: String, contraseña: String): boolean {
+async function userExist(id: String, contraseña: String): Promise<boolean> {
     var res = false;
-    /*listaUsuario.forEach(x => {
-        if (x.id === id && x.contraseña === contraseña) {
-            res = true;
-            return;
-        }
-    })
-    return res;*/
     try {
-        //verifico si existe la conexión y la coleccion administradores
-        if (db !== null) {
-            //&& db.collection('administradores').exists()
-            var user = db.administradores.findOne({ "id": id, "contraseña": contraseña })
 
-            if (user) {
-                //usuario existe
-                res = true;
-            }
+        var user = await findOne("administradores", { 'id': id, "contraseña": contraseña })
+
+        if (user !== null) {
+            //usuario existe
+            res = true;
         }
 
     } catch (error) {
@@ -147,35 +135,49 @@ export const verifyUser = (req: any, res: any, next: any) => {
 }
 
 
-// Create a new MongoClient
-const client = new MongoClient(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
-
 async function run() {
     try {
         // Connect the client to the server
-        db = await client.connect(uri, function (err: any, dd: any) {
-
-            var user = dd.db('obligatorio').administradores.findOne({ "id": "admin", "contraseña": "admin" })
-            console.log("User: " + user);
-        });
-        db = db.db('obligatorio');
-        console.log(db);
-        var user = await db.collection("administradores").findOne({ "id": "admin", "contraseña": "admin" })
-        console.log("User: " + user);
-
-        // Establish and verify connection
+        db = await client.connect(uri);
+        db = db.db(dbName);
         await client.db().command({ ping: 1 });
         console.log("Conectado a BDD.");
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`)
+        })
     } catch (error) {
         console.log("Error al conectarse a BDD: " + error)
         await client.close();
     }
 }
 
+async function findOne(coleccion: String, dato: any) {
+
+    var res = null;
+    try {
+        if (db !== null) {
+            res = await db.collection(coleccion).findOne(dato);
+        }
+    } catch (error) {
+        console.log("Error: " + error);
+    }
+    return res;
+}
+
+async function findMany(coleccion: String, dato: any) {
+
+    var res = null;
+    try {
+        if (db !== null) {
+            res = await db.collection(coleccion).find(dato);
+        }
+    } catch (error) {
+        console.log("Error: " + error);
+    }
+    return res;
+}
+
+
 run().catch(console.dir);
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
+
+
