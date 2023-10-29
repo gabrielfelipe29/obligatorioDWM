@@ -1,6 +1,7 @@
 import express from 'express'
 import cardRouter from './routes/cards'
 import salaRouter from './routes/sala'
+import propuestasRouter from './routes/propuestas'
 import * as jose from 'jose'
 
 
@@ -17,7 +18,7 @@ app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1')
 })
-
+app.use('/propuestas',propuestasRouter)
 app.use('/cards', cardRouter)
 app.use('/salas', salaRouter)
 
@@ -53,3 +54,5 @@ function userExist(id: String, contraseña: String) {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
+
+
