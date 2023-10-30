@@ -202,11 +202,11 @@ export async function addMany(coleccion: String, dato: any[]) {
     return res;
 }
 
-export async function updateOne(coleccion: String, dato: any) {
+export async function updateOne(coleccion: String, filtro: any, dato: any) {
     var res = null;
     try {
         if (db !== null) {
-            res = await db.colection(coleccion).updateOne(dato, { upsert: false });
+            res = await db.colection(coleccion).updateOne(filtro, { $set: dato }, { upsert: false });
         }
     } catch (error) {
         console.log("Error: " + error);
@@ -214,7 +214,7 @@ export async function updateOne(coleccion: String, dato: any) {
     return res;
 }
 
-export async function updateMany(coleccion: String, dato: any[]) {
+export async function updateMany(coleccion: any, filtro: any, dato: any) {
     /*
         Formato del dato para actualizar. El primer parametro (rated) es el filtro, el $set es el dato a modificar
       const result = await movies.updateMany(
@@ -230,7 +230,7 @@ export async function updateMany(coleccion: String, dato: any[]) {
     var res = null;
     try {
         if (db !== null) {
-            res = await db.colection(coleccion).updateMany(dato, { upsert: false });
+            res = await db.colection(coleccion).updateMany(filtro, { $set: dato }, { upsert: false });
         }
     } catch (error) {
         console.log("Error: " + error);

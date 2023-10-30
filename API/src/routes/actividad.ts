@@ -1,8 +1,6 @@
 import express from 'express'
-import { verifyUser } from '..'
-import { isNullOrEmpty } from '..'
-import { addOne } from '..'
-import { findOne } from '..'
+import { findMany, verifyUser, addOne, findOne, updateOne, isNullOrEmpty } from '..'
+
 
 const router = express.Router()
 
@@ -10,6 +8,10 @@ const router = express.Router()
 router.get('/', async (req, res, next) => {
     //devolver coleccion de actividades
     try {
+
+        var actividades = await findMany("actividades", {})
+        res.status(200)
+        res.send(JSON.stringify(actividades))
 
     } catch (error) {
         res.status(400);
@@ -33,6 +35,37 @@ router.get('/:id', async (req, res, next) => {
 //editar actividad
 router.put('/:id', async (req, res, next) => {
     //devolver una actividad
+
+    try {
+        if (!req.body.hasOwnProperty('actividad')) {
+            res.status(400);
+            res.send("Error. Falta actividad.")
+        } else {
+
+            if (isNullOrEmpty(req.body.actividad.id) ||
+                isNullOrEmpty(req.body.actividad.titulo) ||
+                isNullOrEmpty(req.body.actividad.descripcion)) {
+                res.status(400);
+                res.send("Error en los parametros.")
+            } else {
+                //guardar actividad
+                try {
+                    await updateOne("actividades",
+                        { id: req.body.actividad.id }, { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
+                    res.status(200)
+                    res.send()
+                } catch (error) {
+                    res.status(500);
+                    res.send("Error al editar. " + error)
+                }
+            }
+        }
+    } catch (error) {
+        res.status(400);
+        res.send("Error. " + error)
+    }
+
+
 })
 
 //agregar actividad
@@ -56,7 +89,7 @@ router.post('/', async (req, res, next) => {
                 //guardar actividad
                 try {
                     await addOne("actividades",
-                        { id: req.body.id, titulo: req.body.titulo, descripcion: req.body.descripcion, imagen: req.body.imagen });
+                        { id: req.body.actividad.id, titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
                     res.status(200)
                     res.send()
                 } catch (error) {
