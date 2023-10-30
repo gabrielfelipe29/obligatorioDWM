@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Actividad = void 0;
+const ranking_1 = require("./ranking");
 class Actividad {
     constructor(id, titulo, descripcion, imageLink) {
         this.titulo = titulo;
@@ -9,7 +12,7 @@ class Actividad {
         else {
             this.imageLink = "";
         }
-        this.calificacion = new Ranking();
+        this.calificacion = new ranking_1.Ranking();
         this.id = id;
     }
     meGusta() {
@@ -22,4 +25,5 @@ class Actividad {
         this.calificacion.incrementarMeDaIgual();
     }
 }
+exports.Actividad = Actividad;
 //# sourceMappingURL=actividad.js.map

@@ -1,4 +1,4 @@
-class Administrador {
+export class Administrador {
     public id: String;
     public contraseña: String;
 
