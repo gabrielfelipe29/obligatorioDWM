@@ -29,4 +29,5 @@ export class Actividad {
     public meDaIgual() {
         this.calificacion.incrementarMeDaIgual();
     }
+
 }

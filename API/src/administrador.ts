@@ -11,3 +11,4 @@ export class Administrador {
         //verificar si existe el usuario en la base de datos
     }
 }
+
