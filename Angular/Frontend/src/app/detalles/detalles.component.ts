@@ -22,10 +22,12 @@ export class DetallesComponent {
   actividadSeleccionada?: Actividad;
 
   actividades: Actividad[] = [];
+  listaActividades = [
+    {id: 1, nombre: "Actividad 1", descripcion: "Primera actividad", imagen: "#"},
+    {id: 2, nombre: "Actividad 2", descripcion: "Segunda actividad", imagen: "#"},
+    {id: 3, nombre: "Actividad 3", descripcion: "Tercera actividad", imagen: "#"}
+  ]; 
 
-  ngOnInit(): void {
-    this.servicio.obtenerPropuesta()
-  }
 
   onSelect(actividad: Actividad): void {
     this.actividadSeleccionada = actividad;
@@ -37,7 +39,6 @@ export class DetallesComponent {
   }
 
   mostrarform = false;
-  listaActividades = CARS;
   
   toggleFormulario() {
     this.mostrarform = !this.mostrarform;

@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { Propuesta } from './propuesta';
 import { Actividad } from './actividad';
@@ -15,9 +16,9 @@ export class PropuestasService {
     */
     //Lo siguiente es momentaneo 
     let propuestas: Propuesta[] = [
-      { id: 1, titulo: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1', actividades: [] },
-      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [] },
-      { id: 3, titulo: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', actividades: [] }
+      { id: 1, titulo: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1', actividades: [], creatorId: "usuario_1" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1" },
+      { id: 3, titulo: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', actividades: [], creatorId: "usuario_1" }
     ];
     
     return of(propuestas);
@@ -40,12 +41,14 @@ export class PropuestasService {
     /*
       Acá se deberá conectar con back y pedir la propuesta deseada
     */
+    return of()
   }
 
   obtenerActividad(id: number): Observable<Actividad> {
     /*
       Acá se deberá conectar con back y pedir la propuesta deseada
     */
+   return of()
   }
   
 

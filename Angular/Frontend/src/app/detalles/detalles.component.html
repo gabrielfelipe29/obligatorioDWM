@@ -9,7 +9,7 @@
             [class.selected]="actividad === actividadSeleccionada">
             <span class="badge">{{actividad.id}}</span>
             <span class="nombreAuto">
-              {{actividad.titulo}}
+              {{actividad.nombre}}
             </span>
           </button>
           <button (click)="Delete(actividad.id)">
@@ -27,7 +27,7 @@
   <div class="row">
     <button (click)="toggleFormulario()">Agregar Actividad</button>
     <div *ngIf="mostrarform">
-      <form (ngSubmit)="onSubmit()" #actividadForm="ngForm">
+      <form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
         <div class="form-group">
           <label for="titulo">titulo</label>
           <input type="text" class="form-control" id="titulo"
