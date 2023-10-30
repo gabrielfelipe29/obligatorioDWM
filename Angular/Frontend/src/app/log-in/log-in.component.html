@@ -1,6 +1,6 @@
 <div class="container">
     <h2>Iniciar Sesión</h2>
-    <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+    <form (ngSubmit)="login()" #loginForm="ngForm">
         <div class="form-group">
             <label for="usuario">Usuario:</label>
             <input type="text" class="form-control" id="usuario" name="usuario"
@@ -15,7 +15,7 @@
             <label for="contrasena">Contraseña:</label>
             <input type="password" class="form-control" id="contraseña"
                 name="contrasena"
-                required [(ngModel)]="pass" name="contraseña">
+                required [(ngModel)]="password" name="contraseña">
             <div *ngIf="!passValid">
                 <span class="message-error">La contraseña es incorrecta</span>
             </div>
@@ -23,7 +23,7 @@
         <input type="submit" value="Iniciar Sesión">
     </form>
     <br>
-    <button class="join-button" onclick="unirseAlJuego()">Unirse al Juego</button>
+    <button class="join-button" (click)="unirseAlJuego()">Unirse al Juego</button>
     <br>
     <br> 
     <button class="join-button" routerLink="/registro">Registrarse</button>

@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./log-in.component.css']
 })
 export class LogInComponent {
-  constructor(private servicioRegistro: LogInService, private router: Router) { }
+  constructor(private loginService: LogInService, private router: Router) { }
 
   user = ""
-  pass = ""
+  password = ""
 
   userValid: Boolean = true
   passValid: Boolean = true
@@ -21,28 +21,29 @@ export class LogInComponent {
     this.router.navigate(['/registro']);
   }
 
-  onSubmit(form: NgForm) {
+  login() {
+    const user = { id: this.user, contraseña: this.password };
+    this.loginService.login(user).subscribe(
+      data => {
+        if (data && data.token) {
+          console.log(data)
+          this.loginService.setToken(data.token);
+          this.router.navigateByUrl('/inicio');
+        } 
+        
+      },
+      error => {
+        if (error.status == 401) {
+          alert("Error, contraseña incorrecta o usuario incorrecto")
+        }
 
-    /* Va a recibir un array de bools, si tiene dos y ambos están en true, significa que esta todo bien
-    en caso contrario paso algo */
-    let response = this.servicioRegistro.login(form.value.usuario, form.value.contraseña);
-
-    if (response.length == 2) {
-      this.userValid = response[0]
-      this.userValid = response[1]
-
-    } else {
-      alert("Ocurrio un error al enviar los datos al servidor, por favor repita el proceso")
-    }
-    const info = {
-      key: 'usuario',
-      name: form.value.usuario
-    };
-    localStorage.setItem('usuario', JSON.stringify(info));
-
-    if (this.userValid && this.passValid) {
-      // Continuar con la vista del administrador
-      this.router.navigate(['/inicio']);
-    }
+        if (error.status == 400) {
+          alert("Error en el formato de los datos")
+        }
+        console.log(error);
+      });
   }
+
+  /* Para mi esta función no debería de estar acá, pero luego lo arreglamos */
+  unirseAlJuego(){}
 }
