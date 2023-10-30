@@ -1,4 +1,5 @@
-import { Actividad } from "./actividad";
+import { Schema, model, Document,Types } from 'mongoose';
+import { Actividad,ActividadSchema } from "./actividad";
 export class Propuesta {
     public id: number;
     public creatorId: String;
@@ -11,3 +12,14 @@ export class Propuesta {
     }
 
 }
+
+const PropuestaSchema: Schema = new Schema({
+    id: { type: Number, required: true, unique: true },
+    creatorId: { type: String, required: true },
+    actividades: [{ type: ActividadSchema }], // Cambiado a un array de ActividadSchema
+  });
+
+
+  const PropuestaModel = model<Propuesta>('Propuesta', PropuestaSchema);
+
+export { PropuestaModel };
