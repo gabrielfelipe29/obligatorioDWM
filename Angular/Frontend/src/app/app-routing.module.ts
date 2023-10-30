@@ -6,7 +6,7 @@ import { SingUpComponent } from './sing-up/sing-up.component';
 import { DetallesComponent } from './detalles/detalles.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
+  { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
   { path: 'inicioSesion', component: LogInComponent },
   { path: 'inicio', component: RegistradoComponent },
   { path: 'registro', component: SingUpComponent },

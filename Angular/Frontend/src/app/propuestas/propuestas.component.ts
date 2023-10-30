@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PropuestasService } from '../propuestas.service';
 import { Propuesta } from '../propuesta';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-propuestas',
@@ -10,7 +11,7 @@ import { Propuesta } from '../propuesta';
 export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
 
-  constructor(private servicio: PropuestasService) {
+  constructor(private servicio: PropuestasService, private router: Router) {
     // Inyección de dependencias del servicio en el constructor
   }
 
@@ -18,6 +19,11 @@ export class PropuestasComponent implements OnInit {
     this.servicio.obtenerPropuestas().subscribe(propuestas => {
       this.propuestas = propuestas;
     });
+  }
+
+  verDetalles(id: number) {
+    console.log("el id es :"+id);
+    this.router.navigate(['/detalles', id]);
   }
 }
 /*
