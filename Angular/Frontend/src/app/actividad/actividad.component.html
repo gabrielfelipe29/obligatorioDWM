@@ -1,9 +1,8 @@
 <div *ngIf="actividad">
     <h2>{{actividad.nombre | uppercase}}</h2>
-    <h3> Detalles de la Actividad del vehculo</h3>
-    <div><span>id: </span>{{actividad.id}}</div>
+    <h3> Detalles de la Actividad</h3>
     <div>
-      <label for="actividad-nombre">Nombre del auto: </label>
+      <label for="actividad-nombre">Nombre de la actvidad: </label>
       <input id="actividad-nombre" [(ngModel)]="actividad.nombre" placeholder="nombre">
       <h3> Descripción de la Actividad</h3>
       <p>{{ actividad.descripcion }}</p>

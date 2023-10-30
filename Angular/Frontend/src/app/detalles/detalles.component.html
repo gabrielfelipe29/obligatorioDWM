@@ -1,14 +1,14 @@
-<h2 style="text-align:center">Autos disponibles</h2>
+<h2 style="text-align:center">Actividades de la Propuesta</h2>
 
 <div class="container">
   <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-      <ul class="propuestas">
-        <li *ngFor="let actividad of listaActividades">
+      <ul class="Actividades">
+        <li *ngFor="let actividad of actividades">
           <button class="button-list" (click)="onSelect(actividad)"
             [class.selected]="actividad === actividadSeleccionada">
             <span class="badge">{{actividad.id}}</span>
-            <span class="nombreAuto">
+            <span class="nombreActividad">
               {{actividad.nombre}}
             </span>
           </button>

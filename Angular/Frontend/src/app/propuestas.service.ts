@@ -10,6 +10,8 @@ import { Observable, of } from 'rxjs'
 export class PropuestasService {
   constructor() { }
 
+  public propuestaActual? :number;
+
   obtenerPropuestas(): Observable<Propuesta[]> {
     /*
       Acá se deberá conectar con back y pedir la lista de propuestas
@@ -28,13 +30,14 @@ export class PropuestasService {
     /*
       Acá se deberá conectar con back y pedir la lista de actividades
     */
-      let actividades: Actividad[] = [
-        { id: 1, nombre: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1', imagen: "#" },
-        { id: 2, nombre: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', imagen: "#" },
-        { id: 3, nombre: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', imagen: "#" }
-      ];
+      let listaActividades = [
+        {id: 1, nombre: "Actividad 1", descripcion: "Primera actividad", imagen: "#"},
+        {id: 2, nombre: "Actividad 2", descripcion: "Segunda actividad", imagen: "#"},
+        {id: 3, nombre: "Actividad 3", descripcion: "Tercera actividad", imagen: "#"}
+      ]; 
+    
       
-      return of(actividades);
+      return of(listaActividades);
   }
   
   obtenerPropuesta(id: number): Observable<Propuesta> {
@@ -65,13 +68,13 @@ export class PropuestasService {
     */
   }
 
-  eliminarPropuesta(id : number){
+  eliminarPropuesta(id: number){
     /*
       Acá se deberá conectar con back y eliminar una propuesta a la lista
     */
   }
 
-  eliminarActividad(id : number){
+  eliminarActividad(idActividad: number, idPropuesta: number ){
     /*
       Acá se deberá conectar con back y eliminar una actividad a la lista
     */

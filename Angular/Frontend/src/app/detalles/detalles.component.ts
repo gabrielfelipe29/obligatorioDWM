@@ -13,8 +13,17 @@ import { NgForm } from '@angular/forms';
 })
 export class DetallesComponent {
 
-  constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {}
   
+  constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
+    const propuestaActual = this.servicio.propuestaActual;
+    if (propuestaActual !== undefined) {
+      this.idPropuesta = propuestaActual;
+    } else {
+      this.idPropuesta = 0; 
+    }
+  }
+
+  idPropuesta : number = 0 
   titulo = ""
   descripcion = ""
   imagen = ""
@@ -22,11 +31,10 @@ export class DetallesComponent {
   actividadSeleccionada?: Actividad;
 
   actividades: Actividad[] = [];
-  listaActividades = [
-    {id: 1, nombre: "Actividad 1", descripcion: "Primera actividad", imagen: "#"},
-    {id: 2, nombre: "Actividad 2", descripcion: "Segunda actividad", imagen: "#"},
-    {id: 3, nombre: "Actividad 3", descripcion: "Tercera actividad", imagen: "#"}
-  ]; 
+  
+  ngOnInit() {
+    this.obtenerActividades()
+  }
 
 
   onSelect(actividad: Actividad): void {
@@ -48,15 +56,8 @@ export class DetallesComponent {
     this.servicio.agregarActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
   }
 
-  Delete(id:number):void{
-  this.servicio.eliminarActividad(id)
+  Delete(idActividad: number):void{
+  this.servicio.eliminarActividad(idActividad, this.idPropuesta)
   }
+  
 }
-
-
-
-/*
-  ngOnInit() {
-    
-  }
-  */
