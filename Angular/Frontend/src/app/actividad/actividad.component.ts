@@ -29,6 +29,6 @@ export class ActividadComponent {
   obtenerActividad(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.servicio.obtenerActividad(id)
-      .subscribe(this.actividad => this.actividad = this.actividad);
+      .subscribe(actividad => this.actividad = this.actividad);
   }
 }

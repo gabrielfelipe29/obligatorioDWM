@@ -9,10 +9,6 @@ export class LogInService {
 
   constructor(private client: HttpClient) { }
 
-  /*
-    Metodo encargado de realizar el log in, 
-  */
-
   login(usurio: string, contraseña: string): Boolean[] {
     let url = "https://mis-clientes-bb0c8-default-rtdb.firebaseio.com/login";
     let datos = {
@@ -51,7 +47,7 @@ export class LogInService {
 
     return paraDevolver
   }
-
+  
   singUp(usuario: string, pass: string) {
 
   }
