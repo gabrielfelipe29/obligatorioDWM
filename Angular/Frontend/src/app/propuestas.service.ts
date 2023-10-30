@@ -29,9 +29,9 @@ export class PropuestasService {
       Acá se deberá conectar con back y pedir la lista de actividades
     */
       let actividades: Actividad[] = [
-        { id: 1, titulo: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1', imagen: "#" },
-        { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', imagen: "#" },
-        { id: 3, titulo: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', imagen: "#" }
+        { id: 1, nombre: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1', imagen: "#" },
+        { id: 2, nombre: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', imagen: "#" },
+        { id: 3, nombre: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', imagen: "#" }
       ];
       
       return of(actividades);

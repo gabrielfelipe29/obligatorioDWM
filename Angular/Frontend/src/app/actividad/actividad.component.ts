@@ -11,20 +11,16 @@ import { PropuestasService } from '../propuestas.service';
   styleUrls: ['./actividad.component.css']
 })
 export class ActividadComponent {
-  @Input() actividad: Actividad | undefined;
+  @Input() actividad?: Actividad;
   constructor(
     private route: ActivatedRoute,
     private servicio: PropuestasService,
     private location: Location
-  ) {
-
-  }
-
+  ) {}
 
   ngOnInit(): void {
     this.obtenerActividad();
   }
-
 
   obtenerActividad(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));

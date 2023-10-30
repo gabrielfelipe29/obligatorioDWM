@@ -34,6 +34,11 @@ export class LogInComponent {
     } else {
       alert("Ocurrio un error al enviar los datos al servidor, por favor repita el proceso")
     }
+    const info = {
+      key: 'usuario',
+      name: form.value.usuario
+    };
+    localStorage.setItem('usuario', JSON.stringify(info));
 
     if (this.userValid && this.passValid) {
       // Continuar con la vista del administrador
