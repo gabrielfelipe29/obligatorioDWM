@@ -1,0 +1,4 @@
+Para poder hacer uso de las cookies hay que instalar lo siguiente: 
+npm install ngx-cookie-service --save 
+
+Para luego agregarlo al app.modules.ts
