@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   // For more information, visit: https://go.microsoft.com/fwlink/?LinkId=733558
   "version": "2.0.0",
   "tasks": [
@@ -40,3 +41,14 @@
     }
   ]
 }
+=======
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "compile",
+            "type": "npm",
+            "script": "tsc"
+        }
+    ]
+}
+>>>>>>> b40f81b840f2ad8dbca8a9d7fe72966e69af7b3c
