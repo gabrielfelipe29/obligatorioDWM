@@ -1,30 +1,31 @@
 import express from 'express'
 import actividadRouter from './routes/actividad'
-/*
-import salaRouter from './routes/sala'
-import propuestaRouter from './routes/propuesta'
-*/
+import * as metodos from './metodos'
+
+//import salaRouter from './routes/sala'
+import userRouter from './routes/propuesta'
+
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio'
 const uri =
-    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority";
+    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 export var db: any = null;
 const client = new MongoClient(uri);
 
 
-var secret = "secreto";
 const app = express()
-var jwt = require('jsonwebtoken');
+export var secret = "secreto";
+export var jwt = require('jsonwebtoken');
 app.use(express.json()) //middleware
 
 const PORT = 3000
 
 
 app.use('/actividades', actividadRouter)
-/*
-app.use('/salas', salaRouter)
-app.use('/propuestas', propuestaRouter)
-*/
+
+//app.use('/salas', salaRouter)
+app.use('/user', userRouter)
+
 
 app.get('/test', (req, res) => {
     console.log("hello world");
@@ -69,7 +70,7 @@ app.post('/register', async (req, res) => {
             } else {
                 //agregar usuario a mongo. 
                 try {
-                    await addOne("administradores",
+                    await metodos.addOne("administradores",
                         { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
                     res.status(200);
                     res.send();
@@ -91,7 +92,7 @@ async function userExist(id: String, contraseña: String): Promise<boolean> {
     var res = false;
     try {
 
-        var user = await findOne("administradores", { 'id': id, "contraseña": contraseña })
+        var user = await metodos.findOne("administradores", { 'id': id, "contraseña": contraseña })
 
         if (user !== null) {
             //usuario existe
@@ -105,33 +106,6 @@ async function userExist(id: String, contraseña: String): Promise<boolean> {
     return res;
 }
 
-
-export function verifyUser(req: any, res: any, next: any) {
-    try {
-        if (req.headers.authorization === undefined) {
-            res.status(400);
-            res.send("Error. Falta auth header.")
-        } else {
-
-            try {
-                if (req.headers.authorization.contains("Bearer")) {
-                    var token = req.headers.authorization.split([" ", 1]);
-                    jwt.verify(token, secret);
-                    next();
-                } else {
-                    res.status(400);
-                    res.send("Error. Falta Bearer.");
-                }
-            } catch (error) {
-                res.status(401);
-                res.send("Error. Token no válido.");
-            }
-        }
-    } catch (error) {
-        res.status(400);
-        res.send("Error. Bad request.");
-    }
-}
 
 
 async function run() {
@@ -150,97 +124,6 @@ async function run() {
     }
 }
 
-export async function findOne(coleccion: String, dato: any) {
-
-    var res = null;
-    try {
-        if (db !== null) {
-            res = await db.collection(coleccion).findOne(dato);
-        }
-    } catch (error) {
-        console.log("Error: " + error);
-    }
-    return res;
-}
-
-export async function findMany(coleccion: String, dato: any) {
-
-    var res = null;
-    try {
-        if (db !== null) {
-            res = await db.collection(coleccion).find(dato);
-        }
-    } catch (error) {
-        console.log("Error: " + error);
-    }
-    return res;
-}
-
-export async function addOne(coleccion: String, dato: any) {
-
-    var res = null;
-    try {
-        if (db !== null) {
-            res = await db.collection(coleccion).insertOne(dato);
-        }
-    } catch (error) {
-        console.log("Error: " + error);
-    }
-    return res;
-}
-
-export async function addMany(coleccion: String, dato: any[]) {
-
-    var res = null;
-    try {
-        if (db !== null) {
-            res = await db.collection(coleccion).insertMany(dato);
-        }
-    } catch (error) {
-        console.log("Error: " + error);
-    }
-    return res;
-}
-
-export async function updateOne(coleccion: String, filtro: any, dato: any) {
-    var res = null;
-    try {
-        if (db !== null) {
-            res = await db.colection(coleccion).updateOne(filtro, { $set: dato }, { upsert: false });
-        }
-    } catch (error) {
-        console.log("Error: " + error);
-    }
-    return res;
-}
-
-export async function updateMany(coleccion: any, filtro: any, dato: any) {
-    /*
-        Formato del dato para actualizar. El primer parametro (rated) es el filtro, el $set es el dato a modificar
-      const result = await movies.updateMany(
-      { rated: Rating.G },
-      {
-        $set: {
-          random_review: `After viewing I am ${
-            100 * Math.random()
-          }% more satisfied with life.`,
-        },
-      }
-    );*/
-    var res = null;
-    try {
-        if (db !== null) {
-            res = await db.colection(coleccion).updateMany(filtro, { $set: dato }, { upsert: false });
-        }
-    } catch (error) {
-        console.log("Error: " + error);
-    }
-    return res;
-}
-
-export function isNullOrEmpty(value: any) {
-    return value === null || value === undefined || value === '';
-}
 
 run().catch(console.dir);
 

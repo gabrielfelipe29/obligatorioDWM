@@ -1,15 +1,41 @@
 import express from 'express'
-import { findMany, verifyUser, addOne, findOne, updateOne, isNullOrEmpty } from '..'
+import { verifyUser } from '../middleware'
+import * as metodos from '../metodos'
 
 
 const router = express.Router()
 
+
+/*
+function verifyUser(req: any, res: any, next: any) {
+    try {
+        if (req.headers.authorization === undefined) {
+            res.status(400);
+            res.send("Error. Falta auth header.")
+        } else {
+
+            try {
+                res.status(200)
+                res.send()
+            } catch (error) {
+                res.status(401);
+                res.send("Error. Token no válido.");
+            }
+        }
+    } catch (error) {
+        res.status(400);
+        res.send("Error. Bad request.");
+    }
+}
+*/
+
 //todas las actividades
-router.get('/', async (req, res, next) => {
+router.get('/', verifyUser, async (req, res, next) => {
     //devolver coleccion de actividades
     try {
 
-        var actividades = await findMany("actividades", {})
+        var actividades = await metodos.findMany("actividades", {})
+        
         res.status(200)
         res.send(JSON.stringify(actividades))
 
@@ -23,7 +49,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     //devolver una actividad
     try {
-        var actividad = await findOne("actividades", { "id": req.params.id })
+        var actividad = await metodos.findOne("actividades", { "id": req.params.id })
         res.status(200)
         res.send(JSON.stringify(actividad))
     } catch (error) {
@@ -42,15 +68,15 @@ router.put('/:id', async (req, res, next) => {
             res.send("Error. Falta actividad.")
         } else {
 
-            if (isNullOrEmpty(req.body.actividad.id) ||
-                isNullOrEmpty(req.body.actividad.titulo) ||
-                isNullOrEmpty(req.body.actividad.descripcion)) {
+            if (metodos.isNullOrEmpty(req.body.actividad.id) ||
+                metodos.isNullOrEmpty(req.body.actividad.titulo) ||
+                metodos.isNullOrEmpty(req.body.actividad.descripcion)) {
                 res.status(400);
                 res.send("Error en los parametros.")
             } else {
                 //guardar actividad
                 try {
-                    await updateOne("actividades",
+                    await metodos.updateOne("actividades",
                         { id: req.body.actividad.id }, { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
                     res.status(200)
                     res.send()
@@ -80,15 +106,15 @@ router.post('/', async (req, res, next) => {
         } else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
 
-            if (isNullOrEmpty(req.body.actividad.id) ||
-                isNullOrEmpty(req.body.actividad.titulo) ||
-                isNullOrEmpty(req.body.actividad.descripcion)) {
+            if (metodos.isNullOrEmpty(req.body.actividad.id) ||
+                metodos.isNullOrEmpty(req.body.actividad.titulo) ||
+                metodos.isNullOrEmpty(req.body.actividad.descripcion)) {
                 res.status(400);
                 res.send("Error en los parametros.")
             } else {
                 //guardar actividad
                 try {
-                    await addOne("actividades",
+                    await metodos.addOne("actividades",
                         { id: req.body.actividad.id, titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
                     res.status(200)
                     res.send()
@@ -104,5 +130,7 @@ router.post('/', async (req, res, next) => {
     }
 
 })
+
+
 
 export default router
