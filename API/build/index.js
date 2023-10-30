@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.verifyUser = exports.db = void 0;
+exports.isNullOrEmpty = exports.addMany = exports.addOne = exports.findMany = exports.findOne = exports.verifyUser = exports.db = void 0;
 const express_1 = __importDefault(require("express"));
+const actividad_1 = __importDefault(require("./routes/actividad"));
 /*
 import salaRouter from './routes/sala'
-import actividadRouter from './routes/actividad'
 import propuestaRouter from './routes/propuesta'
 */
 const { MongoClient } = require("mongodb");
@@ -24,25 +24,20 @@ const dbName = 'obligatorio';
 const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority";
 exports.db = null;
 const client = new MongoClient(uri);
-/*
-var admin = new Administrador("admin", "admin");
-let administradores: Administrador[] = [];
-administradores.push(admin);
-*/
 var secret = "secreto";
 const app = (0, express_1.default)();
 var jwt = require('jsonwebtoken');
 app.use(express_1.default.json()); //middleware
 const PORT = 3000;
+app.use('/actividades', actividad_1.default);
+/*
+app.use('/salas', salaRouter)
+app.use('/propuestas', propuestaRouter)
+*/
 app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1');
 });
-/*
-app.use('/actividades', actividadRouter)
-app.use('/salas', salaRouter)
-app.use('/propuestas', propuestaRouter)
-*/
 //login del usuario
 app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     //se debe validar el usuario y asignarle el token
@@ -82,13 +77,13 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             else {
                 //agregar usuario a mongo. 
                 try {
-                    yield exports.db.collection('administradores').insertOne({ 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
+                    yield addOne("administradores", { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
                     res.status(200);
                     res.send();
                 }
                 catch (error) {
                     res.status(500);
-                    res.send("Error al insertar.");
+                    res.send("Error al insertar. " + error);
                 }
             }
         }
@@ -114,33 +109,35 @@ function userExist(id, contraseña) {
         return res;
     });
 }
-const verifyUser = (req, res, next) => {
+function verifyUser(req, res, next) {
     try {
         if (req.headers.authorization === undefined) {
             res.status(400);
             res.send("Error. Falta auth header.");
         }
-        try {
-            if (req.headers.authorization.contains("Bearer")) {
-                var token = req.headers.authorization.split([" ", 1]);
-                jwt.verify(token, secret);
-                next();
+        else {
+            try {
+                if (req.headers.authorization.contains("Bearer")) {
+                    var token = req.headers.authorization.split([" ", 1]);
+                    jwt.verify(token, secret);
+                    next();
+                }
+                else {
+                    res.status(400);
+                    res.send("Error. Falta Bearer.");
+                }
             }
-            else {
-                res.status(400);
-                res.send("Error. Falta bearer.");
+            catch (error) {
+                res.status(401);
+                res.send("Error. Token no válido.");
             }
-        }
-        catch (error) {
-            res.status(401);
-            res.send("Error. Token no válido.");
         }
     }
     catch (error) {
         res.status(400);
         res.send("Error. Bad request.");
     }
-};
+}
 exports.verifyUser = verifyUser;
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -174,6 +171,7 @@ function findOne(coleccion, dato) {
         return res;
     });
 }
+exports.findOne = findOne;
 function findMany(coleccion, dato) {
     return __awaiter(this, void 0, void 0, function* () {
         var res = null;
@@ -188,5 +186,40 @@ function findMany(coleccion, dato) {
         return res;
     });
 }
+exports.findMany = findMany;
+function addOne(coleccion, dato) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var res = null;
+        try {
+            if (exports.db !== null) {
+                res = yield exports.db.collection(coleccion).insertOne(dato);
+            }
+        }
+        catch (error) {
+            console.log("Error: " + error);
+        }
+        return res;
+    });
+}
+exports.addOne = addOne;
+function addMany(coleccion, dato) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var res = null;
+        try {
+            if (exports.db !== null) {
+                res = yield exports.db.collection(coleccion).insertMany(dato);
+            }
+        }
+        catch (error) {
+            console.log("Error: " + error);
+        }
+        return res;
+    });
+}
+exports.addMany = addMany;
+function isNullOrEmpty(value) {
+    return value === null || value === undefined || value === '';
+}
+exports.isNullOrEmpty = isNullOrEmpty;
 run().catch(console.dir);
 //# sourceMappingURL=index.js.map
