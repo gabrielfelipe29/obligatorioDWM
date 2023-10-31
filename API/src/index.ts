@@ -118,6 +118,25 @@ async function run() {
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`)
         })
+        var filtro = {
+            "id": "admin",
+            "propuestas": {
+                "$elemMatch": {
+                    "id": "1"
+                }
+            }
+        }
+        var dato = {
+            "$push": {
+                "propuestas.$[inner].actividades": {
+                    "id": "actividad1",
+                    "titulo": "titulo"
+                }
+            }
+        }
+        var opc = { arrayFilters: {} }
+        //var res = await db.collection("administradores").updateOne(filtro, dato, opc);
+        //console.log(res);
     } catch (error) {
         console.log("Error al conectarse a BDD: " + error)
         await client.close();

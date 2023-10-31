@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const metodos = __importStar(require("../metodos"));
 const middleware_1 = require("../middleware");
+const __1 = require("..");
 const router = express_1.default.Router();
 //todas las propuestas del usuario
 router.get('/user/:id', middleware_1.verifyUser, (req, res, next) => {
@@ -53,11 +54,12 @@ router.put('/:id/propuestas/:propuestaid', middleware_1.verifyUser, (req, res, n
         const userId = req.params.id;
         const propuestaid = req.params.propuestaid;
         const user = yield metodos.findOne("administradores", { id: userId });
-        const propuestadeseada = user.propuestas[0];
+        //const propuestadeseada = user.propuesta[propuestaid];
         const nuevasactividad = req.body.actividad;
         const filtro = { id: userId, 'propuestas.id': propuestaid };
-        const dato = { $set: { 'propuestas.actividades': nuevasactividad } };
-        yield metodos.updateMany("administradores", filtro, dato);
+        const dato = { $push: { 'propuestas.$.actividades': nuevasactividad } };
+        var result = yield __1.db.collection("administradores").updateOne(filtro, dato, { upsert: true });
+        console.log(result);
         res.status(200);
         res.send();
     }
@@ -66,9 +68,5 @@ router.put('/:id/propuestas/:propuestaid', middleware_1.verifyUser, (req, res, n
         res.status(500).json({ mensaje: 'Error al obtener las propuestas del usuario' });
     }
 }));
-//agregar propuesta
-router.post('/', middleware_1.verifyUser, (req, res, next) => {
-    //generar actividad y mandarla a mongo
-});
 exports.default = router;
 //# sourceMappingURL=propuesta.js.map
