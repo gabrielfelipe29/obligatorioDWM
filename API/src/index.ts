@@ -88,6 +88,10 @@ app.post('/register', async (req, res) => {
 
 })
 
+app.put("/propuesta", async (req, res) => {
+    res.send("Hola, llego bien")
+})
+
 async function userExist(id: String, contraseña: String): Promise<boolean> {
     var res = false;
     try {

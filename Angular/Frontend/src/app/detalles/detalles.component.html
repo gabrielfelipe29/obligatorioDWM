@@ -2,6 +2,21 @@
 
 <div class="container">
   <div class="row">
+    <label for="actividad-nombre">Nombre de la Propuesta: </label>
+      <input id="actividad-nombre" [(ngModel)]="propuestaActual.titulo" placeholder="nombre">
+      <h3> Descripción de la Actividad</h3>
+        <input id="actividad-descripcion" [(ngModel)]="propuestaActual.descripcion" placeholder="descripcion">
+      <h3> Imagén de la Actividad</h3>
+      <br>
+      <input id="actividad-imagen" [(ngModel)]="propuestaActual.imagen" placeholder="imagen">
+      <img class="imagen" src={{propuestaActual.imagen}} alt>
+  </div>
+  <button (click)="guardarCambios()">Guardar</button>
+
+  <br>
+  <h2 style="text-align:center">Actividades de: {{ propuestaActual.titulo }}</h2>
+  <br>
+  <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
       <ul class="Actividades">
         <li *ngFor="let actividad of actividades">
@@ -25,7 +40,8 @@
   <br>
   <br>
   <div class="row">
-    <button (click)="toggleFormulario()">Agregar Actividad</button>
+    <button (click)="toggleFormulario()">Crear Nueva Actividad</button>
+    <button>Agregar Actividad Existente</button>
     <div *ngIf="mostrarform">
       <form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
         <div class="form-group">
@@ -48,7 +64,10 @@
       </form>
     </div>
   </div>
+  
 </div>
+<br>
+
 <div>
   <button routerLink="/inicio">Volver al Inicio</button>
 </div>

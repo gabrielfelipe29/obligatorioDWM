@@ -98,6 +98,9 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.send("Error: " + error);
     }
 }));
+app.put("/propuesta", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.send("Hola, llego bien");
+}));
 function userExist(id, contraseña) {
     return __awaiter(this, void 0, void 0, function* () {
         var res = false;
