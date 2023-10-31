@@ -13,17 +13,17 @@ import { NgForm } from '@angular/forms';
 })
 export class DetallesComponent {
 
-  
-  constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
-    const propuestaActual = this.servicio.propuestaActual;
-    if (propuestaActual !== undefined) {
-      this.idPropuesta = propuestaActual;
-    } else {
-      this.idPropuesta = 0; 
-    }
-  }
+  propuestaActual: Propuesta;
 
-  idPropuesta : number = 0 
+constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
+  const resultado = this.servicio.obtenerPropuestaActual();
+  if (resultado !== undefined) {
+    this.propuestaActual = resultado;
+  } else {
+    this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], creatorId: "usuario_1" } ;
+  }
+}
+
   titulo = ""
   descripcion = ""
   imagen = ""
@@ -33,6 +33,7 @@ export class DetallesComponent {
   actividades: Actividad[] = [];
   
   ngOnInit() {
+    console.log(this.propuestaActual?.titulo)
     this.obtenerActividades()
   }
 
@@ -57,7 +58,7 @@ export class DetallesComponent {
   }
 
   Delete(idActividad: number):void{
-  this.servicio.eliminarActividad(idActividad, this.idPropuesta)
+  this.servicio.eliminarActividad(idActividad, this.propuestaActual?.id)
   }
   
 }

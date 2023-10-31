@@ -8,9 +8,11 @@ import { Observable, of } from 'rxjs'
   providedIn: 'root'
 })
 export class PropuestasService {
-  constructor() { }
+  private propuestaActual?: Propuesta;
 
-  public propuestaActual? :number;
+  constructor() {
+    
+   }
 
   obtenerPropuestas(): Observable<Propuesta[]> {
     /*
@@ -78,5 +80,19 @@ export class PropuestasService {
     /*
       Acá se deberá conectar con back y eliminar una actividad a la lista
     */
+  }
+
+  verDetalles(id: number) {
+    this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
+      const propuestaEncontrada = propuestas.find(p => p.id === id);
+      if (propuestaEncontrada) {
+        this.propuestaActual = propuestaEncontrada;
+      } else {
+      }
+    });
+  }
+
+  obtenerPropuestaActual(){
+    return this.propuestaActual;
   }
 }

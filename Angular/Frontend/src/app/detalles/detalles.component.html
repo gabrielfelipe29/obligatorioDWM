@@ -1,4 +1,4 @@
-<h2 style="text-align:center">Actividades de la Propuesta</h2>
+<h2 style="text-align:center">Actividades de: {{ propuestaActual.titulo }}</h2>
 
 <div class="container">
   <div class="row">
@@ -29,7 +29,7 @@
     <div *ngIf="mostrarform">
       <form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
         <div class="form-group">
-          <label for="titulo">titulo</label>
+          <label for="titulo">Titulo</label>
           <input type="text" class="form-control" id="titulo"
             required
             [(ngModel)]="titulo" name="titulo">
@@ -48,4 +48,7 @@
       </form>
     </div>
   </div>
+</div>
+<div>
+  <button routerLink="/inicio">Volver al Inicio</button>
 </div>
