@@ -62,8 +62,7 @@ export class DetallesComponent {
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen)
-
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual.creatorId)
   }
 
 }

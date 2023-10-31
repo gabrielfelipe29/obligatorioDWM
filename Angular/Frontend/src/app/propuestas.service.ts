@@ -96,12 +96,13 @@ export class PropuestasService {
     return this.propuestaActual;
   }
 
-  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string) {
+  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, idCreador: string) {
 
     let dato = {
       tittle: titulo,
       description: desc,
-      imgage: img
+      imgage: img,
+      creatorId: idCreador
     }
 
     let datos = JSON.stringify(dato)
