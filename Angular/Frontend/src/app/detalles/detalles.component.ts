@@ -13,17 +13,17 @@ import { NgForm } from '@angular/forms';
 })
 export class DetallesComponent {
 
-  
+  propuestaActual: Propuesta;
+
   constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
-    const propuestaActual = this.servicio.propuestaActual;
-    if (propuestaActual !== undefined) {
-      this.idPropuesta = propuestaActual;
+    const resultado = this.servicio.obtenerPropuestaActual();
+    if (resultado !== undefined) {
+      this.propuestaActual = resultado;
     } else {
-      this.idPropuesta = 0; 
+      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], creatorId: "usuario_1", imagen: "#" };
     }
   }
 
-  idPropuesta : number = 0 
   titulo = ""
   descripcion = ""
   imagen = ""
@@ -31,8 +31,9 @@ export class DetallesComponent {
   actividadSeleccionada?: Actividad;
 
   actividades: Actividad[] = [];
-  
+
   ngOnInit() {
+    console.log(this.propuestaActual?.titulo)
     this.obtenerActividades()
   }
 
@@ -43,21 +44,25 @@ export class DetallesComponent {
 
   obtenerActividades(): void {
     this.servicio.obtenerActividades()
-      .subscribe(actividades => this.actividades = actividades); 
+      .subscribe(actividades => this.actividades = actividades);
   }
 
   mostrarform = false;
-  
+
   toggleFormulario() {
     this.mostrarform = !this.mostrarform;
   }
 
-  onSubmit(form: NgForm) { 
+  onSubmit(form: NgForm) {
     this.servicio.agregarActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
   }
 
-  Delete(idActividad: number):void{
-  this.servicio.eliminarActividad(idActividad, this.idPropuesta)
+  Delete(idActividad: number): void {
+    this.servicio.eliminarActividad(idActividad, this.propuestaActual?.id)
   }
-  
+
+  guardarCambios() {
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual.creatorId)
+  }
+
 }
