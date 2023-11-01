@@ -1,5 +1,5 @@
 import express from 'express'
-import { verifyUser } from '../middleware'
+import * as middleware from '../middleware'
 import * as metodos from '../metodos'
 
 
@@ -8,7 +8,7 @@ const router = express.Router()
 
 
 //todas las actividades
-router.get('/', verifyUser, async (req, res, next) => {
+router.get('/', middleware.verifyUser, async (req, res, next) => {
     //devolver coleccion de actividades
     try {
         var actividades = await metodos.findMany("actividades", {})
@@ -21,7 +21,7 @@ router.get('/', verifyUser, async (req, res, next) => {
 })
 
 //una actividad
-router.get('/:id', verifyUser, async (req, res, next) => {
+router.get('/:id', middleware.verifyUser, async (req, res, next) => {
     //devolver una actividad
     try {
         var actividad = await metodos.findOne("actividades", { "id": req.params.id })
@@ -34,7 +34,7 @@ router.get('/:id', verifyUser, async (req, res, next) => {
 })
 
 //agregar actividad
-router.post('/', verifyUser, async (req, res, next) => {
+router.post('/', middleware.verifyUser, async (req, res, next) => {
 
     try {
         if (!req.body.hasOwnProperty('actividad')) {

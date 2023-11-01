@@ -36,33 +36,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const middleware_1 = require("../middleware");
+const middleware = __importStar(require("../middleware"));
 const metodos = __importStar(require("../metodos"));
 const router = express_1.default.Router();
-/*
-function verifyUser(req: any, res: any, next: any) {
-    try {
-        if (req.headers.authorization === undefined) {
-            res.status(400);
-            res.send("Error. Falta auth header.")
-        } else {
-
-            try {
-                res.status(200)
-                res.send()
-            } catch (error) {
-                res.status(401);
-                res.send("Error. Token no válido.");
-            }
-        }
-    } catch (error) {
-        res.status(400);
-        res.send("Error. Bad request.");
-    }
-}
-*/
 //todas las actividades
-router.get('/', middleware_1.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //devolver coleccion de actividades
     try {
         var actividades = yield metodos.findMany("actividades", {});
@@ -75,7 +53,7 @@ router.get('/', middleware_1.verifyUser, (req, res, next) => __awaiter(void 0, v
     }
 }));
 //una actividad
-router.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/:id', middleware.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //devolver una actividad
     try {
         var actividad = yield metodos.findOne("actividades", { "id": req.params.id });
@@ -87,44 +65,8 @@ router.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         res.send("Error. " + error);
     }
 }));
-//editar actividad
-router.put('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    //devolver una actividad
-    try {
-        if (!req.body.hasOwnProperty('actividad')) {
-            res.status(400);
-            res.send("Error. Falta actividad.");
-        }
-        else {
-            if (metodos.isNullOrEmpty(req.body.actividad.id) ||
-                metodos.isNullOrEmpty(req.body.actividad.titulo) ||
-                metodos.isNullOrEmpty(req.body.actividad.descripcion)) {
-                res.status(400);
-                res.send("Error en los parametros.");
-            }
-            else {
-                //guardar actividad
-                try {
-                    yield metodos.updateOne("actividades", { id: req.body.actividad.id }, { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
-                    res.status(200);
-                    res.send();
-                }
-                catch (error) {
-                    res.status(500);
-                    res.send("Error al editar. " + error);
-                }
-            }
-        }
-    }
-    catch (error) {
-        res.status(400);
-        res.send("Error. " + error);
-    }
-}));
 //agregar actividad
-router.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    //generar actividad y mandarla a mongo
-    //verifyUser(req, res, next)
+router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (!req.body.hasOwnProperty('actividad')) {
             res.status(400);

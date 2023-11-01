@@ -35,24 +35,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.jwt = exports.secret = exports.db = void 0;
+exports.jwt = exports.db = void 0;
 const express_1 = __importDefault(require("express"));
 const actividad_1 = __importDefault(require("./routes/actividad"));
 const metodos = __importStar(require("./metodos"));
-//import salaRouter from './routes/sala'
+const middleware = __importStar(require("./middleware"));
+const sala_1 = __importDefault(require("./routes/sala"));
 const propuesta_1 = __importDefault(require("./routes/propuesta"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
 const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 exports.db = null;
 const client = new MongoClient(uri);
-const app = (0, express_1.default)();
-exports.secret = "secreto";
+//secreto esta en el middleware
 exports.jwt = require('jsonwebtoken');
+const app = (0, express_1.default)();
 app.use(express_1.default.json()); //middleware
 const PORT = 3000;
 app.use('/actividades', actividad_1.default);
-//app.use('/salas', salaRouter)
+app.use('/salas', sala_1.default);
 app.use('/user', propuesta_1.default);
 app.get('/test', (req, res) => {
     console.log("hello world");
@@ -63,12 +64,14 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     //se debe validar el usuario y asignarle el token
     try {
         var token;
-        //var user = await findOne("administradores", { 'id': req.body.administrador.id, "contraseña": req.body.administrador.contraseña })
-        if (yield userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
+        var user = yield metodos.findOne("administradores", {
+            'id': req.body.administrador.id,
+            'contraseña': req.body.administrador.contraseña
+        });
+        if (user) {
             //usuario es administrador, entonces le mando el token
-            token = exports.jwt.sign({
-                data: "admin" //le paso el id que le asigno mongo
-            }, exports.secret, { expiresIn: '1h' });
+            token = middleware.sign(user._id.toString());
+            res.status(200);
             res.send(JSON.stringify({ "token": token }));
         }
         else {
@@ -140,25 +143,6 @@ function run() {
             app.listen(PORT, () => {
                 console.log(`Server running on port ${PORT}`);
             });
-            var filtro = {
-                "id": "admin",
-                "propuestas": {
-                    "$elemMatch": {
-                        "id": "1"
-                    }
-                }
-            };
-            var dato = {
-                "$push": {
-                    "propuestas.$[inner].actividades": {
-                        "id": "actividad1",
-                        "titulo": "titulo"
-                    }
-                }
-            };
-            var opc = { arrayFilters: {} };
-            //var res = await db.collection("administradores").updateOne(filtro, dato, opc);
-            //console.log(res);
         }
         catch (error) {
             console.log("Error al conectarse a BDD: " + error);

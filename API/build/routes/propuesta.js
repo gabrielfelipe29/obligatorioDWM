@@ -58,7 +58,7 @@ router.put('/:id/propuestas/:propuestaid', middleware_1.verifyUser, (req, res, n
         const nuevasactividad = req.body.actividad;
         const filtro = { id: userId, 'propuestas.id': propuestaid };
         const dato = { $push: { 'propuestas.$.actividades': nuevasactividad } };
-        var result = yield __1.db.collection("administradores").updateOne(filtro, dato, { upsert: true });
+        var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
         console.log(result);
         res.status(200);
         res.send();

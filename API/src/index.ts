@@ -1,7 +1,7 @@
 import express from 'express'
 import actividadRouter from './routes/actividad'
 import * as metodos from './metodos'
-
+import * as middleware from './middleware'
 import salaRouter from './routes/sala'
 import userRouter from './routes/propuesta'
 
@@ -12,20 +12,16 @@ const uri =
 export var db: any = null;
 const client = new MongoClient(uri);
 
-
-const app = express()
-export var secret = "secreto";
+//secreto esta en el middleware
 export var jwt = require('jsonwebtoken');
+const app = express()
 app.use(express.json()) //middleware
 
 const PORT = 3000
 
-
 app.use('/actividades', actividadRouter)
-
 app.use('/salas', salaRouter)
 app.use('/user', userRouter)
-
 
 app.get('/test', (req, res) => {
     console.log("hello world");
@@ -37,12 +33,16 @@ app.post('/login', async (req, res) => {
     //se debe validar el usuario y asignarle el token
     try {
         var token;
-        //var user = await findOne("administradores", { 'id': req.body.administrador.id, "contraseña": req.body.administrador.contraseña })
-        if (await userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
+        var user = await metodos.findOne("administradores",
+            {
+                'id': req.body.administrador.id,
+                'contraseña': req.body.administrador.contraseña
+            })
+
+        if (user) {
             //usuario es administrador, entonces le mando el token
-            token = jwt.sign({
-                data: "admin" //le paso el id que le asigno mongo
-            }, secret, { expiresIn: '1h' });
+            token = middleware.sign(user._id.toString());
+            res.status(200)
             res.send(JSON.stringify({ "token": token }));
         } else {
             //El usuario no existe

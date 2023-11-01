@@ -90,3 +90,6 @@ export async function updateMany(coleccion: any, filtro: any, dato: any) {
 export function isNullOrEmpty(value: any) {
     return value === null || value === undefined || value === '';
 }
+
+
+

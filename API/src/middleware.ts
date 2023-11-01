@@ -1,6 +1,6 @@
-import { secret } from ".";
 import { jwt } from ".";
 import { isNullOrEmpty } from "./metodos";
+var secret = "secreto";
 
 export function verifyUser(req: any, res: any, next: any) {
     try {
@@ -27,4 +27,21 @@ export function verifyUser(req: any, res: any, next: any) {
         res.status(400);
         res.send("Error. Bad request.");
     }
+}
+
+
+export function decode(authheader: any) {
+    var res = null
+    try {
+        res = jwt.verify(authheader.split(' ')[1], secret);
+    } catch (error) {
+        res = null;
+    }
+    return res;
+}
+
+export function sign(userid: any) {
+    return jwt.sign({
+        id: userid
+    }, secret, { expiresIn: '1h' });
 }
