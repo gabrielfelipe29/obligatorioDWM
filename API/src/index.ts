@@ -1,16 +1,14 @@
 import express from 'express'
-/*
-import salaRouter from './routes/sala'
-import actividadRouter from './routes/actividad'
-import propuestaRouter from './routes/propuesta'
-*/
+
+import userRouter from './routes/user'
+
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio'
 const uri =
-    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority";
+        "mongodb://0.0.0.0:27017/obligatorio";
 export var db: any = null;
 const client = new MongoClient(uri);
-
+//mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority
 /*
 var admin = new Administrador("admin", "admin");
 let administradores: Administrador[] = [];
@@ -27,13 +25,10 @@ app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1')
 })
-app.use('/propuestas',propuestasRouter)
-app.use('/cards', cardRouter)
-/*
-app.use('/actividades', actividadRouter)
-app.use('/salas', salaRouter)
-app.use('/propuestas', propuestaRouter)
-*/
+
+
+app.use('/user', userRouter)
+
 //login del usuario
 app.post('/login', async (req, res) => {
     //se debe validar el usuario y asignarle el token
@@ -72,8 +67,9 @@ app.post('/register', async (req, res) => {
             } else {
                 //agregar usuario a mongo. 
                 try {
-                    await db.collection('administradores').insertOne(
+                    var result= await db.collection('administradores').insertOne(
                         { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña, "propuesta":[]});
+                    console.log(result);
                     res.status(200);
                     res.send();
                 } catch (error) {
@@ -94,7 +90,7 @@ async function userExist(id: String, contraseña: String): Promise<boolean> {
     var res = false;
     try {
 
-        var user = await findOne("administradores", { 'id': id, "contraseña": contraseña })
+        var user = await findOne("administradores", { "id": id, "contraseña": contraseña })
 
         if (user !== null) {
             //usuario existe
@@ -159,6 +155,7 @@ export async function findOne(coleccion: String, dato: any) {
     try {
         if (db !== null) {
             res = await db.collection(coleccion).findOne(dato);
+            console.log(db);
         }
     } catch (error) {
         console.log("Error: " + error);
@@ -183,3 +180,45 @@ export async function findMany(coleccion: String, dato: any) {
 run().catch(console.dir);
 
 
+export async function updateOne(coleccion: String, filtro: any, dato: any) {
+    var res = null;
+    try {
+        if (db !== null) {
+            res = await db.collection(coleccion).updateOne(filtro, { $set: dato }, { upsert: false });
+        }
+    } catch (error) {
+        console.log("Error: " + error);
+    }
+    return res;
+}
+
+
+
+
+export async function updateMany(coleccion: any, filtro: any, dato: any) {
+    /*
+        Formato del dato para actualizar. El primer parametro (rated) es el filtro, el $set es el dato a modificar
+      const result = await movies.updateMany(
+      { rated: Rating.G },
+      {
+        $set: {
+          random_review: `After viewing I am ${
+            100 * Math.random()
+          }% more satisfied with life.`,
+        },
+      }
+    );*/
+    var res = null;
+    try {
+        if (db !== null) {
+            res = await db.colection(coleccion).updateMany(filtro, { $set: dato }, { upsert: false });
+        }
+    } catch (error) {
+        console.log("Error: " + error);
+    }
+    return res;
+}
+
+export function isNullOrEmpty(value: any) {
+    return value === null || value === undefined || value === '';
+}
