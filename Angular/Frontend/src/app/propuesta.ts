@@ -6,4 +6,5 @@ export interface Propuesta {
     descripcion: string;
     actividades: Actividad[];
     creatorId: string;
+    imagen: string;
   }
