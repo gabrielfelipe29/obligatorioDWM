@@ -14,7 +14,7 @@
             "preLaunchTask": "compile",
             "sourceMaps": true,
             "program": "${workspaceFolder}/build/index.js"
-            
+
         }
     ]
 }
