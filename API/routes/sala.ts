@@ -1,4 +1,5 @@
 import express from 'express'
+import { db } from '..'
 import * as middleware from '../middleware'
 import * as metodos from '../metodos'
 
@@ -7,8 +8,6 @@ const router = express.Router()
 
 //devuelve la sala con el id, pero que ademas le pertenezca al admin que lo pide
 router.get('/:id', (req, res, next) => {
-
-
 
 })
 
@@ -30,7 +29,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                 //no hay que verificar ya que antes pasa por el middleware
                 var decoded = middleware.decode(req.headers['authorization'])
                 try {
-                        
+
                     for (let i = 0; i < req.body.propuesta.actividades.length; i++) {
                         req.body.propuesta.actividades[i].jugadores = [];
                     }
@@ -63,5 +62,35 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
     }
 
 })
+
+//manda el resultado de las actividades
+router.post('/:actividadid', async (req, res, next) => {
+    //no es necesario el middleware ya que la request parte de los usuarios normales, sin token ni nada
+    try {
+        if (!req.body.hasOwnProperty('ranking')) {
+            res.status(400);
+            res.send("Error. Falta ranking.")
+        } else {
+            const votacion = req.body.ranking;
+            const actividadid = req.params.actividadid;
+            const filtro = { id: actividadid, activo: true };
+            const dato = { $push: { 'propuesta.$.actividades.$.jugadores': votacion } };
+            var result = await db.collection("sala").updateOne(filtro, dato)
+            if (result.acknowledged) {
+                res.status(200);
+                res.send()
+            } else {
+                res.status(500)
+                res.send("Error al enviar ranking.")
+            }
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(400);
+        res.send(JSON.stringify({ mensaje: 'Error al enviar ranking' }));
+    }
+})
+
+
 
 export default router
