@@ -2,6 +2,7 @@ import express from 'express'
 import * as middleware from '../middleware'
 import * as metodos from '../metodos'
 import { db } from '..'
+import { ObjectId } from 'mongodb'
 const router = express.Router()
 
 
@@ -36,7 +37,6 @@ router.post('/register', async (req, res) => {
   }
 
 })
-
 
 //loguear usuario
 router.post('/login', async (req, res) => {
@@ -83,7 +83,7 @@ router.get('/', middleware.verifyUser, async (req, res, next) => {
   }
 })
 
-//una propuesta
+//devuelve una propuesta
 router.get('/propuesta/:propuestaid', middleware.verifyUser, async (req, res, next) => {
   //devolver una propuesta
   try {
@@ -101,23 +101,29 @@ router.get('/propuesta/:propuestaid', middleware.verifyUser, async (req, res, ne
   }
 })
 
-//editar propuesta
-router.put('propuesta/:propuestaid', async (req, res, next) => {
-  //devolver una propuesta
+//agrega actividad a propuesta
+router.put('/propuesta/:propuestaid/add', middleware.verifyUser, async (req, res, next) => {
   try {
-    const userId = middleware.decode(req.headers['authorization']).id;
-    const propuestaid = req.params.propuestaid
-    const nuevasactividad = req.body.actividad;
-    const filtro = { id: userId, 'propuesta.id': propuestaid };
-    const dato = { $push: { 'propuesta.$.actividades': nuevasactividad } };
-    var result = await db.collection("administradores").updateOne(filtro, dato)
 
-    if (result.acknowledged) {
-      res.status(200);
-      res.send()
+    if (!req.body.hasOwnProperty('actividad')) {
+      res.status(400);
+      res.send("Error. Falta actividad.")
     } else {
-      res.status(500)
-      res.send("Error al editar propuesta.")
+
+      const userId = middleware.decode(req.headers['authorization']).id;
+      const propuestaid = req.params.propuestaid
+      const nuevasactividad = req.body.actividad;
+      const filtro = { id: userId, 'propuesta.id': propuestaid };
+      const dato = { $push: { 'propuesta.$.actividades': nuevasactividad } };
+      var result = await db.collection("administradores").updateOne(filtro, dato)
+
+      if (result.acknowledged) {
+        res.status(200);
+        res.send()
+      } else {
+        res.status(500)
+        res.send("Error al editar propuesta.")
+      }
     }
     //manejar cuando le pasas un id mal
   } catch (error) {
@@ -132,6 +138,7 @@ router.put('propuesta/:propuestaid', async (req, res, next) => {
 router.post('/', middleware.verifyUser, async (req, res, next) => {
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
+    req.body.propuesta.id = new ObjectId();
     const propnueva = req.body.propuesta;
     const filtro = { id: userId };
     const dato = { $push: { 'propuesta': propnueva } };
@@ -173,8 +180,9 @@ router.delete('/propuesta/:propuestaid', async (req, res, next) => {
   }
 })
 
-//saca una actividad dentro de la propuesta del usuario
+//modifica las actividades en las propuestas del usuario
 router.put('/propuesta/:propuestaid', middleware.verifyUser, async (req, res, next) => {
+  //en realidad se le manda todas las actividades, y se sustituye todo
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
     const propuestaid = req.params.propuestaid;
