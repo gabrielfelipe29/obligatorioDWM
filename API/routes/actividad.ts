@@ -16,7 +16,7 @@ router.get('/', middleware.verifyUser, async (req, res, next) => {
         res.send(JSON.stringify(actividades))
     } catch (error) {
         res.status(400);
-        res.send("Error. " + error)
+        res.send(JSON.stringify({ mensaje: "Error. " + error }))
     }
 })
 
@@ -29,7 +29,7 @@ router.get('/:id', middleware.verifyUser, async (req, res, next) => {
         res.send(JSON.stringify(actividad))
     } catch (error) {
         res.status(400);
-        res.send("Error. " + error)
+        res.send(JSON.stringify({ mensaje: "Error al buscar actividad." }))
     }
 })
 
@@ -39,7 +39,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
     try {
         if (!req.body.hasOwnProperty('actividad')) {
             res.status(400);
-            res.send("Error. Falta actividad.")
+            res.send(JSON.stringify({ mensaje: "Error. Falta actividad." }))
         } else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
 
@@ -47,7 +47,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                 metodos.isNullOrEmpty(req.body.actividad.titulo) ||
                 metodos.isNullOrEmpty(req.body.actividad.descripcion)) {
                 res.status(400);
-                res.send("Error en los parametros.")
+                res.send(JSON.stringify({ mensaje: "Error en los parametros." }))
             } else {
                 //guardar actividad
                 try {
@@ -57,13 +57,13 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     res.send()
                 } catch (error) {
                     res.status(500);
-                    res.send("Error al insertar. " + error)
+                    res.send(JSON.stringify({ mensaje: "Error al agregar actividad." }))
                 }
             }
         }
     } catch (error) {
         res.status(400);
-        res.send("Error. " + error)
+        res.send(JSON.stringify({ mensaje: "Error al agregar actividad." }))
     }
 
 })

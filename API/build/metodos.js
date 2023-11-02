@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
+exports.userExist = exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
 const _1 = require(".");
 function findOne(coleccion, dato) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -117,4 +117,21 @@ function isNullOrEmpty(value) {
     return value === null || value === undefined || value === '';
 }
 exports.isNullOrEmpty = isNullOrEmpty;
+function userExist(id, contraseña) {
+    return __awaiter(this, void 0, void 0, function* () {
+        var res = false;
+        try {
+            var user = yield findOne("administradores", { 'id': id, "contraseña": contraseña });
+            if (user !== null) {
+                //usuario existe
+                res = true;
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+        return res;
+    });
+}
+exports.userExist = userExist;
 //# sourceMappingURL=metodos.js.map

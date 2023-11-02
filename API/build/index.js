@@ -1,27 +1,4 @@
 'use strict';
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,13 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
 exports.jwt = exports.db = void 0;
 const actividad_1 = __importDefault(require("./routes/actividad"));
-const metodos = __importStar(require("./metodos"));
-const middleware = __importStar(require("./middleware"));
 const sala_1 = __importDefault(require("./routes/sala"));
-const propuesta_1 = __importDefault(require("./routes/propuesta"));
+const user_1 = __importDefault(require("./routes/user"));
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const { MongoClient } = require("mongodb");
@@ -51,22 +25,6 @@ exports.db = null;
 const client = new MongoClient(uri);
 //secreto esta en el middleware
 exports.jwt = require('jsonwebtoken');
-=======
-exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.findMany = exports.findOne = exports.verifyUser = exports.db = void 0;
-const express_1 = __importDefault(require("express"));
-const user_1 = __importDefault(require("./routes/user"));
-const { MongoClient } = require("mongodb");
-const dbName = 'obligatorio';
-const uri = "mongodb://0.0.0.0:27017/obligatorio";
-exports.db = null;
-const client = new MongoClient(uri);
-//mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority
->>>>>>> sebadeveloper
-/*
-var admin = new Administrador("admin", "admin");
-let administradores: Administrador[] = [];
-administradores.push(admin);
-*/
 const cors = require('cors');
 const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
@@ -97,43 +55,7 @@ app.use(bodyParserURLEncoded);
 app.use(cors());
 app.use('/actividades', actividad_1.default);
 app.use('/salas', sala_1.default);
-app.use('/user', propuesta_1.default);
-app.get('/', (req, res) => {
-    const json = '{"result":true, "count":42}';
-    const obj = JSON.parse(json);
-    res.send(obj);
-});
-<<<<<<< HEAD
-=======
 app.use('/user', user_1.default);
-//login del usuario
->>>>>>> sebadeveloper
-app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //se debe validar el usuario y asignarle el token
-    try {
-        var token;
-        var user = yield metodos.findOne("administradores", {
-            'id': req.body.administrador.id,
-            'contraseña': req.body.administrador.contraseña
-        });
-        if (user) {
-            //usuario es administrador, entonces le mando el token
-            token = middleware.sign(user._id.toString());
-            res.status(200);
-            res.send(JSON.stringify({ "token": token }));
-        }
-        else {
-            //El usuario no existe
-            res.status(401);
-            res.send("Error. Administrador no existe.");
-        }
-    }
-    catch (error) {
-        //hubo un error de formato
-        res.status(400);
-        res.send("Error. Formato JSON invalido.");
-    }
-}));
 // Constants
 /* Funciones del servidor
      - Dar listas (datos para agregarlo)
@@ -151,89 +73,6 @@ app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1');
 });
-//login del usuario
-app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //se debe validar el usuario y asignarle el token
-    console.log("llego");
-    try {
-        var token;
-        var user = yield metodos.findOne("administradores", {
-            'id': req.body.administrador.id,
-            'contraseña': req.body.administrador.contraseña
-        });
-        if (user) {
-            //usuario es administrador, entonces le mando el token
-            token = middleware.sign(user._id.toString());
-            res.status(200);
-            res.send(JSON.stringify({ "token": token }));
-        }
-        else {
-            //El usuario no existe
-            res.status(401);
-            res.send("Error. Administrador no existe.");
-        }
-    }
-    catch (error) {
-        //hubo un error de formato
-        res.status(400);
-        res.send("Error. Formato JSON invalido.");
-    }
-}));
-app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        if (yield userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
-            res.status(400);
-            res.send("Error. Usuario ya existe.");
-        }
-        else {
-            if (req.body.administrador.id == null || req.body.administrador.contraseña == null) {
-                res.status(400);
-                res.send("Error. Faltan parametros.");
-            }
-            else {
-                //agregar usuario a mongo. 
-                try {
-<<<<<<< HEAD
-                    yield metodos.addOne("administradores", { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
-=======
-                    var result = yield exports.db.collection('administradores').insertOne({ 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña, "propuesta": [] });
-                    console.log(result);
->>>>>>> sebadeveloper
-                    res.status(200);
-                    res.send();
-                }
-                catch (error) {
-                    res.status(500);
-                    res.send("Error al insertar. " + error);
-                }
-            }
-        }
-    }
-    catch (error) {
-        res.status(400);
-        res.send("Error: " + error);
-    }
-}));
-function userExist(id, contraseña) {
-    return __awaiter(this, void 0, void 0, function* () {
-        var res = false;
-        try {
-<<<<<<< HEAD
-            var user = yield metodos.findOne("administradores", { 'id': id, "contraseña": contraseña });
-=======
-            var user = yield findOne("administradores", { "id": id, "contraseña": contraseña });
->>>>>>> sebadeveloper
-            if (user !== null) {
-                //usuario existe
-                res = true;
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-        return res;
-    });
-}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -251,85 +90,5 @@ function run() {
         }
     });
 }
-<<<<<<< HEAD
-=======
-function findOne(coleccion, dato) {
-    return __awaiter(this, void 0, void 0, function* () {
-        var res = null;
-        try {
-            if (exports.db !== null) {
-                res = yield exports.db.collection(coleccion).findOne(dato);
-                console.log(exports.db);
-            }
-        }
-        catch (error) {
-            console.log("Error: " + error);
-        }
-        return res;
-    });
-}
-exports.findOne = findOne;
-function findMany(coleccion, dato) {
-    return __awaiter(this, void 0, void 0, function* () {
-        var res = null;
-        try {
-            if (exports.db !== null) {
-                res = yield exports.db.collection(coleccion).find(dato);
-            }
-        }
-        catch (error) {
-            console.log("Error: " + error);
-        }
-        return res;
-    });
-}
-exports.findMany = findMany;
->>>>>>> sebadeveloper
 run().catch(console.dir);
-function updateOne(coleccion, filtro, dato) {
-    return __awaiter(this, void 0, void 0, function* () {
-        var res = null;
-        try {
-            if (exports.db !== null) {
-                res = yield exports.db.collection(coleccion).updateOne(filtro, { $set: dato }, { upsert: false });
-            }
-        }
-        catch (error) {
-            console.log("Error: " + error);
-        }
-        return res;
-    });
-}
-exports.updateOne = updateOne;
-function updateMany(coleccion, filtro, dato) {
-    return __awaiter(this, void 0, void 0, function* () {
-        /*
-            Formato del dato para actualizar. El primer parametro (rated) es el filtro, el $set es el dato a modificar
-          const result = await movies.updateMany(
-          { rated: Rating.G },
-          {
-            $set: {
-              random_review: `After viewing I am ${
-                100 * Math.random()
-              }% more satisfied with life.`,
-            },
-          }
-        );*/
-        var res = null;
-        try {
-            if (exports.db !== null) {
-                res = yield exports.db.colection(coleccion).updateMany(filtro, { $set: dato }, { upsert: false });
-            }
-        }
-        catch (error) {
-            console.log("Error: " + error);
-        }
-        return res;
-    });
-}
-exports.updateMany = updateMany;
-function isNullOrEmpty(value) {
-    return value === null || value === undefined || value === '';
-}
-exports.isNullOrEmpty = isNullOrEmpty;
 //# sourceMappingURL=index.js.map

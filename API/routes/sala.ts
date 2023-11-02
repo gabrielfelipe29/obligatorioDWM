@@ -6,10 +6,6 @@ import * as metodos from '../metodos'
 
 const router = express.Router()
 
-//devuelve la sala con el id, pero que ademas le pertenezca al admin que lo pide
-router.get('/:id', (req, res, next) => {
-
-})
 
 //crea la sala y le devuelve el id con el link y eso
 router.post('/', middleware.verifyUser, async (req, res, next) => {
@@ -17,14 +13,14 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
     try {
         if (!req.body.hasOwnProperty('propuesta')) {
             res.status(400);
-            res.send("Error. Falta propuesta.")
+            res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }))
         } else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
 
             if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
                 metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
                 res.status(400);
-                res.send("Error en los parametros.");
+                res.send(JSON.stringify({ mensaje: "Error en los parametros." }));
             } else {
                 //no hay que verificar ya que antes pasa por el middleware
                 var decoded = middleware.decode(req.headers['authorization'])
@@ -47,18 +43,18 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                         res.send(JSON.stringify({ salaId: result.insertedId.toString() }))
                     } else {
                         res.status(500)
-                        res.send("Error al crear sala.")
+                        res.send(JSON.stringify({ mensaje: "Error al crear sala." }))
                     }
 
                 } catch (error) {
                     res.status(500);
-                    res.send("Error al insertar. " + error)
+                    res.send(JSON.stringify({ mensaje: "Error al insertar." }))
                 }
             }
         }
     } catch (error) {
         res.status(400);
-        res.send("Error. " + error)
+        res.send(JSON.stringify({ mensaje: "Error al crear sala." }))
     }
 
 })
@@ -81,7 +77,7 @@ router.post('/:actividadid', async (req, res, next) => {
                 res.send()
             } else {
                 res.status(500)
-                res.send("Error al enviar ranking.")
+                res.send(JSON.stringify({ mensaje: "Error al enviar ranking." }))
             }
         }
     } catch (error) {
