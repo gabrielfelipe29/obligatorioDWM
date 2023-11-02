@@ -7,7 +7,7 @@ const router = express.Router()
 
 //devuelve la sala con el id, pero que ademas le pertenezca al admin que lo pide
 router.get('/:id', (req, res, next) => {
-    
+
 
 
 })
@@ -79,10 +79,6 @@ router.post('/:actividadid', async (req, res, next) => {
         res.status(500).json({ mensaje: 'Error al obtener las propuestas del usuario' });
       }
 })
-
-router
-
-
 
 
 export default router

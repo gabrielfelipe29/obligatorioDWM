@@ -14,6 +14,7 @@ var admin = new Administrador("admin", "admin");
 let administradores: Administrador[] = [];
 administradores.push(admin);
 */
+
 var secret = "secreto";
 const app = express()
 var jwt = require('jsonwebtoken');
