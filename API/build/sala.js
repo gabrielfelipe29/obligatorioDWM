@@ -13,3 +13,4 @@ class Sala {
     }
 }
 exports.Sala = Sala;
+//# sourceMappingURL=sala.js.map

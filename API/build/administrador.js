@@ -11,3 +11,4 @@ class Administrador {
     }
 }
 exports.Administrador = Administrador;
+//# sourceMappingURL=administrador.js.map

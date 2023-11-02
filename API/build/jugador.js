@@ -8,3 +8,4 @@ class Jugador {
     }
 }
 exports.Jugador = Jugador;
+//# sourceMappingURL=jugador.js.map
