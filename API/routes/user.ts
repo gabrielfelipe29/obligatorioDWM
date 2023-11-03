@@ -1,9 +1,12 @@
 import express from 'express'
 import * as middleware from '../middleware'
 import * as metodos from '../metodos'
+import { Administrador } from '../administrador'
 import { db } from '..'
 import { ObjectId } from 'mongodb'
 const router = express.Router()
+
+export var admins: { [clave: string]: Administrador } = {}; 
 
 
 //registrar usuario
@@ -48,6 +51,8 @@ router.post('/login', async (req, res) => {
       })
 
     if (user) {
+      let newAdmin = new Administrador(req.body.administrador.id, req.body.administrador.contraseña)
+      admins[req.body.administrador.id] = newAdmin
       //usuario es administrador, entonces le mando el token
       token = middleware.sign(user._id.toString());
       res.status(200)
