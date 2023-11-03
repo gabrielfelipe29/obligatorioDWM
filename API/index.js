@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyUser = exports.db = void 0;
 const express_1 = __importDefault(require("express"));
+const http_1 = require("http");
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
 const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority";
@@ -27,7 +28,7 @@ const { v4: uuidv4 } = require('uuid');
 // Constants
 const PORT = 3000;
 const HOST = '0.0.0.0';
-// App
+/* Configuración del server  */
 const app = (0, express_1.default)();
 var corsOptions = {
     origin: 'http://localhost:4200',
@@ -36,7 +37,42 @@ var corsOptions = {
 };
 app.use(express_1.default.json());
 app.use(cors(corsOptions));
-let cards = [];
+const httpServer = (0, http_1.createServer)(app);
+const io = require('socket.io')(httpServer, {
+    cors: { origin: '*' }
+});
+/* Variables  */
+var propuestas = [];
+var admins = {};
+// Agregar elementos al diccionario
+/* miDiccionario["clave1"] = "valor1";
+miDiccionario["clave2"] = "valor2";
+miDiccionario["clave3"] = 42; */
+/* Variables  */
+/* Trabajamos con los sockets,  */
+// Conexión por canales
+io.on('connection', (socket) => {
+    console.log('Cliente conectado');
+    socket.on('join', (channel) => {
+        socket.join(channel);
+        console.log(`El cliente se unió al canal ${channel}`);
+    });
+    socket.on('mensaje', (mensaje) => {
+        // Recibes un mensaje del cliente Angular y puedes responder o realizar acciones según sea necesario.
+        console.log('Mensaje recibido del cliente Angular:', mensaje);
+        // Por ejemplo, puedes enviar una respuesta al cliente Angular en el mismo canal:
+        io.to('nombreDelCanal').emit('respuesta', 'Respuesta desde el servidor');
+    });
+    // Salir de un canal
+    socket.on('leave', (channel) => {
+        socket.leave(channel);
+        console.log(`El cliente salió del canal ${channel}`);
+    });
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado');
+    });
+});
+/* Endpoints para trabajar con las solicitudes */
 app.get('/', (req, res) => {
     const json = '{"result":true, "count":42}';
     const obj = JSON.parse(json);
@@ -95,6 +131,7 @@ app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.send("Error: " + error);
     }
 }));
+/* Funciones usadas para facilitar las tareas */
 const verifyUser = (req, res, next) => {
     try {
         if (req.headers.authorization === undefined) {
@@ -169,6 +206,7 @@ function findMany(coleccion, dato) {
         return res;
     });
 }
+/* Hacemos la conexión a la base de datos y hacemos que el serve quede corriendo */
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -177,8 +215,8 @@ function run() {
             exports.db = exports.db.db(dbName);
             yield client.db().command({ ping: 1 });
             console.log("Conectado a BDD.");
-            app.listen(PORT, HOST, () => {
-                console.log(`Server running on port ${PORT}`);
+            httpServer.listen(PORT, HOST, () => {
+                console.log("Server running");
             });
         }
         catch (error) {
@@ -187,4 +225,5 @@ function run() {
         }
     });
 }
+/* Corremos efectivamente el server */
 run().catch(console.dir);
