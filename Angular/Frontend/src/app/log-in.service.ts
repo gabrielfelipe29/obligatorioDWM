@@ -23,6 +23,26 @@ export class LogInService {
     return this.cookies.get("token");
   }
 
+  estaLogeado(){
+    return this.cookies.check("userID")
+  }
+
+  setUserData(user: string, password: string) {
+    this.cookies.set("userID", user);
+    /* this.cookies.set("userPassword", password); */
+  }
+  getUserData(){
+    /* return { user: this.cookies.get("userID"), pass: this.cookies.get("userPassword")} */
+    return { user: this.cookies.get("userID")}
+  }
+
+  logOut(){
+    this.cookies.delete("userID");
+    this.cookies.delete("token");
+  }
+
+ 
+
   singUp(user: String, pass: String){
     
   }

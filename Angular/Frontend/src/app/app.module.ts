@@ -20,6 +20,7 @@ import { DetallesComponent } from './detalles/detalles.component';
 import { ActividadComponent } from './actividad/actividad.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
+import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CrearActividadComponent } from './crear-actividad/crear-actividad.compo
     DetallesComponent,
     ActividadComponent,
     CrearPropuestaComponent,
-    CrearActividadComponent
+    CrearActividadComponent,
+    UnirseJuegoComponent
   ],
   imports: [
     BrowserModule,

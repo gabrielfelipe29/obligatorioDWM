@@ -28,6 +28,7 @@ export class LogInComponent {
         if (data && data.token) {
           console.log(data)
           this.loginService.setToken(data.token);
+          this.loginService.setUserData(this.user, this.password);
           this.router.navigateByUrl('/inicio');
         } 
         
@@ -44,6 +45,4 @@ export class LogInComponent {
       });
   }
 
-  /* Para mi esta función no debería de estar acá, pero luego lo arreglamos */
-  unirseAlJuego(){}
 }
