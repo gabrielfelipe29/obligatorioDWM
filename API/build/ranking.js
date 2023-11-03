@@ -18,3 +18,4 @@ class Ranking {
     }
 }
 exports.Ranking = Ranking;
+//# sourceMappingURL=ranking.js.map

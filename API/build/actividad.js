@@ -26,3 +26,4 @@ class Actividad {
     }
 }
 exports.Actividad = Actividad;
+//# sourceMappingURL=actividad.js.map

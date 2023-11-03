@@ -9,3 +9,4 @@ class Propuesta {
     }
 }
 exports.Propuesta = Propuesta;
+//# sourceMappingURL=propuesta.js.map
