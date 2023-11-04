@@ -17,7 +17,7 @@ router.get('/', middleware.verifyUser, async (req, res, next) => {
         res.send(JSON.stringify(actividades))
     } catch (error) {
         res.status(400);
-        res.send(JSON.stringify({ mensaje: "Error. " + error }))
+        res.send(JSON.stringify({ mensaje: "Error al buscar actividades." }))
     }
 })
 
@@ -25,8 +25,8 @@ router.get('/', middleware.verifyUser, async (req, res, next) => {
 router.get('/:id', middleware.verifyUser, async (req, res, next) => {
     //devolver una actividad
     try {
-        var actividad = await metodos.findOne("actividades", { "id": req.params.id })
-        res.status(200)
+        var actividad = await metodos.findOne("actividades", { "_id": new ObjectId(req.params.id) });
+        res.status(200);
         res.send(JSON.stringify(actividad))
     } catch (error) {
         res.status(400);
@@ -51,10 +51,12 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                 res.send(JSON.stringify({ mensaje: "Error en los parametros." }))
             } else {
                 //guardar actividad
+                if (metodos.isNullOrEmpty(req.body.actividad.imagen)) {
+                    req.body.actividad.imagen = null;
+                }
                 try {
-                    req.body.actividad.id = new ObjectId();
                     await metodos.addOne("actividades",
-                        { id: req.body.actividad.id, titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
+                        { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
                     res.status(200)
                     res.send()
                 } catch (error) {

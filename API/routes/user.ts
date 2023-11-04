@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
         //agregar usuario a mongo. 
         try {
           await metodos.addOne("administradores",
-            { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
+            { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña, 'propuestas': [] });
           res.status(200);
           res.send();
         } catch (error) {
@@ -66,11 +66,11 @@ router.post('/login', async (req, res) => {
 })
 
 //todas las propuestas del usuario
-router.get('/', middleware.verifyUser, async (req, res, next) => {
+router.get('/propuesta', middleware.verifyUser, async (req, res, next) => {
   //devolver coleccion de propuestas
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
-    const user = await metodos.findOne("administradores", { id: userId });
+    const user = await metodos.findOne("administradores", { '_id': new ObjectId(userId) });
     const propuestas = user.propuestas;
     res.status(200)
     res.send(propuestas);
@@ -86,10 +86,21 @@ router.get('/propuesta/:propuestaid', middleware.verifyUser, async (req, res, ne
   //devolver una propuesta
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
-    const propuestaid = req.params.propuestaid
-    const user = await metodos.findOne("administradores", { id: userId });
+    const propuestaid = req.params.propuestaid;
+    /*
+    const user = await metodos.findOne("administradores", {
+      '_id': new ObjectId(userId),
+      'propuesta.id': new ObjectId(propuestaid)
+    });
+*/
+    var user = await db.collection("administradores").findOne({
+      '_id': new ObjectId(userId),
+      'propuestas.id': new ObjectId(propuestaid)
+    }, { '_id': 0, 'propuestas.$': '1' })
+
     //REVISAR si se puede poner el id de la propuesta en el find
-    const propuestadeseada = user.propuesta.find((variable: any) => variable.id === propuestaid);
+    const propuestadeseada = user.propuestas.find((variable: any) => variable.id == propuestaid);
+    //var propuestadeseada = user.propuestas
     res.status(200);
     res.send(propuestadeseada);
   } catch (error) {
@@ -107,14 +118,14 @@ router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
       res.status(400);
       res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }))
     } else {
-      if (!metodos.isNullOrEmpty(req.body.propuesta.id) ||
-        !metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
+      if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
+        metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
         res.status(400);
         res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }))
       } else {
         const userId = middleware.decode(req.headers['authorization']).id;
-        const filtro = { id: userId, 'propuesta.id': req.body.propuesta.id };
-        const dato = { $set: { 'propuesta.$.actividades': req.body.propuesta.actividades } };
+        const filtro = { '_id': new ObjectId(userId), 'propuestas.id': new ObjectId(req.body.propuesta.id) };
+        const dato = { $set: { 'propuestas.$.actividades': req.body.propuesta.actividades } };
         var result = await db.collection("administradores").updateOne(filtro, dato)
         //verificar si es con el updateCount?
         if (result.acknowledged) {
@@ -141,23 +152,23 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
       res.status(400);
       res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }))
     } else {
-      if (!metodos.isNullOrEmpty(req.body.propuesta.id) ||
-        !metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
+      if (metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
         res.status(400);
         res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }))
-      }
-      const userId = middleware.decode(req.headers['authorization']).id;
-      req.body.propuesta.id = new ObjectId();
-      const filtro = { id: userId };
-      const dato = { $push: { 'propuestas': req.body.propuesta } };
-      var result = await db.collection("administradores").updateOne(filtro, dato)
-
-      if (result.acknowledged) {
-        res.status(200);
-        res.send()
       } else {
-        res.status(500)
-        res.send(JSON.stringify({ mensaje: "Error al crear propuesta." }))
+        const userId = middleware.decode(req.headers['authorization']).id;
+        req.body.propuesta.id = new ObjectId();
+        const filtro = { '_id': new ObjectId(userId) };
+        const dato = { $push: { 'propuestas': req.body.propuesta } };
+        var result = await db.collection("administradores").updateOne(filtro, dato)
+
+        if (result.acknowledged) {
+          res.status(200);
+          res.send()
+        } else {
+          res.status(500)
+          res.send(JSON.stringify({ mensaje: "Error al crear propuesta." }))
+        }
       }
     }
   }
@@ -174,14 +185,11 @@ router.delete('/propuesta/:propuestaid', async (req, res, next) => {
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
     const propuestaid = req.params.propuestaid;
-    const filtro = { id: userId };
-    const dato = { $pull: { 'propuestas': { id: propuestaid } } };
+    const filtro = { '_id': new ObjectId(userId) };
+    const dato = { $pull: { 'propuestas': { id: new ObjectId(propuestaid) } } };
     var result = await db.collection("administradores").updateOne(filtro, dato)
-    console.log(result);
-    //Ver de decirle si se encontro la propuesta con ese id o no, es decir, si se pudo borrar algo
     res.status(200);
     res.send();
-    //manejar querer borrar devuelta
   }
   catch (error) {
     console.error(error);
