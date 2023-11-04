@@ -1,6 +1,7 @@
 import express from 'express'
 import * as middleware from '../middleware'
 import * as metodos from '../metodos'
+import { ObjectId } from 'mongodb'
 
 
 const router = express.Router()
@@ -43,7 +44,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
         } else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
 
-            if (metodos.isNullOrEmpty(req.body.actividad.id) ||
+            if (
                 metodos.isNullOrEmpty(req.body.actividad.titulo) ||
                 metodos.isNullOrEmpty(req.body.actividad.descripcion)) {
                 res.status(400);
@@ -51,6 +52,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
             } else {
                 //guardar actividad
                 try {
+                    req.body.actividad.id = new ObjectId();
                     await metodos.addOne("actividades",
                         { id: req.body.actividad.id, titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
                     res.status(200)
