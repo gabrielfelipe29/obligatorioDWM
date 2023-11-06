@@ -3,7 +3,7 @@ import actividadRouter from './routes/actividad'
 import * as metodos from './metodos'
 import * as middleware from './middleware'
 import salaRouter from './routes/sala'
-import userRouter from './routes/propuesta'
+import userRouter from './routes/user'
 
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser'
@@ -11,12 +11,13 @@ import bodyParser from 'body-parser'
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio'
 const uri =
-    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
+    "mongodb://0.0.0.0:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 export var db: any = null;
 const client = new MongoClient(uri);
 
 //secreto esta en el middleware
 export var jwt = require('jsonwebtoken');
+
 
 
 /*

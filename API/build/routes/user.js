@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,15 +36,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const metodos = __importStar(require("../metodos"));
 const __1 = require("..");
-const __2 = require("..");
 const router = express_1.default.Router();
 //todas las propuestas del usuario
 router.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //devolver coleccion de propuestas
     try {
         const userId = req.params.id;
-        const user = yield ((0, __1.findOne)("administradores", { id: userId }));
+        const user = yield (metodos.findOne("administradores", { id: userId }));
         const propuestas = user.propuesta;
         //si haces un 
         //console.log(propuestas);
@@ -42,7 +65,7 @@ router.get('/:id/propuesta/:propuestaid', (req, res, next) => __awaiter(void 0, 
     try {
         const userId = req.params.id;
         const propuestaid = req.params.propuestaid;
-        const user = yield (0, __1.findOne)("administradores", { id: userId, });
+        const user = yield metodos.findOne("administradores", { id: userId, });
         const propuestadeseada = user.propuesta.find((variable) => variable.id === propuestaid);
         res.status(200);
         res.send(propuestadeseada);
@@ -66,7 +89,7 @@ router.put('/:id/:propuestaid/add/', (req, res, next) => __awaiter(void 0, void 
         const nuevasactividad = req.body.actividad;
         const filtro = { id: userId, 'propuesta.id': propuestaid };
         const dato = { $push: { 'propuesta.$.actividades': nuevasactividad } };
-        var result = yield __2.db.collection("administradores").updateOne(filtro, dato);
+        var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
         res.status(200);
         res.send();
         //manejar cuando le pasas un id mal
@@ -84,7 +107,7 @@ router.post('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         const propnueva = req.body;
         const filtro = { id: userId };
         const dato = { $push: { 'propuesta': propnueva } };
-        var result = yield __2.db.collection("administradores").updateOne(filtro, dato);
+        var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
         // const resulto= await db.collection("administradores").insertOne(dato);
         console.log(result);
         res.status(200);
@@ -101,7 +124,7 @@ router.delete('/:id/propuesta/:propuestaid', (req, res, next) => __awaiter(void 
         const propuestaid = req.params.propuestaid;
         const filtro = { id: userId };
         const dato = { $pull: { 'propuesta': { id: propuestaid } } };
-        var result = yield __2.db.collection("administradores").updateOne(filtro, dato);
+        var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
         console.log(result);
         res.status(200);
         res.send();
@@ -119,7 +142,7 @@ router.put('/:id/propuesta/:propuestaid', (req, res, next) => __awaiter(void 0, 
         const actividadnueva = req.body.actividad;
         const filtro = { id: userId, 'propuesta.id': propuestaid };
         const dato = { $set: { 'propuesta.$.actividad': actividadnueva } };
-        var result = yield __2.db.collection("administradores").updateOne(filtro, dato);
+        var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
         res.status(200);
         res.send();
     }

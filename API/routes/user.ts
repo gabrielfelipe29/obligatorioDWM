@@ -1,5 +1,6 @@
 import express from 'express'
-import { findMany,findOne,updateMany,updateOne} from '..'
+import * as metodos from '../metodos'
+import { verifyUser } from '../middleware'
 import { db } from '..'
 const router = express.Router()
 
@@ -9,7 +10,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         
         const userId = req.params.id;
-        const user= await (findOne("administradores",{id:userId}));
+        const user= await (metodos.findOne("administradores",{id:userId}));
         const propuestas=user.propuesta;
         //si haces un 
         //console.log(propuestas);
@@ -31,7 +32,7 @@ router.get('/:id/propuesta/:propuestaid', async (req, res, next) => {
     try {
         const userId = req.params.id;
         const propuestaid=req.params.propuestaid
-        const user= await findOne("administradores",{ id: userId,});
+        const user= await metodos.findOne("administradores",{ id: userId,});
         const propuestadeseada = user.propuesta.find( (variable:any) => variable.id === propuestaid);
         res.status(200);
         res.send(propuestadeseada);
