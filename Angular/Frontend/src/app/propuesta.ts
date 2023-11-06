@@ -5,6 +5,5 @@ export interface Propuesta {
     titulo: string;
     descripcion: string;
     actividades: Actividad[];
-    creatorId: string;
     imagen: string;
   }

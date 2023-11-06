@@ -17,7 +17,7 @@ export function verifyUser(req: any, res: any, next: any) {
                 } else {
                     res.status(400);
                     res.send("Error. Falta Bearer.");
-                }
+                 }
             } catch (error) {
                 res.status(401);
                 res.send("Error. Token no válido.");

@@ -42,7 +42,6 @@ const middleware = __importStar(require("./middleware"));
 const sala_1 = __importDefault(require("./routes/sala"));
 const propuesta_1 = __importDefault(require("./routes/propuesta"));
 const express_1 = __importDefault(require("express"));
-const body_parser_1 = __importDefault(require("body-parser"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
 const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
@@ -70,18 +69,12 @@ var corsOptions = {
 };
 app.use(express_1.default.json());
 app.use(cors(corsOptions));
-app.use(body_parser_1.default.urlencoded({ extended: false }));
-//app.use(bodyParser.json());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     next();
 });
-const bodyParserJSON = body_parser_1.default.json();
-const bodyParserURLEncoded = body_parser_1.default.urlencoded({ extended: true });
-app.use(bodyParserJSON);
-app.use(bodyParserURLEncoded);
 app.use(cors());
 app.use('/actividades', actividad_1.default);
 app.use('/salas', sala_1.default);

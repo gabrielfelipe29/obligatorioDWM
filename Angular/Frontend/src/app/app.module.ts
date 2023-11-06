@@ -20,6 +20,7 @@ import { DetallesComponent } from './detalles/detalles.component';
 import { ActividadComponent } from './actividad/actividad.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
+import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { CrearActividadComponent } from './crear-actividad/crear-actividad.compo
     DetallesComponent,
     ActividadComponent,
     CrearPropuestaComponent,
-    CrearActividadComponent
+    CrearActividadComponent,
+    TodasLasActividadesComponent
   ],
   imports: [
     BrowserModule,
