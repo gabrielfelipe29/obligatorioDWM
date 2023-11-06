@@ -62,7 +62,7 @@ export class PropuestasService {
     */
   }
 
-  agregarActividad(titulo: string, descripcion: string, imagen: string){
+  crearActividad(titulo: string, descripcion: string, imagen: string){
     /*
       Acá se deberá conectar con back y agregar una actividad a la lista
     */
