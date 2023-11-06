@@ -24,6 +24,9 @@ class Actividad {
     meDaIgual() {
         this.calificacion.incrementarMeDaIgual();
     }
+    obtenerResultados() {
+        return [this.calificacion.meGusta, this.calificacion.noMeGusta, this.calificacion.meDaIgual];
+    }
 }
 exports.Actividad = Actividad;
 //# sourceMappingURL=actividad.js.map

@@ -3,7 +3,8 @@ import actividadRouter from './routes/actividad'
 import salaRouter from './routes/sala'
 import userRouter from './routes/user'
 import express, { Request, Response } from 'express';
-import bodyParser from 'body-parser'
+import { createServer } from "http";
+import * as socketsModule from './sockets'
 
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio'
@@ -19,69 +20,90 @@ export var jwt = require('jsonwebtoken');
 const cors = require('cors');
 const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
+
 // Constants
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
 
-// App
+/* Configuración del server  */
 const app = express();
 var corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200,
     methods: "GET, PUT"
 }
+
 app.use(express.json())
 app.use(cors(corsOptions));
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(bodyParser.json());
-
-app.use((req: any, res: any, next: any) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
-
-const bodyParserJSON = bodyParser.json();
-const bodyParserURLEncoded = bodyParser.urlencoded({ extended: true });
-
-app.use(bodyParserJSON);
-app.use(bodyParserURLEncoded);
-
-app.use(cors());
-
-app.use('/actividades', actividadRouter)
-app.use('/salas', salaRouter)
-app.use('/user', userRouter)
-
-// Constants
-
-
-
-/* Funciones del servidor
-     - Dar listas (datos para agregarlo) 
-     - Agregar lista al map
-     - Quitar lista del mapDeListas
-     - Mover card entre listas
-     - Agregar card a lista
-     - Quitar card de lista
-     - Devolver card
-     - Actualizar info card
-     - Actualizar info lista
-  */
-
-/*   app.use(cors()); */
-
-
-
+/* Endpoints para trabajar con las solicitudes */
 app.get('/test', (req: any, res: any) => {
     console.log("hello world");
     res.send('V 1.1')
 })
 
+
+app.use('/actividades', actividadRouter)
+app.use('/salas', salaRouter)
+app.use('/user', userRouter)
+
+const httpServer = createServer(app);
+const io = require('socket.io')(httpServer, {
+    cors: { origin: '*' }
+});
+
+
+// Sockets
+io.on('connection', (socket: any) => {
+    console.log('Cliente conectado');
+
+    socket.on('join', (datos: any) => {
+        socketsModule.join(datos, io, socket)
+        console.log("Un cliente se ha unido al canal", datos.codigo)
+    });
+
+    socket.on('iniciarJuego', (mensaje: any) => {
+        socketsModule.iniciarJuego(mensaje, io, socket)
+        console.log("El admin quizo iniciar el juego")
+    });
+
+    socket.on('mostrarActividad', (mensaje: any) => {
+        socketsModule.mostrarActividad(mensaje, io)
+        console.log("El admin quizo mostrar otra actividad")
+    });
+
+    socket.on('obtenerRanking', (mensaje: any) => {
+        socketsModule.obtenerRanking(mensaje, io, socket)
+        console.log("El admin quizo obtener el ranking del juego")
+    });
+
+    // El administrador termina el juego y saca a los jugadores de la misma
+    socket.on('terminarJuego', (mensaje: any) => {
+        socketsModule.terminarJuego(mensaje, io)
+        console.log("El admin quizo terminar el juego")
+    });
+
+    socket.on('salirJuego', (chanel: any) => {
+        socketsModule.salirJuego(chanel, socket)
+        console.log('Cliente salio del juego');
+    });
+
+
+    socket.on('disconnect', () => {
+        socketsModule.desconectarse(socket)
+        console.log('Cliente desconectado');
+    });
+});
+
+
+
+
+
+
+
+/* Hacemos la conexión a la base de datos y hacemos que el serve quede corriendo */
 async function run() {
     try {
         // Connect the client to the server
@@ -89,7 +111,7 @@ async function run() {
         db = db.db(dbName);
         await client.db().command({ ping: 1 });
         console.log("Conectado a BDD.");
-        app.listen(PORT, () => {
+        httpServer.listen(PORT, HOST, () => {
             console.log(`Server running on port ${PORT}`)
         })
 
@@ -99,4 +121,5 @@ async function run() {
 }
 
 
+/* Corremos efectivamente el server */
 run().catch(console.dir);

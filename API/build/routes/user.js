@@ -35,12 +35,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.admins = void 0;
 const express_1 = __importDefault(require("express"));
 const middleware = __importStar(require("../middleware"));
 const metodos = __importStar(require("../metodos"));
+const administrador_1 = require("../administrador");
 const __1 = require("..");
 const mongodb_1 = require("mongodb");
 const router = express_1.default.Router();
+exports.admins = {};
 //registrar usuario
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -82,6 +85,8 @@ router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             'contraseña': req.body.administrador.contraseña
         });
         if (user) {
+            let newAdmin = new administrador_1.Administrador(req.body.administrador.id, req.body.administrador.contraseña);
+            exports.admins[req.body.administrador.id] = newAdmin;
             //usuario es administrador, entonces le mando el token
             token = middleware.sign(user._id.toString());
             res.status(200);

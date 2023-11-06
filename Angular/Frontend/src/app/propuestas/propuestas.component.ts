@@ -22,8 +22,7 @@ export class PropuestasComponent implements OnInit {
   }
 
   verDetalles(id: number) {
-    this.servicio.propuestaActual= id;
-    console.log("el coso es :"+this.servicio.propuestaActual)
+    this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
 }

@@ -18,6 +18,9 @@ import { PropuestasService } from './propuestas.service';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { DetallesComponent } from './detalles/detalles.component';
 import { ActividadComponent } from './actividad/actividad.component';
+import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
+import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
+import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
 
 
 @NgModule({
@@ -31,7 +34,10 @@ import { ActividadComponent } from './actividad/actividad.component';
     PieDePaginaComponent,
     SingUpComponent,
     DetallesComponent,
-    ActividadComponent
+    ActividadComponent,
+    CrearPropuestaComponent,
+    CrearActividadComponent,
+    UnirseJuegoComponent
   ],
   imports: [
     BrowserModule,
