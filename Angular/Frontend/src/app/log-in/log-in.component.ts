@@ -22,12 +22,13 @@ export class LogInComponent {
   }
 
   login() {
-    const user = { id: this.user, contraseña: this.password };
-    this.loginService.login(user).subscribe(
+    const administrador = { administrador: { id: this.user, contraseña: this.password }};
+    this.loginService.login(administrador).subscribe(
       data => {
         if (data && data.token) {
           console.log(data)
           this.loginService.setToken(data.token);
+          this.loginService.setUserData(this.user, this.password);
           this.router.navigateByUrl('/inicio');
         } 
         
@@ -44,6 +45,4 @@ export class LogInComponent {
       });
   }
 
-  /* Para mi esta función no debería de estar acá, pero luego lo arreglamos */
-  unirseAlJuego(){}
 }

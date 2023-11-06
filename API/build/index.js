@@ -37,11 +37,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.jwt = exports.db = void 0;
 const actividad_1 = __importDefault(require("./routes/actividad"));
-const metodos = __importStar(require("./metodos"));
-const middleware = __importStar(require("./middleware"));
 const sala_1 = __importDefault(require("./routes/sala"));
-const propuesta_1 = __importDefault(require("./routes/propuesta"));
+const user_1 = __importDefault(require("./routes/user"));
 const express_1 = __importDefault(require("express"));
+const http_1 = require("http");
+const socketsModule = __importStar(require("./sockets"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
 const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
@@ -49,18 +49,13 @@ exports.db = null;
 const client = new MongoClient(uri);
 //secreto esta en el middleware
 exports.jwt = require('jsonwebtoken');
-/*
-var admin = new Administrador("admin", "admin");
-let administradores: Administrador[] = [];
-administradores.push(admin);
-*/
 const cors = require('cors');
 const _ = require('lodash');
 const { v4: uuidv4 } = require('uuid');
 // Constants
 const PORT = 3000;
 const HOST = '0.0.0.0';
-// App
+/* Configuración del server  */
 const app = (0, express_1.default)();
 var corsOptions = {
     origin: 'http://localhost:4200',
@@ -69,6 +64,7 @@ var corsOptions = {
 };
 app.use(express_1.default.json());
 app.use(cors(corsOptions));
+<<<<<<< HEAD
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -123,84 +119,54 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
      - Actualizar info lista
   */
 /*   app.use(cors()); */
+=======
+/* Endpoints para trabajar con las solicitudes */
+>>>>>>> main
 app.get('/test', (req, res) => {
     console.log("hello world");
     res.send('V 1.1');
 });
-//login del usuario
-app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    //se debe validar el usuario y asignarle el token
-    console.log("llego");
-    try {
-        var token;
-        var user = yield metodos.findOne("administradores", {
-            'id': req.body.administrador.id,
-            'contraseña': req.body.administrador.contraseña
-        });
-        if (user) {
-            //usuario es administrador, entonces le mando el token
-            token = middleware.sign(user._id.toString());
-            res.status(200);
-            res.send(JSON.stringify({ "token": token }));
-        }
-        else {
-            //El usuario no existe
-            res.status(401);
-            res.send("Error. Administrador no existe.");
-        }
-    }
-    catch (error) {
-        //hubo un error de formato
-        res.status(400);
-        res.send("Error. Formato JSON invalido.");
-    }
-}));
-app.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        if (yield userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
-            res.status(400);
-            res.send("Error. Usuario ya existe.");
-        }
-        else {
-            if (req.body.administrador.id == null || req.body.administrador.contraseña == null) {
-                res.status(400);
-                res.send("Error. Faltan parametros.");
-            }
-            else {
-                //agregar usuario a mongo. 
-                try {
-                    yield metodos.addOne("administradores", { 'id': req.body.administrador.id, 'contraseña': req.body.administrador.contraseña });
-                    res.status(200);
-                    res.send();
-                }
-                catch (error) {
-                    res.status(500);
-                    res.send("Error al insertar. " + error);
-                }
-            }
-        }
-    }
-    catch (error) {
-        res.status(400);
-        res.send("Error: " + error);
-    }
-}));
-function userExist(id, contraseña) {
-    return __awaiter(this, void 0, void 0, function* () {
-        var res = false;
-        try {
-            var user = yield metodos.findOne("administradores", { 'id': id, "contraseña": contraseña });
-            if (user !== null) {
-                //usuario existe
-                res = true;
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-        return res;
+app.use('/actividades', actividad_1.default);
+app.use('/salas', sala_1.default);
+app.use('/user', user_1.default);
+const httpServer = (0, http_1.createServer)(app);
+const io = require('socket.io')(httpServer, {
+    cors: { origin: '*' }
+});
+// Sockets
+io.on('connection', (socket) => {
+    console.log('Cliente conectado');
+    socket.on('join', (datos) => {
+        socketsModule.join(datos, io, socket);
+        console.log("Un cliente se ha unido al canal", datos.codigo);
     });
-}
+    socket.on('iniciarJuego', (mensaje) => {
+        socketsModule.iniciarJuego(mensaje, io, socket);
+        console.log("El admin quizo iniciar el juego");
+    });
+    socket.on('mostrarActividad', (mensaje) => {
+        socketsModule.mostrarActividad(mensaje, io);
+        console.log("El admin quizo mostrar otra actividad");
+    });
+    socket.on('obtenerRanking', (mensaje) => {
+        socketsModule.obtenerRanking(mensaje, io, socket);
+        console.log("El admin quizo obtener el ranking del juego");
+    });
+    // El administrador termina el juego y saca a los jugadores de la misma
+    socket.on('terminarJuego', (mensaje) => {
+        socketsModule.terminarJuego(mensaje, io);
+        console.log("El admin quizo terminar el juego");
+    });
+    socket.on('salirJuego', (chanel) => {
+        socketsModule.salirJuego(chanel, socket);
+        console.log('Cliente salio del juego');
+    });
+    socket.on('disconnect', () => {
+        socketsModule.desconectarse(socket);
+        console.log('Cliente desconectado');
+    });
+});
+/* Hacemos la conexión a la base de datos y hacemos que el serve quede corriendo */
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -209,7 +175,7 @@ function run() {
             exports.db = exports.db.db(dbName);
             yield client.db().command({ ping: 1 });
             console.log("Conectado a BDD.");
-            app.listen(PORT, () => {
+            httpServer.listen(PORT, HOST, () => {
                 console.log(`Server running on port ${PORT}`);
             });
         }
@@ -218,5 +184,6 @@ function run() {
         }
     });
 }
+/* Corremos efectivamente el server */
 run().catch(console.dir);
 //# sourceMappingURL=index.js.map

@@ -91,5 +91,24 @@ export function isNullOrEmpty(value: any) {
     return value === null || value === undefined || value === '';
 }
 
+export async function userExist(id: String, contraseña: String): Promise<boolean> {
+    var res = false;
+    try {
+
+        var user = await findOne("administradores", { 'id': id, "contraseña": contraseña })
+
+        if (user !== null) {
+            //usuario existe
+            res = true;
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+
+    return res;
+}
+
+
 
 

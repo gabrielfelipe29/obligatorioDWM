@@ -38,6 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const middleware = __importStar(require("../middleware"));
 const metodos = __importStar(require("../metodos"));
+const mongodb_1 = require("mongodb");
 const router = express_1.default.Router();
 //todas las actividades
 router.get('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,20 +50,20 @@ router.get('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, voi
     }
     catch (error) {
         res.status(400);
-        res.send("Error. " + error);
+        res.send(JSON.stringify({ mensaje: "Error al buscar actividades." }));
     }
 }));
 //una actividad
 router.get('/:id', middleware.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //devolver una actividad
     try {
-        var actividad = yield metodos.findOne("actividades", { "id": req.params.id });
+        var actividad = yield metodos.findOne("actividades", { "_id": new mongodb_1.ObjectId(req.params.id) });
         res.status(200);
         res.send(JSON.stringify(actividad));
     }
     catch (error) {
         res.status(400);
-        res.send("Error. " + error);
+        res.send(JSON.stringify({ mensaje: "Error al buscar actividad." }));
     }
 }));
 //agregar actividad
@@ -70,33 +71,35 @@ router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, vo
     try {
         if (!req.body.hasOwnProperty('actividad')) {
             res.status(400);
-            res.send("Error. Falta actividad.");
+            res.send(JSON.stringify({ mensaje: "Error. Falta actividad." }));
         }
         else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
-            if (metodos.isNullOrEmpty(req.body.actividad.id) ||
-                metodos.isNullOrEmpty(req.body.actividad.titulo) ||
+            if (metodos.isNullOrEmpty(req.body.actividad.titulo) ||
                 metodos.isNullOrEmpty(req.body.actividad.descripcion)) {
                 res.status(400);
-                res.send("Error en los parametros.");
+                res.send(JSON.stringify({ mensaje: "Error en los parametros." }));
             }
             else {
                 //guardar actividad
+                if (metodos.isNullOrEmpty(req.body.actividad.imagen)) {
+                    req.body.actividad.imagen = null;
+                }
                 try {
-                    yield metodos.addOne("actividades", { id: req.body.actividad.id, titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
+                    yield metodos.addOne("actividades", { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
                     res.status(200);
                     res.send();
                 }
                 catch (error) {
                     res.status(500);
-                    res.send("Error al insertar. " + error);
+                    res.send(JSON.stringify({ mensaje: "Error al agregar actividad." }));
                 }
             }
         }
     }
     catch (error) {
         res.status(400);
-        res.send("Error. " + error);
+        res.send(JSON.stringify({ mensaje: "Error al agregar actividad." }));
     }
 }));
 exports.default = router;
