@@ -13,7 +13,7 @@ export class LogInService {
   constructor(private http: HttpClient,  private cookies: CookieService) {}
 
   login(user: any): Observable<any> {
-    return this.http.post("http://localhost:3000/login", user);
+    return this.http.post("http://localhost:3000/user/login", user);
   }
 
   setToken(token: string) {

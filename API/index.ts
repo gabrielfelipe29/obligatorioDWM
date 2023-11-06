@@ -36,8 +36,20 @@ var corsOptions = {
 
 app.use(express.json())
 app.use(cors(corsOptions));
-const httpServer = createServer(app);
 
+
+/* Endpoints para trabajar con las solicitudes */
+app.get('/test', (req: any, res: any) => {
+    console.log("hello world");
+    res.send('V 1.1')
+})
+
+
+app.use('/actividades', actividadRouter)
+app.use('/salas', salaRouter)
+app.use('/user', userRouter)
+
+const httpServer = createServer(app);
 const io = require('socket.io')(httpServer, {
     cors: { origin: '*' }
 });
@@ -88,15 +100,8 @@ io.on('connection', (socket: any) => {
 
 
 
-/* Endpoints para trabajar con las solicitudes */
-app.get('/test', (req: any, res: any) => {
-    console.log("hello world");
-    res.send('V 1.1')
-})
 
-app.use('/actividades', actividadRouter)
-app.use('/salas', salaRouter)
-app.use('/user', userRouter)
+
 
 /* Hacemos la conexión a la base de datos y hacemos que el serve quede corriendo */
 async function run() {
@@ -107,7 +112,7 @@ async function run() {
         await client.db().command({ ping: 1 });
         console.log("Conectado a BDD.");
         httpServer.listen(PORT, HOST, () => {
-            console.log("Server running")
+            console.log(`Server running on port ${PORT}`)
         })
 
     } catch (error) {

@@ -5,14 +5,16 @@ export class Propuesta {
     public actividades: Actividad[];
     public proximaActividad: number = 0;
     public nombre: string;
+    public imagen: string;
 
     public actividadActual: Actividad | undefined;
 
-    constructor(nombre:string, creatorId: String, id: number, actividades: Actividad[]) {
+    constructor(nombre:string, creatorId: String, id: number, actividades: Actividad[], rutaImg: string) {
         this.creatorId = creatorId;
         this.id = id;
         this.actividades = actividades;
         this.nombre = nombre
+        this.imagen = rutaImg
     }
 
     public devolerSigueinteActividad(){

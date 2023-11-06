@@ -17,6 +17,7 @@ export class UnirseJuegoComponent {
 
   guardarCodigo(){
     this.socketService.setCanal(this.codigo);
+    this.ingresoCodigo = true;
   }
   unirseJuego(){
     this.socketService.unirseJuego(this.codigo, this.pseudonimo);
