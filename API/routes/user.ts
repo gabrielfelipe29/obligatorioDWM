@@ -174,6 +174,7 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
 
 
 })
+
 //borra la propuesta
 router.delete('/propuesta/:propuestaid', async (req, res, next) => {
   try {

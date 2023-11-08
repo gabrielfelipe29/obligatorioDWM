@@ -2,9 +2,15 @@ import express from 'express'
 import { db } from '..'
 import * as middleware from '../middleware'
 import * as metodos from '../metodos'
+import { Sala } from '../sala'
+import { Propuesta } from '../propuesta'
+import { Actividad } from '../actividad'
 
 
 const router = express.Router()
+const qrcode = require('qrcode');
+
+export var salas: { [clave: string]: Sala } = {};
 
 
 //crea la sala y le devuelve el id con el link y eso
@@ -38,9 +44,39 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                             activo: true
                         });
 
+                    // Lógica implementada para los sockets
+                    var codigoJuego = result.insertedId
+                    // Pasamos a crear los objetos que necesitamos tener mientras funciona el programa
+                    /* const user = await metodos.findOne("administradores", { id: decoded.id });
+                    const propuestadeseada = user.propuesta.find((variable: any) => variable.id === req.body.propuesta.id);
+
+                    let listaActividades: Actividad[] = []
+
+                    for (let i = 0; i < propuestadeseada.actividades.length; i++){
+                        let actividad = propuestadeseada.actividades[i]
+                        listaActividades.push(new Actividad(actividad.id, actividad.titulo, actividad.descripcion, actividad.imageLink))
+                    }
+                    let newPropuesta = new Propuesta(propuestadeseada.nombre,decoded.id, propuestadeseada.id, listaActividades, propuestadeseada.rutaImg ) */
+                    let urlGame = "http://localhost:4200/unirsePropuesta/" + codigoJuego
+                    /*  let newSala = new Sala(codigoJuego, newPropuesta, urlGame, decoded.id)
+                     salas[codigoJuego] = newSala */
+
+                    // Fin de lógica para los sockets
+
+
                     if (result.acknowledged) {
                         res.status(200);
-                        res.send(JSON.stringify({ salaId: result.insertedId.toString() }))
+
+                        qrcode.toDataURL(urlGame, (err: any, url: any) => {
+                            if (err) {
+                                res.status(500);
+                                res.send({ error: 'No se pudo generar el código QR.' + err })
+                            } else {
+                                res.send(JSON.stringify({ salaId: result.insertedId.toString(), codigoQR: url }))
+
+                            }
+                        });
+                     
                     } else {
                         res.status(500)
                         res.send(JSON.stringify({ mensaje: "Error al crear sala." }))

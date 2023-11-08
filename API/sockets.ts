@@ -1,4 +1,4 @@
-import { Sala } from "./sala";
+import { salas } from "./routes/sala";
 import { Jugador } from "./jugador";
 import { Propuesta } from "./propuesta";
 import { admins } from "./routes/user"
@@ -7,7 +7,7 @@ import { admins } from "./routes/user"
 o para eviar usuarios repetidos por una reconexión de socket debemos registrar el socketID con la sala. 
 Cuando se deconecta, se ve el socketID, por lo cual, lo usamos a nuestro favor, creamos un diccionario con 
 socketID, como clave y como valor el codigo de la sala */
-var salas: { [clave: string]: Sala } = {};
+
 
 export var sockets: { [clave: string]: number } = {}
 
