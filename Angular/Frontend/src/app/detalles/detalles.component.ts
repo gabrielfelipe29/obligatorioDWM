@@ -20,7 +20,7 @@ export class DetallesComponent {
     if (resultado !== undefined) {
       this.propuestaActual = resultado;
     } else {
-      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], creatorId: "usuario_1", imagen: "#" };
+      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
     }
   }
 
@@ -62,7 +62,7 @@ export class DetallesComponent {
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual.creatorId)
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen)
   }
 
 }
