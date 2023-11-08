@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {LoginService} from './log-in.service.ts'
 
 import {
   HttpRequest,
@@ -11,15 +12,22 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class InterceptorInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private loginService: LoginService) {}
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (localStorage.getItem("userLogeado") && localStorage.getItem("userLogeado") == "true") {
-      const reqCopy  = request.clone()
-      reqCopy.headers.set("Authorization", "Bear" + localStorage.getItem("tokenApp"))
-    } 
-    console.log("Contenido de la solicitud (request):", request);
-    return next.handle(request);
-    
+intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+    if (this.loginService.estaLogeado()) {
+      const reqCopy = request.clone({
+        setHeaders: {
+          'authorization': 'Bearer ' + this.loginService.getToken(),
+        },
+      })
+      console.log(reqCopy)
+      return next.handle(reqCopy);
+
+    } else {
+      return next.handle(request);
+    }
+
+
   }
-}
