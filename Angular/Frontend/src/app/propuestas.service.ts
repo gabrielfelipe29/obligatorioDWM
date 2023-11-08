@@ -4,6 +4,7 @@ import { Propuesta } from './propuesta';
 import { Actividad } from './actividad';
 import { Observable, of } from 'rxjs'
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class PropuestasService {
   private propuestaActual?: Propuesta;
   private url = "http://localhost:3000"
 
-  constructor(private client: HttpClient) {
+  constructor(private client: HttpClient, private cookies: CookieService) {
   }
 
-  obtenerPropuestas(idUsuario: string): Observable<Propuesta[]> {
-
-    let devolver = this.client.get<Propuesta[]>("http://localhost:3000/user/:idUsuario");
+  obtenerPropuestas(): Observable<Propuesta[]> {
+    let usuario = this.cookies.get("userID");
+    let devolver = this.client.get<Propuesta[]>("http://localhost:3000/user/propuesta");
     return devolver;
   }
 

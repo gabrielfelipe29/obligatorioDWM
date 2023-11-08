@@ -26,7 +26,7 @@ export class PropuestasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.servicio.obtenerPropuestas(this.usuario).subscribe(propuestas => {
+    this.servicio.obtenerPropuestas().subscribe(propuestas => {
       this.propuestas = propuestas;
     });
   }

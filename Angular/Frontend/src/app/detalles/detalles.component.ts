@@ -33,8 +33,7 @@ export class DetallesComponent {
   actividades: Actividad[] = [];
 
   ngOnInit() {
-    console.log(this.propuestaActual?.titulo)
-    this.obtenerActividades()
+    this.actividades = this.propuestaActual.actividades
   }
 
 
