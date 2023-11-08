@@ -1,4 +1,5 @@
 import { db } from ".";
+import { ObjectId } from 'mongodb'
 export async function findOne(coleccion: String, dato: any) {
 
     var res = null;
@@ -109,6 +110,35 @@ export async function userExist(id: String, contraseña: String): Promise<boolea
     return res;
 }
 
+export async function getRanking(salaId: any) {
+    let ranking: any = [];
+    try {
+        var find = { '_id': new ObjectId(salaId) }
+        //var res = await db.collection("salas").findOne(find);
+        //console.log(res);
+        //ranking = res.propuesta.actividades.sort((a: any, b: any) => a.ranking.meGusta - b.ranking.meGusta).toArray();
+        var cursor = db.collection("salas").aggregate([
+            {
+                $set: {
+                    actividades: {
+                        $sortArray: {
+                            input: "$propuesta.actividades",
+                            sortBy: { 'ranking.meGusta': 1 }
+                        }
+                    }
+                }
+            }
+        ]);
 
+        for await (const doc of cursor) {
+            console.dir(doc);
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+    return ranking;
+
+}
 
 

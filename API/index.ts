@@ -4,6 +4,7 @@ import salaRouter from './routes/sala'
 import userRouter from './routes/user'
 import express, { Request, Response } from 'express';
 import { createServer } from "http";
+import * as metodos from './metodos'
 import * as socketsModule from './sockets'
 
 const { MongoClient } = require("mongodb");
@@ -114,7 +115,7 @@ async function run() {
         httpServer.listen(PORT, HOST, () => {
             console.log(`Server running on port ${PORT}`)
         })
-
+        metodos.getRanking('654b84a362564ddf38c64eb0');
     } catch (error) {
         console.log(error);
     }

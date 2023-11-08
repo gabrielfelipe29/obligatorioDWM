@@ -2,12 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Propuesta = void 0;
 class Propuesta {
-    constructor(nombre, creatorId, id, actividades) {
+    constructor(nombre, creatorId, id, actividades, rutaImg) {
         this.proximaActividad = 0;
         this.creatorId = creatorId;
         this.id = id;
         this.actividades = actividades;
         this.nombre = nombre;
+        this.imagen = rutaImg;
     }
     devolerSigueinteActividad() {
         if (this.proximaActividad < this.actividades.length) {
