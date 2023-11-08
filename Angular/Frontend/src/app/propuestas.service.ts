@@ -13,27 +13,20 @@ export class PropuestasService {
   private propuestaActual?: Propuesta;
   private url = "http://localhost:3000"
 
-  constructor(private client: HttpClient, private cookies: CookieService) {
+  constructor(private http: HttpClient, private cookies: CookieService) {
   }
 
   obtenerPropuestas(): Observable<Propuesta[]> {
-    let usuario = this.cookies.get("userID");
-    let devolver = this.client.get<Propuesta[]>("http://localhost:3000/user/propuesta");
+    let devolver = this.http.get<Propuesta[]>("http://localhost:3000/user/propuesta");
     return devolver;
   }
+  /*  
+    .then y despues el pipe 
+  */
+// CAMBIAR Y HACERLO CON EL ENDPOINT y obtener una propuesta y de ahi devolver las actividades 
+  obtenerActividades(idPropuesta: number): Observable<Actividad[]> {
 
-  obtenerActividades(): Observable<Actividad[]> {
-    /*
-      Acá se deberá conectar con back y pedir la lista de actividades
-    */
-    let listaActividades = [
-      { id: 1, nombre: "Actividad 1", descripcion: "Primera actividad", imagen: "#" },
-      { id: 2, nombre: "Actividad 2", descripcion: "Segunda actividad", imagen: "#" },
-      { id: 3, nombre: "Actividad 3", descripcion: "Tercera actividad", imagen: "#" }
-    ];
-
-
-    return of(listaActividades);
+    return of();
   }
 
   obtenerPropuesta(id: number): Observable<Propuesta> {
@@ -43,10 +36,8 @@ export class PropuestasService {
     return of()
   }
 
-  obtenerActividad(id: number): Observable<Actividad> {
-    /*
-      Acá se deberá conectar con back y pedir la propuesta deseada
-    */
+  obtenerActividad(idActividad: number): Observable<Actividad> {
+    //LLAMAR A LA API 
     return of()
   }
 
@@ -69,7 +60,7 @@ export class PropuestasService {
       Acá se deberá conectar con back y eliminar una propuesta a la lista
     */
       let url = this.url + id
-      return this.client.delete(url)
+      return this.http.delete(url)
   }
 
   eliminarActividad(idActividad: number, idPropuesta: number) {
@@ -77,7 +68,6 @@ export class PropuestasService {
   }
 
   verDetalles(id: number) {
-    /*
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
       const propuestaEncontrada = propuestas.find(p => p.id === id);
       if (propuestaEncontrada) {
@@ -85,7 +75,6 @@ export class PropuestasService {
       } else {
       }
     });
-    */
   }
 
   obtenerPropuestaActual() {
@@ -101,7 +90,7 @@ export class PropuestasService {
     }
 
     let datos = JSON.stringify(dato)
-    this.client.put(url, datos, { observe: 'response' }).subscribe(
+    this.http.put(url, datos, { observe: 'response' }).subscribe(
       (response: HttpResponse<any>) => {
         console.log(response)
       },
@@ -109,5 +98,9 @@ export class PropuestasService {
         console.log("Hubo un error en el camino " + error)
       }
     );
+  }
+
+  obtenerTodasLasActividades(){
+
   }
 }

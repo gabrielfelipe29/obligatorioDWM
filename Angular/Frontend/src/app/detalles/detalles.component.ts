@@ -41,10 +41,6 @@ export class DetallesComponent {
     this.actividadSeleccionada = actividad;
   }
 
-  obtenerActividades(): void {
-    this.servicio.obtenerActividades()
-      .subscribe(actividades => this.actividades = actividades);
-  }
 
   mostrarform = false;
 

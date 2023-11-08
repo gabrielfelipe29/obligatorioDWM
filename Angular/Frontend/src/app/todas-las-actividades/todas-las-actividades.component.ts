@@ -14,9 +14,11 @@ export class TodasLasActividadesComponent implements OnInit {
   constructor(private servicio: PropuestasService) {}
 
   ngOnInit(): void {
-    this.servicio.obtenerActividades().subscribe((data) => {
+    /*
+    this.servicio.obtenerTodasLasActividades().subscribe((data) => {
       this.actividades = data;
     });
+    */
   }
 
   agregarAPropuesta(actividad: Actividad): void {
