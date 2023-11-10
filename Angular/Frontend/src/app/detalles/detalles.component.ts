@@ -33,7 +33,17 @@ export class DetallesComponent {
   actividades: Actividad[] = [];
 
   ngOnInit() {
-    this.actividades = this.propuestaActual.actividades
+    
+    this.servicio.obtenerPropuesta(this.propuestaActual.id)
+      .subscribe(
+        (propuesta: Propuesta) => {
+          console.log('Propuesta obtenida:', propuesta);
+          this.actividades = propuesta.actividades;
+        },
+        (error: any) => {
+          console.error('Error al obtener la propuesta:', error);
+        }
+      );
   }
 
 

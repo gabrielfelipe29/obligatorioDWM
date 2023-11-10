@@ -16,6 +16,7 @@ export class PropuestasService {
   constructor(private http: HttpClient, private cookies: CookieService) {
   }
 
+  // Método encargado de brindar todas las propuestas de un usuario
   obtenerPropuestas(): Observable<Propuesta[]> {
     let devolver = this.http.get<Propuesta[]>("http://localhost:3000/user/propuesta");
     return devolver;
@@ -23,22 +24,18 @@ export class PropuestasService {
   /*  
     .then y despues el pipe 
   */
-// CAMBIAR Y HACERLO CON EL ENDPOINT y obtener una propuesta y de ahi devolver las actividades 
+  
   obtenerActividades(idPropuesta: number): Observable<Actividad[]> {
 
     return of();
   }
 
-  obtenerPropuesta(id: number): Observable<Propuesta> {
-    /*
-      Acá se deberá conectar con back y pedir la propuesta deseada
-    */
-    return of()
+  obtenerPropuesta(propuestaId: number): Observable<Propuesta> {
+    return this.http.get<Propuesta>(`http://localhost:3000/user/propuesta/${propuestaId}`);
   }
 
-  obtenerActividad(idActividad: number): Observable<Actividad> {
-    //LLAMAR A LA API 
-    return of()
+  obtenerActividad(id: number): Observable<Actividad> {
+    return this.http.get<Actividad>(`http://localhost:3000/user/actividades/${id}`);
   }
 
 
