@@ -5,6 +5,7 @@ export class Actividad {
     public descripcion: String;
     public calificacion: Ranking;
     public imageLink?: String;
+    
     constructor(id: number, titulo: String, descripcion: String, imageLink?: String) {
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -29,4 +30,10 @@ export class Actividad {
     public meDaIgual() {
         this.calificacion.incrementarMeDaIgual();
     }
+
+    public obtenerResultados(){
+        return [this.calificacion.meGusta, this.calificacion.noMeGusta, this.calificacion.meDaIgual]
+    }
+
+    
 }

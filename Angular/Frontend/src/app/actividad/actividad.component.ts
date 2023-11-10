@@ -18,6 +18,7 @@ export class ActividadComponent {
     private location: Location
   ) {}
 
+
   ngOnInit(): void {
     this.obtenerActividad();
   }

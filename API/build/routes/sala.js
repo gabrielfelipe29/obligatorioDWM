@@ -36,26 +36,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const __1 = require("..");
 const middleware = __importStar(require("../middleware"));
 const metodos = __importStar(require("../metodos"));
 const router = express_1.default.Router();
-//devuelve la sala con el id, pero que ademas le pertenezca al admin que lo pide
-router.get('/:id', (req, res, next) => {
-});
 //crea la sala y le devuelve el id con el link y eso
 router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //el body tiene la propuesta o solo el id propuesta?, con la coleccion de actividades
     try {
         if (!req.body.hasOwnProperty('propuesta')) {
             res.status(400);
-            res.send("Error. Falta propuesta.");
+            res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }));
         }
         else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
             if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
                 metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
                 res.status(400);
-                res.send("Error en los parametros.");
+                res.send(JSON.stringify({ mensaje: "Error en los parametros." }));
             }
             else {
                 //no hay que verificar ya que antes pasa por el middleware
@@ -76,19 +74,49 @@ router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, vo
                     }
                     else {
                         res.status(500);
-                        res.send("Error al crear sala.");
+                        res.send(JSON.stringify({ mensaje: "Error al crear sala." }));
                     }
                 }
                 catch (error) {
                     res.status(500);
-                    res.send("Error al insertar. " + error);
+                    res.send(JSON.stringify({ mensaje: "Error al insertar." }));
                 }
             }
         }
     }
     catch (error) {
         res.status(400);
-        res.send("Error. " + error);
+        res.send(JSON.stringify({ mensaje: "Error al crear sala." }));
+    }
+}));
+//manda el resultado de las actividades
+router.post('/:actividadid', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    //no es necesario el middleware ya que la request parte de los usuarios normales, sin token ni nada
+    try {
+        if (!req.body.hasOwnProperty('ranking')) {
+            res.status(400);
+            res.send("Error. Falta ranking.");
+        }
+        else {
+            const votacion = req.body.ranking;
+            const actividadid = req.params.actividadid;
+            const filtro = { id: actividadid, activo: true };
+            const dato = { $push: { 'propuesta.$.actividades.$.jugadores': votacion } };
+            var result = yield __1.db.collection("sala").updateOne(filtro, dato);
+            if (result.acknowledged) {
+                res.status(200);
+                res.send();
+            }
+            else {
+                res.status(500);
+                res.send(JSON.stringify({ mensaje: "Error al enviar ranking." }));
+            }
+        }
+    }
+    catch (error) {
+        console.error(error);
+        res.status(400);
+        res.send(JSON.stringify({ mensaje: 'Error al enviar ranking' }));
     }
 }));
 exports.default = router;

@@ -4,13 +4,15 @@ import { LogInComponent } from './log-in/log-in.component';
 import { RegistradoComponent } from './registrado/registrado.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { DetallesComponent } from './detalles/detalles.component';
+import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
   { path: 'inicioSesion', component: LogInComponent },
   { path: 'inicio', component: RegistradoComponent },
   { path: 'registro', component: SingUpComponent },
-  { path: 'detalles/:id', component: DetallesComponent }
+  { path: 'detalles/:id', component: DetallesComponent },
+  { path: 'unirseJuego', component: UnirseJuegoComponent }
 ];
 
 @NgModule({

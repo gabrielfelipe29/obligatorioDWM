@@ -16,6 +16,7 @@ export class PropuestasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*
     const storedData = localStorage.getItem("usuario");
     if (storedData) {
       const info = JSON.parse(storedData);
@@ -24,17 +25,18 @@ export class PropuestasComponent implements OnInit {
     } else {
       console.log('No se encontraron datos en el Local Storage.');
     }
-    this.servicio.obtenerPropuestas(this.nombre).subscribe(propuestas => {
+    */
+    this.servicio.obtenerPropuestas().subscribe(propuestas => {
       this.propuestas = propuestas;
     });
   }
 
   verDetalles(id: number) {
-    this.servicio.propuestaActual= id;
-    console.log("el coso es :"+this.servicio.propuestaActual)
+    this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
 }
+
 /*
 Tiene q haber un aviso a los demás para que así{
 
