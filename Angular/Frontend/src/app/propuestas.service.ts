@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Propuesta } from './propuesta';
 import { Actividad } from './actividad';
-import { Observable, of } from 'rxjs'
+import { BehaviorSubject, Observable, of } from 'rxjs'
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -10,9 +10,12 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class PropuestasService {
-  private propuestaActual?: Propuesta;
-  private url = "http://localhost:3000"
 
+  private propuestaActual: Propuesta = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+
+  private propuestaActualSubject = new BehaviorSubject<Propuesta>(this.propuestaActual);
+  propuestaActual$: Observable<Propuesta> = this.propuestaActualSubject.asObservable();
+  private url = "http://localhost:3000"
   constructor(private http: HttpClient, private cookies: CookieService) {
   }
 
@@ -65,17 +68,21 @@ export class PropuestasService {
   }
 
   verDetalles(id: number) {
+    console.log("el id es:" + id)
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
       const propuestaEncontrada = propuestas.find(p => p.id === id);
       if (propuestaEncontrada) {
         this.propuestaActual = propuestaEncontrada;
+        this.propuestaActualSubject.next(propuestaEncontrada);
       } else {
+        console.log("Propuesta no encontrada");
       }
+      console.log("el nombre es :" + this.propuestaActual?.titulo)
     });
   }
 
   obtenerPropuestaActual() {
-    return this.propuestaActual;
+    return this.propuestaActualSubject.value;
   }
 
   guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string) {

@@ -13,15 +13,10 @@ import { NgForm } from '@angular/forms';
 })
 export class DetallesComponent {
 
-  propuestaActual: Propuesta;
+  propuestaActual: Propuesta; 
 
   constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
-    const resultado = this.servicio.obtenerPropuestaActual();
-    if (resultado !== undefined) {
-      this.propuestaActual = resultado;
-    } else {
-      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
-    }
+    this.propuestaActual= { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
   }
 
   titulo = ""
@@ -30,20 +25,16 @@ export class DetallesComponent {
 
   actividadSeleccionada?: Actividad;
 
+
+
   actividades: Actividad[] = [];
 
   ngOnInit() {
-    
-    this.servicio.obtenerPropuesta(this.propuestaActual.id)
-      .subscribe(
-        (propuesta: Propuesta) => {
-          console.log('Propuesta obtenida:', propuesta);
-          this.actividades = propuesta.actividades;
-        },
-        (error: any) => {
-          console.error('Error al obtener la propuesta:', error);
-        }
-      );
+    this.servicio.propuestaActual$.subscribe(
+      propuesta => this.propuestaActual = propuesta
+    );
+
+    this.actividades = this.propuestaActual.actividades;
   }
 
 

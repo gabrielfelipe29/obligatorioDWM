@@ -29,9 +29,11 @@ export class PropuestasComponent implements OnInit {
     this.servicio.obtenerPropuestas().subscribe(propuestas => {
       this.propuestas = propuestas;
     });
+    console.log(this.propuestas)
   }
 
   verDetalles(id: number) {
+    console.log(id)
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
