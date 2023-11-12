@@ -119,23 +119,26 @@ export async function getRanking(salaId: any) {
         //ranking = res.propuesta.actividades.sort((a: any, b: any) => a.ranking.meGusta - b.ranking.meGusta).toArray();
         var cursor = db.collection("salas").aggregate([
             {
-                $set: {
-                    actividades: {
+                $project: {
+                    "_id": new ObjectId(salaId),
+                    result: {
                         $sortArray: {
                             input: "$propuesta.actividades",
-                            sortBy: { 'ranking.meGusta': 1 }
+                            sortBy: { "ranking.meGusta": -1 }
                         }
                     }
                 }
             }
         ]);
 
+
         for await (const doc of cursor) {
             console.dir(doc);
         }
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        return null;
     }
     return ranking;
 
