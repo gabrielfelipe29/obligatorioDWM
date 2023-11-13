@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userExist = exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
+exports.getRanking = exports.userExist = exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
 const _1 = require(".");
+const mongodb_1 = require("mongodb");
 function findOne(coleccion, dato) {
     return __awaiter(this, void 0, void 0, function* () {
         var res = null;
@@ -134,4 +135,41 @@ function userExist(id, contraseña) {
     });
 }
 exports.userExist = userExist;
+function getRanking(salaId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let ranking = [];
+        try {
+            var find = { '_id': new mongodb_1.ObjectId(salaId) };
+            //var res = await db.collection("salas").findOne(find);
+            //console.log(res);
+            //ranking = res.propuesta.actividades.sort((a: any, b: any) => a.ranking.meGusta - b.ranking.meGusta).toArray();
+            var cursor = _1.db.collection("salas").aggregate([
+                {
+                    $project: {
+                        "_id": new mongodb_1.ObjectId(salaId),
+                        result: {
+                            $sortArray: {
+                                input: "$propuesta.actividades",
+                                sortBy: { "ranking.meGusta": -1 }
+                            }
+                        }
+                    }
+                }
+            ]);
+            var res = yield cursor.toArray();
+            /*for await (const doc of cursor) {
+                console.dir(doc);
+            }*/
+            ranking = res[0].result;
+            console.log(ranking);
+            return ranking;
+        }
+        catch (error) {
+            console.log(error);
+            return null;
+        }
+        return ranking;
+    });
+}
+exports.getRanking = getRanking;
 //# sourceMappingURL=metodos.js.map

@@ -85,6 +85,7 @@ function join(datos, io, socket) {
             asunto: "esperaJuego",
             cantidadJugadores: salas[datos.codigo].getCantidadJugadores(),
             nombrePropuesta: propuesta.nombre,
+            imagenPropuesta: propuesta.imagen
         };
         /* Ahora tenemos que avisar a todos los player existentes, que hay un player nuevo, mandando la data de nuevo*/
         io.to(channel).emit(channel, data);
