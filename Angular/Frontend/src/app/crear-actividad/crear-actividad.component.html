@@ -1,12 +1,19 @@
-<form (ngSubmit)="crearPropuesta()">
-    <div>
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required>
+<form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
+    <div class="form-group">
+      <label for="titulo">Titulo</label>
+      <input type="text" class="form-control" id="titulo"
+        required
+        [(ngModel)]="titulo" name="titulo">
     </div>
-    <div>
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" required></textarea>
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <input type="text" class="form-control" id="descripcion"
+        [(ngModel)]="descripcion" name="descripcion">
     </div>
-    <button type="submit">Crear Propuesta</button>
+    <div class="form-group">
+      <label for="imagen">Imagén</label>
+      <input type="text" class="form-control" id="imagen"
+        [(ngModel)]="imagen" name="imagen">
+    </div>
+    <button type="submit">Crear</button>
 </form>
-  

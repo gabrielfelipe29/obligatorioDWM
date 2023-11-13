@@ -107,4 +107,19 @@ export class PropuestasService {
   obtenerTodasLasActividades(){
 
   }
+
+  crearPropuesta(ombre: string, descripcion: string, imagen: string){
+
+  }
+
+  crearActividad(nombre: string, descripcion: string, imagen: string){
+    let body ={
+      actividad:{
+        "titulo": nombre,
+        "descripcion": descripcion,
+        "imagen": imagen
+      }
+    }
+    this.http.post(this.url+'/actividades/', body)
+  }
 }
