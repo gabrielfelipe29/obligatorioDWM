@@ -69,4 +69,5 @@ import { EsperaJugadorComponent } from './para-pruebas/espera-jugador/espera-jug
   }],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

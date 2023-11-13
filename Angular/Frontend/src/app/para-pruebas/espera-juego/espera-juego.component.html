@@ -1,1 +1,16 @@
-<p>espera-juego works!</p>
+<div>
+    <div id="datos_sala">
+        <h1 id="code">Codigo {{codigoSala}}</h1>
+        <div *ngIf="qrCodeUrl">
+            <img [src]="qrCodeUrl" alt="Código QR" />
+          </div>
+    </div>
+
+    <div class="jugadores" *ngFor="let jugador of jugadores">
+        <div><p>{{jugador.psudonimo}}</p></div>
+    </div>
+
+    <div *ngIf="comprobarEsAdmin()">
+        <button (click)="iniciarJuego()"></button>
+    </div>
+</div>

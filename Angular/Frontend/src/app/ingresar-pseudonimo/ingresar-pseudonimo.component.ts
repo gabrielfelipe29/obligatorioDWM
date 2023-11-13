@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './ingresar-pseudonimo.component.html',
   styleUrls: ['./ingresar-pseudonimo.component.css']
 })
-export class IngresarPseudonimoComponent {
+export class IngresarPseudonimoComponent implements OnInit {
 
   constructor(private socketService: SocketService, private router: Router) { }
 

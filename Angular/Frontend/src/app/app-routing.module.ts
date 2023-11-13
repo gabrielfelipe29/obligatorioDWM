@@ -16,7 +16,6 @@ const routes: Routes = [
   { path: 'detalles/:id', component: DetallesComponent },
   { path: 'unirsePropuesta', component: UnirsePropuestaComponent },
   { path: 'unirsePropuesta/:id', component: IngresarPseudonimoComponent },
-  { path: 'pruebaQR', component: PruebaJuegoComponent }
 ];
 
 @NgModule({
