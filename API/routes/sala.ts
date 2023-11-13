@@ -58,7 +58,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     }
                     let newPropuesta = new Propuesta(propuestadeseada.nombre,decoded.id, propuestadeseada.id, listaActividades, propuestadeseada.rutaImg ) */
                     let urlGame = "http://localhost:4200/unirsePropuesta/" + codigoJuego
-                    /*  let newSala = new Sala(codigoJuego, newPropuesta, urlGame, decoded.id)
+                    /*  var newSala = new Sala(codigoJuego, newPropuesta, decoded.id)
                      salas[codigoJuego] = newSala */
 
                     // Fin de lógica para los sockets
@@ -69,9 +69,10 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                         qrcode.toDataURL(urlGame, (err: any, url: any) => {
                             if (err) {
-                                res.status(500);
+                                res.status(500);+
                                 res.send({ error: 'No se pudo generar el código QR.' + err })
                             } else {
+                                // newSala.setQRCode(url)
                                 res.send(JSON.stringify({ salaId: result.insertedId.toString(), codigoQR: url }))
 
                             }

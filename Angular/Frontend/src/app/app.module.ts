@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { QRCodeModule } from 'angularx-qrcode';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +21,14 @@ import { DetallesComponent } from './detalles/detalles.component';
 import { ActividadComponent } from './actividad/actividad.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
-import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
+import { UnirsePropuestaComponent } from './unirse-propuesta/unirse-propuesta.component';
+import { IngresarPseudonimoComponent } from './ingresar-pseudonimo/ingresar-pseudonimo.component';
+import { PruebaJuegoComponent } from './prueba-juego/prueba-juego.component';
+import { SalaComponent } from './para-pruebas/sala/sala.component';
+import { MostrarResultadosComponent } from './para-pruebas/mostrar-resultados/mostrar-resultados.component';
+import { RankingComponent } from './para-pruebas/ranking/ranking.component';
+import { EsperaJuegoComponent } from './para-pruebas/espera-juego/espera-juego.component';
+import { EsperaJugadorComponent } from './para-pruebas/espera-jugador/espera-jugador.component';
 
 
 @NgModule({
@@ -37,13 +45,21 @@ import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
     ActividadComponent,
     CrearPropuestaComponent,
     CrearActividadComponent,
-    UnirseJuegoComponent
+    UnirsePropuestaComponent,
+    IngresarPseudonimoComponent,
+    PruebaJuegoComponent,
+    SalaComponent,
+    MostrarResultadosComponent,
+    RankingComponent,
+    EsperaJuegoComponent,
+    EsperaJugadorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    QRCodeModule
 
   ],
   providers: [HttpClient, LogInService, JuegoService, PropuestasService, {

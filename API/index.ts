@@ -74,6 +74,11 @@ io.on('connection', (socket: any) => {
         console.log("El admin quizo mostrar otra actividad")
     });
 
+    socket.on('mostrarResultadosActividad', (mensaje: any) => {
+        socketsModule.obtenerResultadosActividad(mensaje, io, socket)
+        console.log("El admin quizo obrener el resultado de la actividad")
+    });
+
     socket.on('obtenerRanking', (mensaje: any) => {
         socketsModule.obtenerRanking(mensaje, io, socket)
         console.log("El admin quizo obtener el ranking del juego")
@@ -92,7 +97,7 @@ io.on('connection', (socket: any) => {
 
 
     socket.on('disconnect', () => {
-        socketsModule.desconectarse(socket)
+        socketsModule.desconectarse(socket, io)
         console.log('Cliente desconectado');
     });
 });

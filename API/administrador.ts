@@ -11,13 +11,15 @@ export class Administrador {
         this.id = id;
     }
 
-    public login(){
-        //verificar si existe el usuario en la base de datos
-    }
+   
 
     public unirseJuego(salaID: String, idSocket: string){
         this.salaID = salaID;
         this.socketID = idSocket;
+    }
+
+    public comprobarSalaActual(salaIDRecibida: String){
+        return this.salaID == salaIDRecibida
     }
 
 

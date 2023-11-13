@@ -1,4 +1,4 @@
-import { Actividad } from "./actividad";
+import { Actividad, EstadosActividad } from "./actividad";
 export class Propuesta {
     public id: number;
     public creatorId: String;
@@ -6,7 +6,6 @@ export class Propuesta {
     public proximaActividad: number = 0;
     public nombre: string;
     public imagen: string;
-
     public actividadActual: Actividad | undefined;
 
     constructor(nombre:string, creatorId: String, id: number, actividades: Actividad[], rutaImg: string) {
@@ -53,8 +52,13 @@ export class Propuesta {
 
     }
 
-    public obtenerResultadosActividad(){
-        return this.actividadActual?.obtenerResultados()
+    public obtenerResultadosActividad(): any[]{
+        let res: any[] = []
+        if (this.actividadActual != undefined) {
+            res = this.actividadActual.obtenerResultados()
+            this.actividadActual.estadoActividad = EstadosActividad.SeAcaboDeJugar
+        }
+        return res
     }
 
 
