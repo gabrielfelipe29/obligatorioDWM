@@ -131,11 +131,8 @@ export async function getRanking(salaId: any) {
             }
         ]);
 
-
-        for await (const doc of cursor) {
-            console.dir(doc);
-        }
-
+        var res = await cursor.toArray();
+        ranking = res[0].result;
     } catch (error) {
         console.log(error);
         return null;

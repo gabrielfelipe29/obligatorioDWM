@@ -115,7 +115,7 @@ async function run() {
         httpServer.listen(PORT, HOST, () => {
             console.log(`Server running on port ${PORT}`)
         })
-        metodos.getRanking('654b84a362564ddf38c64eb0');
+
     } catch (error) {
         console.log(error);
     }

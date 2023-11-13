@@ -143,7 +143,7 @@ function getRanking(salaId) {
             //var res = await db.collection("salas").findOne(find);
             //console.log(res);
             //ranking = res.propuesta.actividades.sort((a: any, b: any) => a.ranking.meGusta - b.ranking.meGusta).toArray();
-            var cursor = yield _1.db.collection("salas").aggregate([
+            var cursor = _1.db.collection("salas").aggregate([
                 {
                     $project: {
                         "_id": new mongodb_1.ObjectId(salaId),
@@ -156,9 +156,13 @@ function getRanking(salaId) {
                     }
                 }
             ]);
-            for (const doc of cursor) {
+            var res = yield cursor.toArray();
+            /*for await (const doc of cursor) {
                 console.dir(doc);
-            }
+            }*/
+            ranking = res[0].result;
+            console.log(ranking);
+            return ranking;
         }
         catch (error) {
             console.log(error);
