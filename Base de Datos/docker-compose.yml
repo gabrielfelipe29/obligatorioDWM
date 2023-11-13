@@ -13,8 +13,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: obligatorio
     volumes:
-      - ./init.js:/docker-entrypoint-initdb.d/init.js	
+      - ./init.js:/docker-entrypoint-initdb.d/init.js:ro	
 
   mongo-express:
     image: mongo-express
