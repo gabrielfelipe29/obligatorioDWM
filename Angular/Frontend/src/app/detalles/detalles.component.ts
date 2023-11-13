@@ -16,7 +16,7 @@ export class DetallesComponent {
   propuestaActual: Propuesta;
 
   constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
-    const resultado = this.servicio.obtenerPropuestaActual();
+    const resultado = this.servicio.obtenerPropuesta();
     if (resultado !== undefined) {
       this.propuestaActual = resultado;
     } else {

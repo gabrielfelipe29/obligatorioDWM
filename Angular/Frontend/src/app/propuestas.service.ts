@@ -23,7 +23,7 @@ export class PropuestasService {
     */
 
     return this.http.get<Propuesta[]>('http://localhost:3000/user/propuesta');
-    
+  }
     
     //Lo siguiente es momentaneo 
     /*let propuestas: Propuesta[] = [
@@ -34,12 +34,16 @@ export class PropuestasService {
 
     return of(propuestas);
     */
-  }
 
-  obtenerActividades(): Observable<Actividad[]> {
+  obtenerActividades(propuestaId: number): Observable<Actividad[]> {
     /*
       Acá se deberá conectar con back y pedir la lista de actividades
     */
+
+    return this.http.get<Actividad[]>(`http://localhost:3000/user/propuesta/${propuestaId}`);
+    
+
+    /*
     let listaActividades = [
       { id: 1, nombre: "Actividad 1", descripcion: "Primera actividad", imagen: "#" },
       { id: 2, nombre: "Actividad 2", descripcion: "Segunda actividad", imagen: "#" },
@@ -48,6 +52,7 @@ export class PropuestasService {
 
 
     return of(listaActividades);
+    */
   }
   
   obtenerPropuesta(propuestaId: number): Observable<Propuesta> {
