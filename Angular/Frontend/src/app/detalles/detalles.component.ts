@@ -37,8 +37,6 @@ export class DetallesComponent {
       const propuestaEncontrada = propuestas.find(p => p.id === this.propuestaActual.id);
       if (propuestaEncontrada) {
         this.propuestaActual = propuestaEncontrada;
-        
-        // Imprimir nombres de las actividades
         if (this.propuestaActual.actividades) {
           this.propuestaActual.actividades.forEach(actividad => {
             console.log('Nombre de la actividad:', actividad.nombre);
@@ -47,12 +45,9 @@ export class DetallesComponent {
         } else {
           console.log('La propuesta no tiene actividades.');
         }
-    
-        // Resto del código...
       } else {
         console.log("Propuesta no encontrada");
       }
-      console.log("el nombre es :" + this.propuestaActual?.titulo);
     });
   }
 
