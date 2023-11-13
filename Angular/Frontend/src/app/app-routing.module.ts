@@ -4,9 +4,10 @@ import { LogInComponent } from './log-in/log-in.component';
 import { RegistradoComponent } from './registrado/registrado.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { DetallesComponent } from './detalles/detalles.component';
-import { UnirsePropuestaComponent } from './unirse-propuesta/unirse-propuesta.component';
-import { IngresarPseudonimoComponent } from './ingresar-pseudonimo/ingresar-pseudonimo.component';
-import { PruebaJuegoComponent } from './prueba-juego/prueba-juego.component';
+import { UnirsePropuestaComponent } from "./unirse-propuesta/unirse-propuesta.component";
+import { InicioJuegoComponent } from "./inicio-juego/inicio-juego.component";
+import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
+import { JuegoComponent } from './juego/juego.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
@@ -14,8 +15,10 @@ const routes: Routes = [
   { path: 'inicio', component: RegistradoComponent },
   { path: 'registro', component: SingUpComponent },
   { path: 'detalles/:id', component: DetallesComponent },
-  { path: 'unirsePropuesta', component: UnirsePropuestaComponent },
-  { path: 'unirsePropuesta/:id', component: IngresarPseudonimoComponent },
+  { path: 'unirse-propuesta', component: UnirsePropuestaComponent },
+  { path: 'inicio-juego', component: InicioJuegoComponent },
+  { path: 'espera-admin', component: EsperaAdminComponent },
+  { path: 'juego', component: JuegoComponent }
 ];
 
 @NgModule({

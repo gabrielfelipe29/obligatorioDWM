@@ -18,4 +18,8 @@ describe('UnirsePropuestaComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 1bed35b1b0403f90514b5b9fb6767e56a832d287
