@@ -29,8 +29,8 @@ export class SocketService {
       // Recibimos un json
       if (mensaje.asunto !== undefined && mensaje.asunto == "actividad") {
         // Acá se redirige a actividad y se cargan los datos de la actividad
-        this.juegoService.setActividad(mensaje.actvidad.titulo, mensaje.actvidad.descripcion, mensaje.actvidad.imagen)
-        //this.router.navigateByUrl('/actividad');
+        this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actvidad.titulo, mensaje.actvidad.descripcion, mensaje.actvidad.imagen)
+        this.router.navigateByUrl('/actividad');
 
       }
 
@@ -82,6 +82,7 @@ export class SocketService {
       codigo: cod,
       pseudonimo: pseu
     }
+    this.cookies.set("aliasPlayer", pseu)
     // Unirse a un canal
     this.socket.emit('join', datos);
   }

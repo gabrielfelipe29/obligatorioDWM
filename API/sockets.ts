@@ -26,10 +26,10 @@ export function mostrarActividad(mensaje: any, io: any) {
         let data = {
             asunto: "actividad",
             actividad: {
+                idActividad: actividadObtenida?.id,
                 titulo: actividadObtenida?.titulo,
                 descripcion: actividadObtenida?.descripcion,
                 imagen: actividadObtenida?.imageLink
-
             }
         }
         if( actividadObtenida)

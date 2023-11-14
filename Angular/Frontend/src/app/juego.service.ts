@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Jugador } from './para-pruebas/jugador';
+import { Jugador } from './jugador';
 import { Observable, of } from 'rxjs';
 import { SocketService } from './socket.service';
+import { Propuesta } from './propuesta';
+import { HttpClient } from '@angular/common/http';
+import { Actividad } from './actividad';
+import { CookieService } from 'ngx-cookie-service';
 
 
 @Injectable({
@@ -9,31 +13,70 @@ import { SocketService } from './socket.service';
 })
 export class JuegoService {
 
-  constructor(private socketService: SocketService) { }
+  constructor(private socketService: SocketService, private http: HttpClient, private cookies: CookieService) { }
 
-  jugadores: Jugador[] = []; 
+  jugadores: Jugador[] = [];
+
+  actividadActual: Actividad = new Actividad(0, "", "", "")
 
   yaEstaEnSala = false
+
+  contador: number = 30
+
+  getActividadActual(): Observable<Actividad> {
+    return of(this.actividadActual)
+  }
 
   getJugadores(): Observable<Jugador[]> {
     const juadoresConst = of(this.jugadores);
     return juadoresConst;
   }
 
-  agregarJugador(alias: string){
+  agregarJugador(alias: string) {
     this.jugadores.push(new Jugador(alias))
   }
 
-  quitarJugador(alias: string){
+  quitarJugador(alias: string) {
     this.jugadores = this.jugadores.filter(elemento => elemento.psudonimo == alias);
   }
 
-  entrarASalaEspera(){
+  entrarASalaEspera() {
     this.yaEstaEnSala = true
   }
 
-  iniciarJuego(){
+  iniciarJuego() {
     this.socketService.iniciarJuego()
   }
+
+  obtenerCodigoPropuesta() {
+    return this.socketService.getCanal()
+  }
+
+  crearSala(datos: any): Observable<any> {
+    return this.http.post("http://localhost:3000/salas/", datos);
+  }
+
+  setActividad(idActividad: string, actvidadTitulo: string, actvidadDescripcion: string, actvidadImagen: string) {
+    this.actividadActual = new Actividad(Number(idActividad), actvidadTitulo, actvidadDescripcion, actvidadImagen)
+  }
+
+  votarActividad(resultados: number[]) {
+    let data = {
+      "jugador": {
+        "id": this.cookies.get("aliasJugador"),
+        "ranking": {
+          "meGusta": resultados[0],
+          "noMeGusta": resultados[1],
+          "meDaIgual": resultados[2]
+        }
+      }
+    }
+    let codigoSala = this.socketService.getCanal()
+    let codigoActividad = this.actividadActual.id
+    let ruta = "/" + codigoSala + "/actividad/" + codigoActividad
+    return this.http.post(ruta, data)
+
+  }
+
 
 }

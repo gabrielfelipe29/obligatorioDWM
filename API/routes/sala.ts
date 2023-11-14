@@ -2,13 +2,10 @@ import express from 'express'
 import { db } from '..'
 import * as middleware from '../middleware'
 import * as metodos from '../metodos'
-<<<<<<< HEAD
 import { Sala } from '../sala'
 import { Propuesta } from '../propuesta'
 import { Actividad } from '../actividad'
-=======
 import { ObjectId } from 'mongodb'
->>>>>>> 1bed35b1b0403f90514b5b9fb6767e56a832d287
 
 
 const router = express.Router()
@@ -57,7 +54,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     // Lógica implementada para los sockets
                     var codigoJuego = result.insertedId
                     // Pasamos a crear los objetos que necesitamos tener mientras funciona el programa
-                    /* const user = await metodos.findOne("administradores", { id: decoded.id });
+                    const user = await metodos.findOne("administradores", { id: decoded.id });
                     const propuestadeseada = user.propuesta.find((variable: any) => variable.id === req.body.propuesta.id);
 
                     let listaActividades: Actividad[] = []
@@ -66,10 +63,10 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                         let actividad = propuestadeseada.actividades[i]
                         listaActividades.push(new Actividad(actividad.id, actividad.titulo, actividad.descripcion, actividad.imageLink))
                     }
-                    let newPropuesta = new Propuesta(propuestadeseada.nombre,decoded.id, propuestadeseada.id, listaActividades, propuestadeseada.rutaImg ) */
+                    let newPropuesta = new Propuesta(propuestadeseada.nombre,decoded.id, propuestadeseada.id, listaActividades, propuestadeseada.rutaImg )
                     let urlGame = "http://localhost:4200/unirsePropuesta/" + codigoJuego
-                    /*  var newSala = new Sala(codigoJuego, newPropuesta, decoded.id)
-                     salas[codigoJuego] = newSala */
+                     var newSala = new Sala(codigoJuego, newPropuesta, decoded.id)
+                     salas[codigoJuego] = newSala
 
                     // Fin de lógica para los sockets
 
@@ -79,10 +76,10 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                         qrcode.toDataURL(urlGame, (err: any, url: any) => {
                             if (err) {
-                                res.status(500);+
+                                res.status(500);
                                 res.send({ error: 'No se pudo generar el código QR.' + err })
                             } else {
-                                // newSala.setQRCode(url)
+                                newSala.setQRCode(url)
                                 res.send(JSON.stringify({ salaId: result.insertedId.toString(), codigoQR: url }))
 
                             }

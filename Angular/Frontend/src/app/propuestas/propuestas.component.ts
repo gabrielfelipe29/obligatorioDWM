@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PropuestasService } from '../propuestas.service';
 import { Propuesta } from '../propuesta';
 import { Router } from '@angular/router';
+import { JuegoService } from '../juego.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-propuestas',
@@ -11,7 +13,7 @@ import { Router } from '@angular/router';
 export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
 
-  constructor(private servicio: PropuestasService, private router: Router) {
+  constructor(private servicio: PropuestasService, private router: Router, private juegoService: JuegoService, private cookies: CookieService) {
     // Inyección de dependencias del servicio en el constructor
   }
 
@@ -25,7 +27,35 @@ export class PropuestasComponent implements OnInit {
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
+
+  crearSala(propuesta: Propuesta) {
+    this.juegoService.crearSala(propuesta)
+    let datos = {
+      "propuesta": propuesta,
+      "actividades": propuesta.actividades
+    }
+
+
+    this.juegoService.crearSala(datos).subscribe(
+      data => {
+        if (data && data.salaId && data.codigoQR) {
+          console.log(data)
+          // { salaId: result.insertedId.toString(), codigoQR: url 
+          this.cookies.set("codigoSala", data.salaId)
+          this.cookies.set("qrCode", data.codigoQR)
+          this.router.navigate(['inicioJuego'])
+
+        }
+
+      },
+      error => {
+        console.log(error);
+      });
+
+  }
+
 }
+
 /*
 Tiene q haber un aviso a los demás para que así{
 
