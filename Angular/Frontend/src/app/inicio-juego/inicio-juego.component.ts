@@ -3,6 +3,8 @@ import { PropuestasService } from '../propuestas.service';
 import { Propuesta } from '../propuesta';
 import { Router } from '@angular/router';
 import { JuegoService } from '../juego.service';
+import { CookieService } from 'ngx-cookie-service';
+import { Jugador } from '../jugador';
 
 @Component({
   selector: 'app-inicio-juego',
@@ -11,36 +13,28 @@ import { JuegoService } from '../juego.service';
 })
 export class InicioJuegoComponent implements OnInit {
   
-  // Propuesta la cual se esta jugando 
-  propuestaActual: Propuesta
 
-  // Código de la propuesta
-  codigo: number
-
-  // Cantidad de jugadores total
-  votantes: number
-
-
-  constructor(private servicioPropuestas: PropuestasService, private router: Router, private servicioJuego: JuegoService ) {
-    const resultado = this.servicioPropuestas.obtenerPropuestaActual();
-    if (resultado !== undefined) {
-      this.propuestaActual = resultado;
-      this.codigo = this.servicioJuego.obtenerCodigoPropuesta()
-    } else {
-      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], creatorId: "usuario_1", imagen: "#" };
-      this.codigo = 0
-    }
-    this.votantes = 0
+  constructor(private servicioPropuestas: PropuestasService, private router: Router, private servicioJuego: JuegoService, private cookies: CookieService) {
+  
   }
 
-  ngOnInit(): void {
-    this.servicioJuego.votantes.subscribe((votantes) => {
-      this.votantes = votantes;
-      console.log("aaaaaaaaa");
-    });
+  jugadores: Jugador[] = []
+  codigoSala: string = ""
+  qrCodeUrl: string = ""
+
+  ngOnInit(){
+    this.servicioJuego.entrarASalaEspera()
+    this.codigoSala = this.cookies.get("codigoSala")
+    this.qrCodeUrl = this.cookies.get("qrCode")
+    this.servicioJuego.getJugadores().subscribe(jugadores => this.jugadores = jugadores);
   }
-  iniciarJuego(){
-    this.servicioJuego.iniciarJuego(this.propuestaActual.id)
+
+  public comprobarEsAdmin(){
+    return this.cookies.check("token")
+  }
+
+  public iniciarJuego(){
+    this.servicioJuego.iniciarJuego()
   }
 
 }

@@ -1,8 +1,16 @@
-<div class="container">
-    <h1>Empezando {{ propuestaActual.titulo }}!</h1>
-        <p>El codigo para unirse al juego es:</p>
-    <div class="code">{{ codigo }}</div>
-    <div>
-        <button routerLink="/juego" >Iniciar Juego</button>
+<div>
+    <div id="datos_sala">
+        <h1 id="code">Codigo del juego {{codigoSala}}</h1>
+        <div *ngIf="qrCodeUrl">
+            <img [src]="qrCodeUrl" alt="Código QR" />
+          </div>
+    </div>
+
+    <div class="jugadores" *ngFor="let jugador of jugadores">
+        <div><p>{{jugador.psudonimo}}</p></div>
+    </div>
+
+    <div *ngIf="comprobarEsAdmin()">
+        <button (click)="iniciarJuego()"></button>
     </div>
 </div>
