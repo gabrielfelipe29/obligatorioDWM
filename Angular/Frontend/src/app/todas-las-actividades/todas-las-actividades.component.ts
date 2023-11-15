@@ -22,7 +22,7 @@ export class TodasLasActividadesComponent implements OnInit {
   }
 
   agregarAPropuesta(actividad: Actividad): void {
-    // Agrega la lógica para agregar elementos a otra lista aquí
+    
   }
 
   mostrarDetalles (item: any): void {

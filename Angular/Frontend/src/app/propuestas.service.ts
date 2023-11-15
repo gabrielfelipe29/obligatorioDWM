@@ -49,21 +49,18 @@ export class PropuestasService {
     */
   }
 
-  agregarActividad(titulo: string, descripcion: string, imagen: string) {
+  agregarActividad(titulo: string, descripcion: string, imagen: string) { 
     /*
       Acá se deberá conectar con back y agregar una actividad a la lista
     */
   }
 
   eliminarPropuesta(id: number): Observable<any> {
-    /*
-      Acá se deberá conectar con back y eliminar una propuesta a la lista
-    */
-      let url = this.url + id
+      let url = this.url + "/propuesta/"+ id
       return this.http.delete(url)
   }
 
-  eliminarActividad(idActividad: number, idPropuesta: number) {
+  eliminarActividadDePropuesta(idActividad: number, idPropuesta: number) {
     
   }
 
