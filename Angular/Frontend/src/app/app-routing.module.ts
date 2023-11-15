@@ -6,6 +6,7 @@ import { SingUpComponent } from './sing-up/sing-up.component';
 import { DetallesComponent } from './detalles/detalles.component';
 import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
+import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: 'registro', component: SingUpComponent },
   { path: 'detalles/:id', component: DetallesComponent },
   { path: 'unirseJuego', component: UnirseJuegoComponent },
-  { path: 'crearActividad', component: CrearActividadComponent}
+  { path: 'crearActividad', component: CrearActividadComponent},
+  { path: 'todasLasActividades', component: TodasLasActividadesComponent}
 ];
 
 @NgModule({

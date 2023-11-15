@@ -3,7 +3,7 @@
     <ul>
       <li *ngFor="let actividad of actividades">
         {{ actividad.nombre }}
-        <button (click)="agregarAPropuesta(actividad)">Agregar</button>
+        <button (click)="agregarAPropuesta(actividad)">+</button>
       </li>
     </ul>
   </div>
@@ -12,3 +12,17 @@
     <h2>Detalles del Elemento</h2>
     <div *ngIf="actividadSeleccionada">{{ actividadSeleccionada.descripcion }}</div>
   </div>  
+
+  <h2>Actividades a Agregar</h2>
+
+  <div class="item-list">
+    <ul>
+      <li *ngFor="let actividad of actividadesAAgregar">
+        {{ actividad.nombre }}
+        <button (click)="agregarAPropuesta(actividad)">Retirar</button>
+      </li>
+    </ul>
+  </div>
+
+
+  <button routerLink="/detalles/:propuestaId">Volver</button>

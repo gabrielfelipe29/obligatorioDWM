@@ -11,6 +11,9 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PropuestasService {
 
+  prop : Propuesta = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  proppp: Observable<Propuesta> = of(this.prop);
+
   private propuestaActual: Propuesta = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
 
   private propuestaActualSubject = new BehaviorSubject<Propuesta>(this.propuestaActual);
@@ -60,7 +63,7 @@ export class PropuestasService {
       return this.http.delete(url)
   }
 
-  eliminarActividadDePropuesta(idActividad: number, idPropuesta: number) {
+  eliminarActividad(idActividad: number, idPropuesta: number) {
     
   }
 
@@ -69,6 +72,7 @@ export class PropuestasService {
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
       const propuestaEncontrada = propuestas.find(p => p.id === id);
       if (propuestaEncontrada) {
+        this.prop = propuestaEncontrada;
         this.propuestaActual = propuestaEncontrada;
         this.propuestaActualSubject.next(propuestaEncontrada);
       } else {
@@ -79,7 +83,7 @@ export class PropuestasService {
   }
 
   obtenerPropuestaActual() {
-    return this.propuestaActualSubject.value;
+    return this.prop;
   }
 
   guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string) {

@@ -10,6 +10,8 @@ import { Actividad } from '../actividad';
 export class TodasLasActividadesComponent implements OnInit {
   actividades: Actividad[]= [];
   actividadSeleccionada?: Actividad;
+  propuestaId: number = 0;
+  actividadesAAgregar: Actividad[] = []
 
   constructor(private servicio: PropuestasService) {}
 
@@ -19,10 +21,33 @@ export class TodasLasActividadesComponent implements OnInit {
       this.actividades = data;
     });
     */
+   this.actividades = [{
+    "id": 1,
+    "nombre": "Actividad 1",
+    "descripcion": "Descripción de la Actividad 1",
+    "imagen": "#"
+  },
+  {
+    "id": 2,
+    "nombre": "Actividad 2",
+    "descripcion": "Descripción de la Actividad 2",
+    "imagen": "#"
+  }]
+
+  this.propuestaId = this.servicio.obtenerPropuestaActual().id;
+
+  }
+
+  agregarALista (actividad: Actividad){
+
+  }
+
+  retirarDeLista (actividad: Actividad){
+    
   }
 
   agregarAPropuesta(actividad: Actividad): void {
-    
+    this.servicio.agregarActividad(actividad.nombre, actividad.descripcion, actividad.imagen);
   }
 
   mostrarDetalles (item: any): void {
