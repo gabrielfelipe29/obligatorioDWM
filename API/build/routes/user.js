@@ -78,6 +78,7 @@ router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, functio
 }));
 //loguear usuario
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     try {
         var token;
         var user = yield metodos.findOne("administradores", {

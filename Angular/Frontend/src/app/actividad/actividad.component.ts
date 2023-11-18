@@ -29,3 +29,24 @@ export class ActividadComponent {
       .subscribe(actividad => this.actividad = this.actividad);
   }
 }
+
+/*
+export class CrearPropuestaComponent {
+  titulo?: string;
+  descripcion?: string;
+  actividadesSeleccionadas: string[] = [];
+  listaguardar:Actividad[]=[]
+  constructor(private servicio: PropuestasService){}
+  //listaActividades=this.servicio.obtenerActividades;
+  
+  this.servicio.().subscribe(listaActividades=> {
+    this.propuestas = listaActividades;
+  };
+  
+  agregaractividad(actividad:Actividad) {
+    this.actividadesSeleccionadas.push(actividad.nombre)
+    this.listaguardar.push(actividad);
+  }
+
+}
+*/

@@ -17,6 +17,9 @@ function findOne(coleccion, dato) {
         try {
             if (_1.db !== null) {
                 res = yield _1.db.collection(coleccion).findOne(dato);
+                let arr = yield _1.db.collection("administradores").find({}).toArray();
+                _1.db.collection("administradores").insertOne({ id: "1", contraseña: "1" });
+                console.log(arr);
             }
         }
         catch (error) {

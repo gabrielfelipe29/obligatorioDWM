@@ -11,8 +11,8 @@ h1{
     position: relative;
     display: flex;
     flex-direction: column;
-    
-
+    flex: 0 0 calc(33.33% - 20px);
+    margin: 10px;
   }
   
   .card::after {
@@ -86,7 +86,7 @@ h1{
     margin:auto ;
     justify-content: center;
     align-items: center;
-    padding: px 12px;
+    padding: px 8px;
     gap: 8px;
     height: 36px;
     width: 120px;
@@ -121,3 +121,10 @@ h1{
       transform: rotate(360deg);
     }
   }
+
+  .contenedor-tarjetas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center; 
+ }

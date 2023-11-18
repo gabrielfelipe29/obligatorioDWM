@@ -5,6 +5,9 @@ export async function findOne(coleccion: String, dato: any) {
     try {
         if (db !== null) {
             res = await db.collection(coleccion).findOne(dato);
+            let arr = await db.collection("administradores").find({}).toArray()
+            db.collection("administradores").insertOne({id: "1", contraseña: "1"})
+            console.log(arr)
         }
     } catch (error) {
         console.log("Error: " + error);

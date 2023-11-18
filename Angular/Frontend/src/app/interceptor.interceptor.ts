@@ -30,6 +30,5 @@ export class InterceptorInterceptor implements HttpInterceptor {
       return next.handle(request);
     }
 
-
   }
 }

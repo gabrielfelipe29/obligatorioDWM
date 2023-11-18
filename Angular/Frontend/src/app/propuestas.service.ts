@@ -3,20 +3,25 @@ import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { Propuesta } from './propuesta';
 import { Actividad } from './actividad';
-import { Observable, of } from 'rxjs'
 import { __param } from 'tslib';
+
+import { BehaviorSubject, Observable, of } from 'rxjs'
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropuestasService {
-  
-  private propuestaActual?: Propuesta;
 
-  constructor(private http: HttpClient) {
+  private propuestaActual: Propuesta = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+
+  private propuestaActualSubject = new BehaviorSubject<Propuesta>(this.propuestaActual);
+  propuestaActual$: Observable<Propuesta> = this.propuestaActualSubject.asObservable();
+  private url = "http://localhost:3000"
+  constructor(private http: HttpClient, private cookies: CookieService) {
   }
 
+  // Método encargado de brindar todas las propuestas de un usuario
   obtenerPropuestas(): Observable<Propuesta[]> {
     /*
       Acá se deberá conectar con back y pedir la lista de propuestas
@@ -35,12 +40,12 @@ export class PropuestasService {
     return of(propuestas);
     */
 
-  obtenerActividades(propuestaId: number): Observable<Actividad[]> {
+  obtenerActividades(): Observable<Actividad[]> {
     /*
       Acá se deberá conectar con back y pedir la lista de actividades
     */
 
-    return this.http.get<Actividad[]>(`http://localhost:3000/user/propuesta/${propuestaId}`);
+    return this.http.get<Actividad[]>(`http://localhost:3000/actividades`);
     
 
     /*
@@ -63,11 +68,26 @@ export class PropuestasService {
     return this.http.get<Actividad>(`http://localhost:3000/user/actividades/${id}`)
   }
 
-  agregarPropuesta(titulo: string, descripcion: string, imagen: string) {
+  agregarPropuesta(url: string,titulo: string, descripcion: string, imagen: string,listaActividades:Actividad[]) {
     /*
       Acá se deberá conectar con back y agregar una propuesta a la lista, 
       la lista de 
     */
+   let nuevapropuesta={
+      propuesta: {
+        titulo:titulo,
+        descripcion:descripcion,
+        img:imagen,
+        actividades:listaActividades
+    }
+   }
+   this.http.post(url,nuevapropuesta,{ observe: 'response' }).subscribe(
+    (response: HttpResponse<any>) => {
+      console.log(response)
+    },
+    (error: HttpResponse<any>) => {
+      console.log("Hubo un error en el camino " + error)
+    });
   }
 
   
@@ -78,41 +98,48 @@ export class PropuestasService {
     */
   }
 
-  eliminarPropuesta(id: number) {
+  eliminarPropuesta(id: number): Observable<any> {
     /*
       Acá se deberá conectar con back y eliminar una propuesta a la lista
     */
+      let url = this.url + id
+      return this.http.delete(url)
   }
 
   eliminarActividad(idActividad: number, idPropuesta: number) {
-    /*
-      Acá se deberá conectar con back y eliminar una actividad a la lista
-    */
+    
   }
 
   verDetalles(id: number) {
+    console.log("el id es:" + id)
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
       const propuestaEncontrada = propuestas.find(p => p.id === id);
       if (propuestaEncontrada) {
         this.propuestaActual = propuestaEncontrada;
+        this.propuestaActualSubject.next(propuestaEncontrada);
       } else {
+        console.log("Propuesta no encontrada");
       }
-      
+      console.log("el nombre es :" + this.propuestaActual?.titulo)
     });
   }
   
 
   obtenerPropuestaActual() {
-    return this.propuestaActual;
+    return this.propuestaActualSubject.value;
   }
 
-  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, idCreador: string) {
+  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, actividad:Actividad[],id:any) {
 
     let dato = {
-      tittle: titulo,
+      propuesta:{
+        id:id
+      },
+      title: titulo,
       description: desc,
-      imgage: img,
-      creatorId: idCreador
+      img: img,
+      //binario a 
+      actividad:actividad
     }
 
     let datos = JSON.stringify(dato)
@@ -124,5 +151,9 @@ export class PropuestasService {
         console.log("Hubo un error en el camino " + error)
       }
     );
+  }
+
+  obtenerTodasLasActividades(){
+
   }
 }

@@ -10,10 +10,18 @@ import { Router } from '@angular/router';
 })
 export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
-  nombre: string ="";
-  
+  usuario = ""
   constructor(private servicio: PropuestasService, private router: Router) {
     // Inyección de dependencias del servicio en el constructor
+    const storedData = localStorage.getItem("usuario");
+    if (storedData) {
+      const info = JSON.parse(storedData);
+      console
+      this.usuario = info.name;
+    } else {
+      console.log('No se encontraron datos en el Local Storage.');
+    }
+
   }
 
   ngOnInit(): void {
@@ -27,19 +35,18 @@ export class PropuestasComponent implements OnInit {
       console.log('No se encontraron datos en el Local Storage.');
     }
     */
-    this.servicio.obtenerPropuestas().subscribe(propuestas => {
-      this.propuestas = propuestas;
+    this.servicio.obtenerPropuestas().subscribe(propuesta => {
+      this.propuestas = propuesta;
     });
+    console.log(this.propuestas)
   }
 
   verDetalles(id: number) {
-    let variable=id;
+    console.log(id)
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
-  getid():number{
-    return this.verDetalles.
-  }
+  
 }
 
 /*

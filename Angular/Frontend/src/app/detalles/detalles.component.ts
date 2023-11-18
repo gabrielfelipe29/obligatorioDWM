@@ -13,15 +13,10 @@ import { NgForm } from '@angular/forms';
 })
 export class DetallesComponent {
 
-  propuestaActual: Propuesta;
+  propuestaActual: Propuesta; 
 
   constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
-    const resultado = this.servicio.obtenerPropuesta();
-    if (resultado !== undefined) {
-      this.propuestaActual = resultado;
-    } else {
-      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], creatorId: "usuario_1", imagen: "#" };
-    }
+    this.propuestaActual= { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
   }
 
   titulo = ""
@@ -30,11 +25,30 @@ export class DetallesComponent {
 
   actividadSeleccionada?: Actividad;
 
+
+
   actividades: Actividad[] = [];
 
   ngOnInit() {
-    console.log(this.propuestaActual?.titulo)
-    this.obtenerActividades()
+    this.servicio.propuestaActual$.subscribe(
+      propuesta => this.propuestaActual = propuesta
+    );
+    this.servicio.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
+      const propuestaEncontrada = propuestas.find(p => p.id === this.propuestaActual.id);
+      if (propuestaEncontrada) {
+        this.propuestaActual = propuestaEncontrada;
+        if (this.propuestaActual.actividades) {
+          this.propuestaActual.actividades.forEach(actividad => {
+            console.log('Nombre de la actividad:', actividad.nombre);
+          });
+          this.actividades = this.propuestaActual.actividades;
+        } else {
+          console.log('La propuesta no tiene actividades.');
+        }
+      } else {
+        console.log("Propuesta no encontrada");
+      }
+    });
   }
 
 
@@ -42,10 +56,6 @@ export class DetallesComponent {
     this.actividadSeleccionada = actividad;
   }
 
-  obtenerActividades(): void {
-    this.servicio.obtenerActividades()
-      .subscribe(actividades => this.actividades = actividades);
-  }
 
   mostrarform = false;
 
@@ -62,7 +72,7 @@ export class DetallesComponent {
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual.creatorId)
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen,this.actividades, this.propuestaActual.id)
   }
 
 }

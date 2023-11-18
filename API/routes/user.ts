@@ -42,6 +42,7 @@ router.post('/register', async (req, res) => {
 
 //loguear usuario
 router.post('/login', async (req, res) => {
+  console.log(req.body)
   try {
     var token;
     var user = await metodos.findOne("administradores",

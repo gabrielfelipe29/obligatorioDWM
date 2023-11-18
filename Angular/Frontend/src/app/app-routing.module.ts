@@ -5,6 +5,7 @@ import { RegistradoComponent } from './registrado/registrado.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { DetallesComponent } from './detalles/detalles.component';
 import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
+import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'inicio', component: RegistradoComponent },
   { path: 'registro', component: SingUpComponent },
   { path: 'detalles/:id', component: DetallesComponent },
-  { path: 'unirseJuego', component: UnirseJuegoComponent }
+  { path: 'unirseJuego', component: UnirseJuegoComponent },
+  {path :'crearpropuesta',component:CrearPropuestaComponent}
 ];
 
 @NgModule({

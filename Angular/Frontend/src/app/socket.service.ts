@@ -3,6 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { io } from "socket.io-client";
 import { LogInService } from './log-in.service';
+import { Actividad } from './actividad';
 
 @Injectable({
   providedIn: 'root',
