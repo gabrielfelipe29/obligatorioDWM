@@ -1,4 +1,4 @@
-use obligatorio
+//use obligatorio
 db.createCollection("administradores")
 db.createCollection("actividades")
 db.createCollection("salas")
