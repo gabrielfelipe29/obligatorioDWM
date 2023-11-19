@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Jugador } from './jugador';
+import { Jugador } from '../interfaces/jugador';
 import { Observable, of } from 'rxjs';
 import { SocketService } from './socket.service';
-import { Propuesta } from './propuesta';
+import { Propuesta } from '../interfaces/propuesta';
 import { HttpClient } from '@angular/common/http';
-import { Actividad } from './actividad';
+import { Actividad } from '../interfaces/actividad';
 import { CookieService } from 'ngx-cookie-service';
 
 
@@ -13,7 +13,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class JuegoService {
 
-  constructor(private socketService: SocketService, private http: HttpClient, private cookies: CookieService) { }
+  constructor(private http: HttpClient, private cookies: CookieService) { }
 
   jugadores: Jugador[] = [];
 
@@ -21,7 +21,11 @@ export class JuegoService {
 
   yaEstaEnSala = false
 
-  contador: number = 30
+  contador: number = 0
+
+  setContadorActual(tiempoRestante: number){
+    this.contador = tiempoRestante
+  }
 
   getActividadActual(): Observable<Actividad> {
     return of(this.actividadActual)
@@ -36,6 +40,13 @@ export class JuegoService {
     this.jugadores.push(new Jugador(alias))
   }
 
+  establecerJugadores(listaJugadores: any) {
+    this.jugadores = []
+    for (let elemento of listaJugadores) {
+      this.jugadores.push(new Jugador(elemento.pseudonimo))
+    }
+  }
+
   quitarJugador(alias: string) {
     this.jugadores = this.jugadores.filter(elemento => elemento.psudonimo == alias);
   }
@@ -44,12 +55,10 @@ export class JuegoService {
     this.yaEstaEnSala = true
   }
 
-  iniciarJuego() {
-    this.socketService.iniciarJuego()
-  }
+  
 
   obtenerCodigoPropuesta() {
-    return this.socketService.getCanal()
+    return this.cookies.get("nombreCanal")
   }
 
   crearSala(datos: any): Observable<any> {
@@ -60,23 +69,30 @@ export class JuegoService {
     this.actividadActual = new Actividad(Number(idActividad), actvidadTitulo, actvidadDescripcion, actvidadImagen)
   }
 
-  votarActividad(resultados: number[]) {
+  votarActividad(resultados: number[]): Observable<any> {
     let data = {
-      "jugador": {
-        "id": this.cookies.get("aliasJugador"),
-        "ranking": {
-          "meGusta": resultados[0],
-          "noMeGusta": resultados[1],
-          "meDaIgual": resultados[2]
+      jugador: {
+        id: this.cookies.get("aliasJugador"),
+        ranking: {
+          meGusta: resultados[0],
+          noMeGusta: resultados[1],
+          meDaIgual: resultados[2]
         }
       }
     }
-    let codigoSala = this.socketService.getCanal()
+    let codigoSala = this.cookies.get("nombreCanal")
     let codigoActividad = this.actividadActual.id
-    let ruta = "/" + codigoSala + "/actividad/" + codigoActividad
+    let ruta = "http://localhost:3000/salas/votar/" + codigoSala + "/actividad/" + codigoActividad
     return this.http.post(ruta, data)
 
   }
 
+  setResultadosActividad(meGustas: string, noMeGusta: string, meDaIgual: string) {
+    try {
+      this.actividadActual.establecerResultado(parseInt(meGustas), parseInt(noMeGusta), parseInt(meDaIgual))
 
+    } catch (error) {
+      console.log("Hubo un error haciendo el parse de un tipo de dato a otro")
+    }
+  }
 }

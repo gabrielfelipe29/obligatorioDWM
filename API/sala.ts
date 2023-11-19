@@ -6,55 +6,61 @@ export class Sala {
     public propuesta: Propuesta;
     //creador le asignamos el id del admin_
     public creador: string;
-    public Jugadores: { [clave: string]: Jugador} = {} ;
+    public Jugadores: Jugador[] = [];
     public juegoIniciado: boolean = false;
     public qrCode: String = ""
     public juegoTerminado = false
-     
-    constructor(id: number, propuesta: Propuesta,  creador: string) {
+
+    constructor(id: number, propuesta: Propuesta, creador: string) {
         this.propuesta = propuesta;
         this.creador = creador;
         this.id = id;
-        
+
     }
 
-    public setQRCode(qr: String){
+    public setQRCode(qr: String) {
         this.qrCode = qr
     }
-    public agregarJugador(jugador: Jugador) {
-        this.Jugadores[jugador.socketID] = jugador;
+    public agregarJugador(id: number, pseudonimo: String, socketID: string) {
+        this.Jugadores.push(new Jugador(id, pseudonimo, socketID))
     }
 
-    public eliminarJugador(socketID: string){
-        delete  this.Jugadores[socketID];
+    public eliminarJugador(socketID: string) {
+        this.Jugadores = this.Jugadores.filter(elemento => elemento.socketID != socketID)
     }
 
-    public obtenerIDUltimoJugador(){
-        const idUltimoJugador = Object.keys(this.Jugadores).length;
+    public obtenerIDUltimoJugador() {
+        const idUltimoJugador = this.Jugadores.length;
         return idUltimoJugador
     }
 
-    public iniciarJuego(){
-        this.juegoIniciado  = true;
+    public iniciarJuego() {
+        this.juegoIniciado = true;
     }
 
-    public terminarJuego(){
+    public terminarJuego() {
         this.juegoIniciado = false
         this.juegoTerminado = true
-        this.Jugadores = {}
+        this.Jugadores = []
         this.creador = ""
     }
 
-    public getCantidadJugadores(){
+    public getCantidadJugadores() {
         return Object.keys(this.Jugadores).length;
     }
 
 
-    public obtenerJugador(jugadorSocketID: string){
-        return this.Jugadores[jugadorSocketID]
+    public obtenerJugador(jugadorSocketID: string) {
+        for (let jugador of this.Jugadores) {
+            if (jugador.socketID == jugadorSocketID) {
+                return jugador
+            }
+        }
+        return null
     }
 
-    
+
+
 
 
 

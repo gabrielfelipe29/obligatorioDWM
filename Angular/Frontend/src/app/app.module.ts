@@ -13,9 +13,9 @@ import { BarraDeNavegacionComponent } from './barra-de-navegacion/barra-de-naveg
 import { PieDePaginaComponent } from './pie-de-pagina/pie-de-pagina.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { LogInService } from './log-in.service';
-import { JuegoService } from './juego.service';
-import { PropuestasService } from './propuestas.service';
+import { LogInService } from './services/log-in.service';
+import { JuegoService } from './services/juego.service';
+import { PropuestasService } from './services/propuestas.service';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { DetallesComponent } from './detalles/detalles.component';
 import { ActividadComponent } from './actividad/actividad.component';
@@ -25,6 +25,10 @@ import { UnirsePropuestaComponent } from './unirse-propuesta/unirse-propuesta.co
 import { IngresarPseudonimoComponent } from './ingresar-pseudonimo/ingresar-pseudonimo.component';
 import { VotosComponent } from './votos/votos.component';
 import { JuegoComponent } from './juego/juego.component';
+import { CommonModule } from '@angular/common';
+import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
+import { TemporizadorComponent } from './temporizador/temporizador.component';
+import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
 
 
 
@@ -45,7 +49,10 @@ import { JuegoComponent } from './juego/juego.component';
     UnirsePropuestaComponent,
     IngresarPseudonimoComponent,
     VotosComponent,
-    JuegoComponent
+    JuegoComponent,
+    InicioJuegoComponent,
+    TemporizadorComponent,
+    EsperaJugadorComponent
 
 
   ],
@@ -54,7 +61,8 @@ import { JuegoComponent } from './juego/juego.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    QRCodeModule
+    QRCodeModule, 
+    CommonModule
 
   ],
   providers: [HttpClient, LogInService, JuegoService, PropuestasService, {

@@ -1,22 +1,18 @@
 
 <!--- tiempo -->
+<app-temporizador [contadorActual]="contador"></app-temporizador>
 
 <div class="datos">
-    
     <!--Título-->
+    <h1>{{actividadActual.nombre}}</h1>
+
     <!--Imagen-->
+    <div><img src={{actividadActual.imagen}} alt=""></div>
+
     <!--Descripción-->
+    <div><p>{{actividadActual.descripcion}}/p></div>
 
 </div>
 
 <!--- botones para votar -->
-<div >
-    <!--- me gusta -->
-    <button type="button">Me gusta</button>
-    <!--- me da igual -->
-    <button type="button" class="btn btn-primary">Me da igual</button>
-    <!--- no me gusta  -->
-    <button type="button" class="btn btn-primary">No me gusta</button>
-</div>
-
-<app-votos-juego></app-votos-juego>
+<app-votos-juego [contadorActividad]="contador"></app-votos-juego>

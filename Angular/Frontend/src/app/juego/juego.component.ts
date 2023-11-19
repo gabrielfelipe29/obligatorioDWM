@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { JuegoService } from '../juego.service';
-import { Actividad } from '../actividad';
+import {Component, OnInit } from '@angular/core';
+import { JuegoService } from '../services/juego.service';
+import { Actividad } from '../interfaces/actividad';
 import { AppModule } from '../app.module';
+import { SocketService } from '../services/socket.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-juego',
@@ -9,22 +11,34 @@ import { AppModule } from '../app.module';
   styleUrls: ['./juego.component.css']
 })
 
-export class JuegoComponent implements OnInit {
+export class JuegoComponent implements OnInit   {
 
-  constructor(private servicioJuego: JuegoService) { }
+  socket: any = null
+
+  constructor(private juegoService: JuegoService, private socketService: SocketService, private router: Router) {
+    this.socket = socketService.getSocket();
+
+  }
 
   actividadActual: Actividad = new Actividad(0, "", "", "")
 
   contador: number = 30
 
   ngOnInit(): void {
-    this.servicioJuego.getActividadActual().subscribe(actividadRecibida => this.actividadActual = actividadRecibida);
+    this.juegoService.getActividadActual().subscribe(actividadRecibida => this.actividadActual = actividadRecibida);
 
-    for (this.contador = 30; this.contador > 0; this.contador--) {
-      setTimeout(() => {
-        this.contador--
-      },
-        1000)
-    }
+    this.socket.on("restultadoActividad", (mensaje: any) => {
+      if (mensaje.resultado !== undefined && mensaje.resultado.meGusta !== undefined && mensaje.resultado.noMeGusta !== undefined
+        && mensaje.resultado.meDaIgual !== undefined) {
+        this.juegoService.setResultadosActividad(mensaje.resultado.meGusta, mensaje.resultado.noMeGusta, mensaje.resultado.meDaIgual)
+        this.router.navigateByUrl('/restultadoActividad');
+      }
+
+    })
+
+    // Aca tiene que estar el socket esperando por resultados de actividad
+
+
   }
+  
 }

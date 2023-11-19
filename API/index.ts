@@ -61,6 +61,7 @@ io.on('connection', (socket: any) => {
     console.log('Cliente conectado');
 
     socket.on('join', (datos: any) => {
+        console.log(datos)
         socketsModule.join(datos, io, socket)
         console.log("Un cliente se ha unido al canal", datos.codigo)
     });

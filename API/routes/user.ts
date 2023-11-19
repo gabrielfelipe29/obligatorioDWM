@@ -6,7 +6,7 @@ import { db } from '..'
 import { ObjectId } from 'mongodb'
 const router = express.Router()
 
-export var admins: { [clave: string]: Administrador } = {}; 
+export const admins: { [clave: string]: Administrador } = {}; 
 
 
 //registrar usuario
