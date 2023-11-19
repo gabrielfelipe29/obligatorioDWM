@@ -11,10 +11,10 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PropuestasService {
 
-  prop : Propuesta = { id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  prop : Propuesta = { _id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
   proppp: Observable<Propuesta> = of(this.prop);
 
-  private propuestaActual: Propuesta = { id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  private propuestaActual: Propuesta = { _id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
 
   private propuestaActualSubject = new BehaviorSubject<Propuesta>(this.propuestaActual);
   propuestaActual$: Observable<Propuesta> = this.propuestaActualSubject.asObservable();
@@ -27,13 +27,8 @@ export class PropuestasService {
     let devolver = this.http.get<Propuesta[]>("http://localhost:3000/user/propuesta");
     return devolver;
   }
-  /*  
-    .then y despues el pipe 
-  */
-  
-  obtenerActividades(idPropuesta: string): Observable<Actividad[]> {
-
-    return of();
+  obtenerActividades(): Observable<Actividad[]> {
+    return this.http.get<Actividad[]>(`http://localhost:3000/actividades`);
   }
 
   obtenerPropuesta(propuestaId: string): Observable<Propuesta> {
@@ -43,13 +38,25 @@ export class PropuestasService {
   obtenerActividad(id: string): Observable<Actividad> {
     return this.http.get<Actividad>(`http://localhost:3000/user/actividades/${id}`);
   }
+  
 
 
-  agregarPropuesta(titulo: string, descripcion: string, imagen: string) {
-    /*
-      Acá se deberá conectar con back y agregar una propuesta a la lista, 
-      la lista de 
-    */
+  agregarPropuesta(url: string,titulo: string, descripcion: string, imagen: string,listaActividades:Actividad[]) {
+   let nuevapropuesta={
+      propuesta: {
+        titulo:titulo,
+        descripcion:descripcion,
+        img:imagen,
+        actividades:listaActividades
+    }
+   }
+   this.http.post(url,nuevapropuesta,{ observe: 'response' }).subscribe(
+    (response: HttpResponse<any>) => {
+      console.log(response)
+    },
+    (error: HttpResponse<any>) => {
+      console.log("Hubo un error en el camino " + error)
+    });
   }
 
   agregarActividad(titulo: string, descripcion: string, imagen: string) { 
@@ -70,7 +77,7 @@ export class PropuestasService {
   verDetalles(id: string) {
     console.log("el id es:" + id)
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
-      const propuestaEncontrada = propuestas.find(p => p.id === id);
+      const propuestaEncontrada = propuestas.find(p => p._id === id);
       if (propuestaEncontrada) {
         this.prop = propuestaEncontrada;
         this.propuestaActual = propuestaEncontrada;
@@ -86,10 +93,10 @@ export class PropuestasService {
     return this.prop;
   }
 
-  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, id: any, actividades: Actividad[]) {
+  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, _id: any, actividades: Actividad[]) {
 
     let dato = {
-      id: id,
+      _id: _id,
       tittle: titulo,
       description: desc,
       imgage: img,
@@ -118,7 +125,7 @@ export class PropuestasService {
   crearActividad(nombre: string, descripcion: string, imagen: string){
     let body ={
       actividad:{
-        id:"seba",
+        _id:"seba",
         titulo: nombre,
         descripcion: descripcion,
         imagen: imagen

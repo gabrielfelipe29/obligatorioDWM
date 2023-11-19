@@ -22,12 +22,12 @@
         <li *ngFor="let actividad of actividades">
           <button class="button-list" (click)="onSelect(actividad)"
             [class.selected]="actividad === actividadSeleccionada">
-            <span class="badge">{{actividad.id}}</span>
+            <span class="badge">{{actividad._id}}</span>
             <span class="tituloActividad">
               {{actividad.titulo}}
             </span>
           </button>
-          <button (click)="Delete(actividad.id)">
+          <button (click)="Delete(actividad._id)">
             Eliminar
           </button>
         </li>

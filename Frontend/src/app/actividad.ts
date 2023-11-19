@@ -1,5 +1,5 @@
 export interface Actividad {
-  id: string,
+  _id: string,
   titulo: string,
   descripcion: string,
   imagen: string 

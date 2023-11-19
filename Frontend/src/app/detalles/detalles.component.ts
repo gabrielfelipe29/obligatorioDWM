@@ -18,7 +18,7 @@ export class DetallesComponent {
   propuestaActual: Propuesta; 
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
-    this.propuestaActual= { id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+    this.propuestaActual= { _id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
   }
 
   titulo = ""
@@ -39,7 +39,7 @@ export class DetallesComponent {
       propuesta => this.propuestaActual = propuesta
     );
     this.servicio.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
-      const propuestaEncontrada = propuestas.find(p => p.id === this.propuestaActual.id);
+      const propuestaEncontrada = propuestas.find(p => p._id === this.propuestaActual._id);
       if (propuestaEncontrada) {
         this.propuestaActual = propuestaEncontrada;
         if (this.propuestaActual.actividades) {
@@ -86,11 +86,11 @@ export class DetallesComponent {
   }
 
   Delete(idActividad: string): void {
-    this.servicio.eliminarActividad(idActividad, this.propuestaActual?.id)
+    this.servicio.eliminarActividad(idActividad, this.propuestaActual?._id)
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual.id, this.actividades)
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual._id, this.actividades)
   }
 
   agregarALista (actividad: Actividad){

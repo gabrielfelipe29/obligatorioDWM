@@ -8,7 +8,7 @@ import { SocketService } from '../socket.service';
 })
 export class UnirseJuegoComponent {
 
-  codigo: string = "";
+  /* codigo: string = "";
   pseudonimo: string = "";
 
   ingresoCodigo: boolean = false;
@@ -21,5 +21,5 @@ export class UnirseJuegoComponent {
   }
   unirseJuego(){
     this.socketService.unirseJuego(this.codigo, this.pseudonimo);
-  }
+  } */
 }
