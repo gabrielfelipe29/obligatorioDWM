@@ -5,6 +5,8 @@ import { Actividad } from '../actividad';
 import { PropuestasService } from '../propuestas.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-detalles',
@@ -15,8 +17,8 @@ export class DetallesComponent {
 
   propuestaActual: Propuesta; 
 
-  constructor(private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
-    this.propuestaActual= { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router, private servicio: PropuestasService) {
+    this.propuestaActual= { id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
   }
 
   titulo = ""
@@ -26,8 +28,11 @@ export class DetallesComponent {
   actividadSeleccionada?: Actividad;
 
 
-
+  // Lista de actividades de la propuesta
   actividades: Actividad[] = [];
+
+  // Lista de actividades existentes
+  actividadesExistentes: Actividad[] = [];
 
   ngOnInit() {
     this.servicio.propuestaActual$.subscribe(
@@ -39,7 +44,7 @@ export class DetallesComponent {
         this.propuestaActual = propuestaEncontrada;
         if (this.propuestaActual.actividades) {
           this.propuestaActual.actividades.forEach(actividad => {
-            console.log('Nombre de la actividad:', actividad.nombre);
+            console.log('Nombre de la actividad:', actividad.titulo);
           });
           this.actividades = this.propuestaActual.actividades;
         } else {
@@ -49,9 +54,22 @@ export class DetallesComponent {
         console.log("Propuesta no encontrada");
       }
     });
+
+    this.obtenerTodasLasActividades()
   }
 
-
+  obtenerTodasLasActividades(): void {
+    this.servicio.obtenerTodasLasActividades()
+      .subscribe(
+        (data: Actividad[]) => {
+          this.actividadesExistentes = data;
+          console.log(data);
+        },
+        error => {
+          console.error('Error al obtener actividades:', error);
+        }
+      );
+  }
   onSelect(actividad: Actividad): void {
     this.actividadSeleccionada = actividad;
   }
@@ -67,12 +85,27 @@ export class DetallesComponent {
     this.servicio.agregarActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
   }
 
-  Delete(idActividad: number): void {
+  Delete(idActividad: string): void {
     this.servicio.eliminarActividad(idActividad, this.propuestaActual?.id)
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen)
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual.id, this.actividades)
   }
 
+  agregarALista (actividad: Actividad){
+
+  }
+
+  retirarDeLista (actividad: Actividad){
+    
+  }
+
+  agregarAPropuesta(actividad: Actividad): void {
+    this.servicio.agregarActividad(actividad.titulo, actividad.descripcion, actividad.imagen);
+  }
+
+  mostrarDetalles (item: any): void {
+    this.actividadSeleccionada = item;
+  }
 }

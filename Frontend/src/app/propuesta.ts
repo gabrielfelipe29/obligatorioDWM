@@ -1,7 +1,7 @@
 import { Actividad } from "./actividad";
 
 export interface Propuesta {
-    id: number;
+    id: string;
     titulo: string;
     descripcion: string;
     actividades: Actividad[];

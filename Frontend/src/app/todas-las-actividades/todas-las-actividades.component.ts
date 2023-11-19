@@ -10,7 +10,7 @@ import { Actividad } from '../actividad';
 export class TodasLasActividadesComponent implements OnInit {
   actividades: Actividad[]= [];
   actividadSeleccionada?: Actividad;
-  propuestaId: number = 0;
+  propuestaId: string = "0";
   actividadesAAgregar: Actividad[] = []
 
   constructor(private servicio: PropuestasService) {}
@@ -22,14 +22,14 @@ export class TodasLasActividadesComponent implements OnInit {
     });
     */
    this.actividades = [{
-    "id": 1,
-    "nombre": "Actividad 1",
+    "id": "1",
+    "titulo": "Actividad 1",
     "descripcion": "Descripción de la Actividad 1",
     "imagen": "#"
   },
   {
-    "id": 2,
-    "nombre": "Actividad 2",
+    "id": "2",
+    "titulo": "Actividad 2",
     "descripcion": "Descripción de la Actividad 2",
     "imagen": "#"
   }]
@@ -47,7 +47,7 @@ export class TodasLasActividadesComponent implements OnInit {
   }
 
   agregarAPropuesta(actividad: Actividad): void {
-    this.servicio.agregarActividad(actividad.nombre, actividad.descripcion, actividad.imagen);
+    this.servicio.agregarActividad(actividad.titulo, actividad.descripcion, actividad.imagen);
   }
 
   mostrarDetalles (item: any): void {

@@ -32,7 +32,7 @@ export class PropuestasComponent implements OnInit {
     console.log(this.propuestas)
   }
 
-  verDetalles(id: number) {
+  verDetalles(id: string) {
     console.log(id)
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);

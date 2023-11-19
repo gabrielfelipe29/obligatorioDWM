@@ -1,6 +1,6 @@
 export interface Actividad {
-  id: number,
-  nombre: string,
+  id: string,
+  titulo: string,
   descripcion: string,
   imagen: string 
 }

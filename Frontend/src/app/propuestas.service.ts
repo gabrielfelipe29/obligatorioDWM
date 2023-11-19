@@ -11,10 +11,10 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PropuestasService {
 
-  prop : Propuesta = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  prop : Propuesta = { id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
   proppp: Observable<Propuesta> = of(this.prop);
 
-  private propuestaActual: Propuesta = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  private propuestaActual: Propuesta = { id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
 
   private propuestaActualSubject = new BehaviorSubject<Propuesta>(this.propuestaActual);
   propuestaActual$: Observable<Propuesta> = this.propuestaActualSubject.asObservable();
@@ -31,16 +31,16 @@ export class PropuestasService {
     .then y despues el pipe 
   */
   
-  obtenerActividades(idPropuesta: number): Observable<Actividad[]> {
+  obtenerActividades(idPropuesta: string): Observable<Actividad[]> {
 
     return of();
   }
 
-  obtenerPropuesta(propuestaId: number): Observable<Propuesta> {
+  obtenerPropuesta(propuestaId: string): Observable<Propuesta> {
     return this.http.get<Propuesta>(`http://localhost:3000/user/propuesta/${propuestaId}`);
   }
 
-  obtenerActividad(id: number): Observable<Actividad> {
+  obtenerActividad(id: string): Observable<Actividad> {
     return this.http.get<Actividad>(`http://localhost:3000/user/actividades/${id}`);
   }
 
@@ -58,16 +58,16 @@ export class PropuestasService {
     */
   }
 
-  eliminarPropuesta(id: number): Observable<any> {
+  eliminarPropuesta(id: string): Observable<any> {
       let url = this.url + "/propuesta/"+ id
       return this.http.delete(url)
   }
 
-  eliminarActividad(idActividad: number, idPropuesta: number) {
+  eliminarActividad(idActividad: string, idPropuesta: string) {
     
   }
 
-  verDetalles(id: number) {
+  verDetalles(id: string) {
     console.log("el id es:" + id)
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
       const propuestaEncontrada = propuestas.find(p => p.id === id);
@@ -86,12 +86,14 @@ export class PropuestasService {
     return this.prop;
   }
 
-  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string) {
+  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, id: any, actividades: Actividad[]) {
 
     let dato = {
+      id: id,
       tittle: titulo,
       description: desc,
-      imgage: img
+      imgage: img,
+      actividades: actividades
     }
 
     let datos = JSON.stringify(dato)
@@ -105,8 +107,8 @@ export class PropuestasService {
     );
   }
 
-  obtenerTodasLasActividades(){
-
+  obtenerTodasLasActividades(): Observable<Actividad[]>{
+    return this.http.get<Actividad[]>(`http://localhost:3000/actividades/`);
   }
 
   crearPropuesta(ombre: string, descripcion: string, imagen: string){
@@ -116,11 +118,22 @@ export class PropuestasService {
   crearActividad(nombre: string, descripcion: string, imagen: string){
     let body ={
       actividad:{
-        "titulo": nombre,
-        "descripcion": descripcion,
-        "imagen": imagen
+        id:"seba",
+        titulo: nombre,
+        descripcion: descripcion,
+        imagen: imagen
       }
     }
-    this.http.post(this.url+'/actividades/', body)
+    
+
+    let datos = JSON.stringify(body)
+    this.http.post(this.url+'/actividades/', body,{ observe: 'response' }).subscribe(
+      (response: HttpResponse<any>) => {
+        console.log(response)
+      },
+      (error: HttpResponse<any>) => {
+        console.log("Hubo un error en el camino " + error)
+      }
+    );
   }
 }
