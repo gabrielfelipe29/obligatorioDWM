@@ -132,7 +132,7 @@ export async function getRanking(salaId: any) {
         ]);
 
         var res = await cursor.toArray();
-        ranking = res[0].result;
+        ranking = res.find((sala: any) =>  sala._id == salaId ).result;
     } catch (error) {
         console.log(error);
         return null;
@@ -152,7 +152,7 @@ export async function obtenerVotosActividad(salaId: number, actividadId: number)
 
         const result = await db.collection('salas').findOne(filtro);
         if (result) {
-            return result.propuesta.actividades[actividadId -1].ranking
+            return result.propuesta.actividades[actividadId - 1].ranking
         } else {
             return "Error, no se pudo recuperar nada"
         }

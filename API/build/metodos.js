@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRanking = exports.userExist = exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
+exports.obtenerVotosActividad = exports.getRanking = exports.userExist = exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
 function findOne(coleccion, dato) {
@@ -157,12 +157,7 @@ function getRanking(salaId) {
                 }
             ]);
             var res = yield cursor.toArray();
-            /*for await (const doc of cursor) {
-                console.dir(doc);
-            }*/
-            ranking = res[0].result;
-            console.log(ranking);
-            return ranking;
+            ranking = res.find((sala) => sala._id == salaId).result;
         }
         catch (error) {
             console.log(error);
@@ -172,4 +167,26 @@ function getRanking(salaId) {
     });
 }
 exports.getRanking = getRanking;
+function obtenerVotosActividad(salaId, actividadId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const filtro = {
+                '_id': new mongodb_1.ObjectId(salaId),
+                'propuesta.actividades.id': actividadId,
+                activo: true
+            };
+            const result = yield _1.db.collection('salas').findOne(filtro);
+            if (result) {
+                return result.propuesta.actividades[actividadId - 1].ranking;
+            }
+            else {
+                return "Error, no se pudo recuperar nada";
+            }
+        }
+        catch (error) {
+            return "Error, no se pudo recuperar nada";
+        }
+    });
+}
+exports.obtenerVotosActividad = obtenerVotosActividad;
 //# sourceMappingURL=metodos.js.map

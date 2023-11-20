@@ -118,8 +118,9 @@ async function run() {
         await client.db().command({ ping: 1 });
         console.log("Conectado a BDD.");
         httpServer.listen(PORT, HOST, () => {
-            console.log(`Server running on port ${PORT} estas compilando cornudo?`)
+            console.log(`Server running on port ${PORT}`)
         })
+
 
     } catch (error) {
         console.log(error);

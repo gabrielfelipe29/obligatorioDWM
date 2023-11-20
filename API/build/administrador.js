@@ -9,12 +9,12 @@ class Administrador {
         this.contraseña = contraseña;
         this.id = id;
     }
-    login() {
-        //verificar si existe el usuario en la base de datos
-    }
     unirseJuego(salaID, idSocket) {
         this.salaID = salaID;
         this.socketID = idSocket;
+    }
+    comprobarSalaActual(salaIDRecibida) {
+        return this.salaID == salaIDRecibida;
     }
 }
 exports.Administrador = Administrador;

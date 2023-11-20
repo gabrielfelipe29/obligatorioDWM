@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Propuesta = void 0;
+const actividad_1 = require("./actividad");
 class Propuesta {
     constructor(nombre, creatorId, id, actividades, rutaImg) {
         this.proximaActividad = 0;
@@ -36,16 +37,24 @@ class Propuesta {
                 segundo = actividad;
                 calificacionSegundo = puntaje.meGusta;
             }
-            else if (puntaje.meGusta > calificacionTercero) {
+            else if (puntaje.meGusta == calificacionTercero) {
                 tercero = actividad;
                 calificacionTercero = puntaje.meGusta;
             }
         }
         return [primero, calificacionPrimero, segundo, calificacionSegundo, tercero, calificacionTercero,];
     }
+    comprobarUltimaActividad() {
+        let esUltima = this.proximaActividad == this.actividades.length;
+        return esUltima;
+    }
     obtenerResultadosActividad() {
-        var _a;
-        return (_a = this.actividadActual) === null || _a === void 0 ? void 0 : _a.obtenerResultados();
+        let res = [];
+        if (this.actividadActual != undefined) {
+            res = this.actividadActual.obtenerResultados();
+            this.actividadActual.estadoActividad = actividad_1.EstadosActividad.SeAcaboDeJugar;
+        }
+        return res;
     }
 }
 exports.Propuesta = Propuesta;

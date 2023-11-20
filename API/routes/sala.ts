@@ -24,7 +24,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
         } else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
 
-            if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
+            if (metodos.isNullOrEmpty(req.body.propuesta._id) ||
                 metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
                 res.status(400);
                 res.send(JSON.stringify({ mensaje: "Error en los parametros." }));
@@ -57,7 +57,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                     const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id) });
 
-                    var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta.id === req.body.propuesta.id);
+                    var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta._id == req.body.propuesta._id);
 
                     if (propuestaDeseada) {
                         // Hacer algo con la propuesta deseada
@@ -128,9 +128,10 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
 
                 const filtro = {
                     '_id': new ObjectId(salaid),
-                    'propuesta.actividades.id': parseInt(actividadid),
+                    'propuesta.actividades._id': actividadid,
                     activo: true
                 };
+
                 let dato = null;
 
 
