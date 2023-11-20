@@ -90,7 +90,15 @@ export class DetallesComponent {
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual._id, this.actividades)
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen, this.propuestaActual._id, this.actividades).subscribe(
+      data => {
+        console.log(data)
+
+      }, 
+      error => {
+        console.log("Hubo un error en el camino " + error)
+      }
+    )
   }
 
   agregarALista (actividad: Actividad){

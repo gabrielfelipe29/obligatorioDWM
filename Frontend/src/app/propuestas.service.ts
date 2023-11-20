@@ -96,22 +96,24 @@ export class PropuestasService {
   guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, _id: any, actividades: Actividad[]) {
 
     let dato = {
-      _id: _id,
-      titulo: titulo,
-      descripcion: desc,
-      imgage: img,
-      actividades: actividades
+      propuesta:{
+        _id: _id,
+        titulo: titulo,
+        descripcion: desc,
+        imgage: img,
+        actividades: actividades
+      }
     }
-
-    let datos = JSON.stringify(dato)
-    this.http.put(url, datos, { observe: 'response' }).subscribe(
+    alert("Bandera 1")
+    return this.http.put(url, dato)
+    /* this.http.put(url, datos, { observe: 'response' }).subscribe(
       (response: HttpResponse<any>) => {
         console.log(response)
       },
       (error: HttpResponse<any>) => {
         console.log("Hubo un error en el camino " + error)
       }
-    );
+    ); */
   }
 
   obtenerTodasLasActividades(): Observable<Actividad[]>{
