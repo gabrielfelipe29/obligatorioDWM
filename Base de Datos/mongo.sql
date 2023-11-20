@@ -17,5 +17,3 @@ db.getUsers()
 db.getRoles()
 
 show tables
-
-

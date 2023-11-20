@@ -23,12 +23,12 @@ export class InterceptorInterceptor implements HttpInterceptor {
         },
       })
       console.log(reqCopy)
+      //debugger
       return next.handle(reqCopy);
 
     } else {
       return next.handle(request);
     }
-
 
   }
 }

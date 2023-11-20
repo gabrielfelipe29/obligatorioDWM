@@ -1,1 +1,26 @@
-<p>crear-propuesta works!</p>
+<form >
+    <div>
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required>
+    </div>
+    <div>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" required></textarea>
+    </div>
+    <div>
+       <div>
+        <ul>
+            <li *ngFor="let actividad of actividadesSeleccionadas">{{ actividad }}</li>
+        </ul>
+</div>
+    </div>
+    <button type="submit" (click)="guardarCambios()">Crear Propuesta</button>
+</form>
+
+<div>
+    <div *ngFor="let actividad of lista">
+        <p>{{actividad.titulo}}</p>
+        <button (click)="agregaractividad(actividad)">subir</button>
+    </div>
+
+</div>

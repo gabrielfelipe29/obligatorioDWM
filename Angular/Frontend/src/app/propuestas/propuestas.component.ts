@@ -12,18 +12,41 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
+  nombre: string ="";
+
 
   constructor(private servicio: PropuestasService, private router: Router, private juegoService: JuegoService, private cookies: CookieService) {
     // Inyección de dependencias del servicio en el constructor
+    const storedData = localStorage.getItem("usuario");
+    if (storedData) {
+      const info = JSON.parse(storedData);
+      console
+      this.usuario = info.name;
+    } else {
+      console.log('No se encontraron datos en el Local Storage.');
+    }
+
   }
 
   ngOnInit(): void {
-    this.servicio.obtenerPropuestas().subscribe(propuestas => {
-      this.propuestas = propuestas;
+    /*
+    const storedData = localStorage.getItem("usuario");
+    if (storedData) {
+      const info = JSON.parse(storedData);
+      console
+      this.nombre = info.name;
+    } else {
+      console.log('No se encontraron datos en el Local Storage.');
+    }
+    */
+    this.servicio.obtenerPropuestas().subscribe(propuesta => {
+      this.propuestas = propuesta;
     });
+    console.log(this.propuestas)
   }
 
   verDetalles(id: number) {
+    console.log(id)
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
