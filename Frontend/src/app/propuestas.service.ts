@@ -97,8 +97,8 @@ export class PropuestasService {
 
     let dato = {
       _id: _id,
-      tittle: titulo,
-      description: desc,
+      titulo: titulo,
+      descripcion: desc,
       imgage: img,
       actividades: actividades
     }
