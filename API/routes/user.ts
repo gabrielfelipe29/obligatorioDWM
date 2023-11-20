@@ -107,7 +107,7 @@ router.get('/propuesta/:propuestaid', middleware.verifyUser, async (req, res, ne
     }, { '_id': 0, 'propuestas.$': '1' })
 
     //REVISAR si se puede poner el id de la propuesta en el find
-    const propuestadeseada = user.propuestas.find((variable: any) => variable.id == propuestaid);
+    const propuestadeseada = user.propuestas.find((variable: any) => variable._id == propuestaid);
     //var propuestadeseada = user.propuestas
     res.status(200);
     res.send(propuestadeseada);
@@ -126,13 +126,14 @@ router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
       res.status(400);
       res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }))
     } else {
-      if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
+      if (metodos.isNullOrEmpty(req.body.propuesta._id) ||
         metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
         res.status(400);
         res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }))
       } else {
         const userId = middleware.decode(req.headers['authorization']).id;
-        const filtro = { '_id': new ObjectId(userId), 'propuestas.id': new ObjectId(req.body.propuesta.id) };
+        const filtro = { '_id': new ObjectId(userId), 'propuestas._id': new ObjectId(req.body.propuesta._id) };
+        const ejemplo= metodos.findOne("administradores", { 'propuestas._id': new ObjectId(req.body.propuesta._id) });
         const dato = { $set: { 'propuestas.$.actividades': req.body.propuesta.actividades } };
         var result = await db.collection("administradores").updateOne(filtro, dato)
         //verificar si es con el updateCount?
@@ -165,7 +166,7 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
         res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }))
       } else {
         const userId = middleware.decode(req.headers['authorization']).id;
-        req.body.propuesta.id = new ObjectId();
+        req.body.propuesta._id = new ObjectId();
         const filtro = { '_id': new ObjectId(userId) };
         const dato = { $push: { 'propuestas': req.body.propuesta } };
         var result = await db.collection("administradores").updateOne(filtro, dato)

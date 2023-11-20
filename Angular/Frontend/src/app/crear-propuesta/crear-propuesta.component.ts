@@ -26,7 +26,6 @@ export class CrearPropuestaComponent {
   
   agregaractividad(actividad:Actividad) {
     let dato={
-      id:actividad._id,
       titulo:actividad.titulo,
       descripcion:actividad.descripcion,
       imagen:actividad.imagen

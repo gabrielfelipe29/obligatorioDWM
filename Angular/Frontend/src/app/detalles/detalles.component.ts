@@ -39,7 +39,7 @@ export class DetallesComponent {
         this.propuestaActual = propuestaEncontrada;
         if (this.propuestaActual.actividades) {
           this.propuestaActual.actividades.forEach(actividad => {
-            console.log('Nombre de la actividad:', actividad.nombre);
+            console.log('Titulo de la actividad:', actividad.titulo);
           });
           this.actividades = this.propuestaActual.actividades;
         } else {
