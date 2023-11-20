@@ -103,6 +103,10 @@ export class JuegoService {
     return this.actividadActual.obtenerResultados()
   }
 
+  setRanking(primero: any, segundo: any, tercero: any){
+
+  }
+
 
 
 

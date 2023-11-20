@@ -25,32 +25,7 @@ export class Propuesta {
         } 
     }
 
-    public obtenerPodio(){
-        // Esto es solo una manera, pero me parece que no es la mejor en realidad
-        let primero;
-        let calificacionPrimero = 0
-        let segundo; 
-        let calificacionSegundo = 0
-        let tercero; 
-        let calificacionTercero = 0
-        for( let actividad of this.actividades) {
-            let puntaje = actividad.calificacion
-            if (puntaje.meGusta > calificacionPrimero) {
-                primero = actividad
-                calificacionPrimero = puntaje.meGusta
-            } else if (puntaje.meGusta > calificacionSegundo) {
-                segundo = actividad
-                calificacionSegundo = puntaje.meGusta
-
-            } else if (puntaje.meGusta == calificacionTercero) {
-                tercero = actividad
-                calificacionTercero = puntaje.meGusta
-            }
-        }
-
-        return [primero, calificacionPrimero, segundo,calificacionSegundo, tercero, calificacionTercero,]
-
-    }
+    
 
     public comprobarUltimaActividad(){
         let esUltima = this.proximaActividad == this.actividades.length 

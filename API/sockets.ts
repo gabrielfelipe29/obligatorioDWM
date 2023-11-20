@@ -2,7 +2,7 @@ import { salas } from "./routes/sala";
 import { Propuesta } from "./propuesta";
 import { admins } from "./routes/user"
 import { EstadosActividad } from "./actividad";
-import { obtenerVotosActividad } from './metodos'
+import { obtenerVotosActividad, getRanking} from './metodos'
 
 /* Para no dejar usuarios  en la sala si se desconectan en medio del juego, 
 o para eviar usuarios repetidos por una reconexión de socket debemos registrar el socketID con la sala. 
@@ -140,9 +140,8 @@ export function obtenerRanking(mensaje: any, io: any, socket: any) {
 
         // Obtenemos la sala 
         let sala = salas[mensaje.codigoSala]
-        let propuesta = sala.propuesta
-        let ranking = propuesta.obtenerPodio()
-        let respuesta = {
+        let ranking = getRanking(mensaje.codigo)
+        /* let respuesta = {
             primero: {
                 actividad: ranking[0],
                 puntaje: ranking[1],
@@ -155,9 +154,9 @@ export function obtenerRanking(mensaje: any, io: any, socket: any) {
                 actividad: ranking[4],
                 puntaje: ranking[5],
             }
-        }
+        } */
 
-        io.to(chanel).emit(chanel, respuesta);
+        //io.to(chanel).emit(chanel, respuesta);
 
     }
     console.log('Se pidio el ranking de un juego:', mensaje);
@@ -215,10 +214,9 @@ export function desconectarse(socket: any, io: any) {
 
         if (!sala.juegoIniciado && jugador != null) {
             let data = {
-                asunto: "jugadorAbandonoSalaEsperaJuego",
                 aliasJugador: jugador.pseudonimo
             }
-            io.to(idSala).emit(idSala, data)
+            io.to(idSala).emit("jugadorAbandonoSalaEsperaJuego", data)
         }
         sala.eliminarJugador(socket.id)
         delete socketsJugadores[socket.id]

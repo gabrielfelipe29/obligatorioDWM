@@ -30,8 +30,7 @@ export class InicioJuegoComponent implements OnInit, AfterViewInit {
   esAdmin: boolean = false
 
   ngAfterViewInit(): void {
-    //this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
-    this.esAdmin = this.cookies.check("token")
+    this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
   }
 
   ngOnInit() {
@@ -61,6 +60,12 @@ export class InicioJuegoComponent implements OnInit, AfterViewInit {
         this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
       }
 
+    })
+
+
+    this.socket.on("jugadorAbandonoSalaEsperaJuego", (mensaje: any) => {
+      if(mensaje.aliasJugador != undefined)
+      this.juegoService.quitarJugador(mensaje.aliasJugador)
     })
 
 

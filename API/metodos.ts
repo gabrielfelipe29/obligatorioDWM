@@ -133,6 +133,8 @@ export async function getRanking(salaId: any) {
 
         var res = await cursor.toArray();
         ranking = res[0].result;
+        console.log(ranking)
+
     } catch (error) {
         console.log(error);
         return null;
