@@ -141,4 +141,24 @@ export async function getRanking(salaId: any) {
 
 }
 
+export async function obtenerVotosActividad(salaId: number, actividadId: number): Promise<any> {
+    try {
+
+        const filtro = {
+            '_id': new ObjectId(salaId),
+            'propuesta.actividades.id': actividadId,
+            activo: true
+        };
+
+        const result = await db.collection('salas').findOne(filtro);
+        if (result) {
+            return result.propuesta.actividades[actividadId -1].ranking
+        } else {
+            return "Error, no se pudo recuperar nada"
+        }
+    } catch (error) {
+        return "Error, no se pudo recuperar nada"
+    }
+}
+
 

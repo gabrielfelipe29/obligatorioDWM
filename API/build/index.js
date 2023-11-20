@@ -120,7 +120,7 @@ function run() {
             yield client.db().command({ ping: 1 });
             console.log("Conectado a BDD.");
             httpServer.listen(PORT, HOST, () => {
-                console.log(`Server running on port ${PORT}`);
+                console.log(`Server running on port ${PORT} estas compilando cornudo?`);
             });
             metodos.getRanking('654b84a362564ddf38c64eb0');
         }

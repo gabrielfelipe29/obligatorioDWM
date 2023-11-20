@@ -18,4 +18,5 @@ describe('UnirsePropuestaComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

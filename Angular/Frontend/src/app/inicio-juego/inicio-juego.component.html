@@ -1,19 +1,17 @@
-<h1>¡{{ propuestaActual.titulo }}!</h1>
-<p>Codigos para unirse al juego:</p>
+<div>
+    <div id="datos_sala">
+        <h1 id="code">Codigo del juego {{codigoSala}}</h1>
+        <div *ngIf="qrCodeUrl">
+            <img [src]="qrCodeUrl" alt="Código QR" />
+          </div>
+    </div>
 
+    <div class="jugadores" *ngFor="let jugador of jugadores">
+        <div><p>{{jugador.psudonimo}}</p></div>
+    </div>
 
-<div class="uno">
-    <div class="container mitad">
-            
-        <div class="codigos">
-            
-            <div class="imagen">
-                <img src="https://vocaleyes.co.uk/wp-content/uploads/2021/07/QR_code_for_mobile_English_Wikipedia-1400x700.jpg">
-            </div>
-
-            <div class="code">{{ codigo }}</div>
-
-        </div>
+    <div *ngIf="[esAdmin]">
+        <button (click)="iniciarJuego()">Iniciar juego</button>
     </div>
 
     <div class="container2  mitad">

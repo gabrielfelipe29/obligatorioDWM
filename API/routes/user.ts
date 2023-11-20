@@ -6,7 +6,7 @@ import { db } from '..'
 import { ObjectId } from 'mongodb'
 const router = express.Router()
 
-export var admins: { [clave: string]: Administrador } = {}; 
+export const admins: { [clave: string]: Administrador } = {}; 
 
 
 //registrar usuario
@@ -103,9 +103,7 @@ router.get('/propuesta/:propuestaid', middleware.verifyUser, async (req, res, ne
       'propuestas.id': new ObjectId(propuestaid)
     }, { '_id': 0, 'propuestas.$': '1' })
 
-    //REVISAR si se puede poner el id de la propuesta en el find
     const propuestadeseada = user.propuestas.find((variable: any) => variable.id == propuestaid);
-    //var propuestadeseada = user.propuestas
     res.status(200);
     res.send(propuestadeseada);
   } catch (error) {
@@ -124,13 +122,20 @@ router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
       res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }))
     } else {
       if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
-        metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
+        metodos.isNullOrEmpty(req.body.propuesta.actividades) ||
+        metodos.isNullOrEmpty(req.body.propuesta.titulo)) {
         res.status(400);
-        res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }))
+        res.send(JSON.stringify({ mensaje: 'Error. Faltan parametros.' }))
       } else {
         const userId = middleware.decode(req.headers['authorization']).id;
         const filtro = { '_id': new ObjectId(userId), 'propuestas.id': new ObjectId(req.body.propuesta.id) };
-        const dato = { $set: { 'propuestas.$.actividades': req.body.propuesta.actividades } };
+        const dato = {
+          $set: {
+            'propuestas.$.actividades': req.body.propuesta.actividades,
+            'propuesta.titulo': req.body.propuesta.titulo,
+            'propuesta.img': req.body.propuesta.img
+          }
+        };
         var result = await db.collection("administradores").updateOne(filtro, dato)
         //verificar si es con el updateCount?
         if (result.acknowledged) {
@@ -157,16 +162,17 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
       res.status(400);
       res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }))
     } else {
-      if (metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
+      if (metodos.isNullOrEmpty(req.body.propuesta.actividades) ||
+        metodos.isNullOrEmpty(req.body.propuesta.titulo)) {
         res.status(400);
-        res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }))
+        res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }));
       } else {
+
         const userId = middleware.decode(req.headers['authorization']).id;
         req.body.propuesta.id = new ObjectId();
         const filtro = { '_id': new ObjectId(userId) };
         const dato = { $push: { 'propuestas': req.body.propuesta } };
         var result = await db.collection("administradores").updateOne(filtro, dato)
-
         if (result.acknowledged) {
           res.status(200);
           res.send()
@@ -185,6 +191,7 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
 
 
 })
+
 //borra la propuesta
 router.delete('/propuesta/:propuestaid', async (req, res, next) => {
   try {

@@ -1,26 +1,21 @@
 
-<!-- número pregunta -->
-<p class="uno">número pregunta</p>
 <!--- tiempo -->
-<p class="dos">30</p>
+<div>
+    {{[contador]}}
+</div>
+
 
 <div class="datos">
-    
     <!--Título-->
-    <p class="tres">Título</p>
+    <h1>{{actividadActual.nombre}}</h1>
+
     <!--Imagen-->
-    <img src="https://vocaleyes.co.uk/wp-content/uploads/2021/07/QR_code_for_mobile_English_Wikipedia-1400x700.jpg">
+    <div><img src={{actividadActual.imagen}} alt=""></div>
+
     <!--Descripción-->
-    <p class="cuatro">Descripción</p>
+    <div><p>{{actividadActual.descripcion}}</p></div>
 
 </div>
 
 <!--- botones para votar -->
-<div class="votar">
-    <!--- me gusta -->
-    <button class="glowbutton">Me gusta</button>
-    <!--- me da igual -->
-    <button class="glowbutton2">Me da igual</button>
-    <!--- no me gusta  -->
-    <button class="glowbutton3">No me gusta</button>
-</div>
+<app-votos-juego *ngIf="[esAdmin]"></app-votos-juego>

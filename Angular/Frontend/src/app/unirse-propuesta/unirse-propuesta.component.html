@@ -26,4 +26,17 @@
 
 
 
+<div>
+    <form>
+        <div class="row">
+            <label for="codigo">Ingrese el código para unirse a un juego</label>
+            <br>
+            <input type="text" name="codigo" id="codigo" [(ngModel)]="codigo" required placeholder="1020304050">
+            <br>
+            <button type="submit" (click)="guardarCodigo()">Siguiente</button>
+        </div>
+
+        <button routerLink="/inicioSesion"> Volver</button>
+    </form>
+</div>
 

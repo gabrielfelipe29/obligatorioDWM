@@ -8,8 +8,10 @@ import { UnirsePropuestaComponent } from "./unirse-propuesta/unirse-propuesta.co
 import { InicioJuegoComponent } from "./inicio-juego/inicio-juego.component";
 import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
 import { JuegoComponent } from './juego/juego.component';
-import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
+import { IngresarPseudonimoComponent } from './ingresar-pseudonimo/ingresar-pseudonimo.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
+import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
+import { RespuestasComponent } from './respuestas/respuestas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
@@ -17,12 +19,15 @@ const routes: Routes = [
   { path: 'inicio', component: RegistradoComponent },
   { path: 'registro', component: SingUpComponent },
   { path: 'detalles/:id', component: DetallesComponent },
-  { path: 'unirse-propuesta', component: UnirsePropuestaComponent },
-  { path: 'inicio-juego', component: InicioJuegoComponent },
+  { path: 'unirsePropuesta', component: UnirsePropuestaComponent },
+  { path: 'inicioJuego', component: InicioJuegoComponent },
   { path: 'espera-admin', component: EsperaAdminComponent },
   { path: 'juego', component: JuegoComponent },
+  { path: 'unirsePropuesta/:id', component: IngresarPseudonimoComponent },
   { path: 'espera-juego', component: EsperaJuegoComponent }, 
-  { path: 'espera-jugador', component:EsperaJugadorComponent }
+  { path: 'actividad', component: JuegoComponent },
+  { path: 'esperaJugador', component: EsperaJugadorComponent },
+  { path: 'restultadoActividad', component: RespuestasComponent },
 ];
 
 @NgModule({
