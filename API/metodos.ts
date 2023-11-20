@@ -1,4 +1,5 @@
 import { db } from ".";
+import { ObjectId } from 'mongodb'
 export async function findOne(coleccion: String, dato: any) {
 
     var res = null;
@@ -112,6 +113,55 @@ export async function userExist(id: String, contraseña: String): Promise<boolea
     return res;
 }
 
+export async function getRanking(salaId: any) {
+    let ranking: any = [];
+    try {
+        var find = { '_id': new ObjectId(salaId) }
+        //var res = await db.collection("salas").findOne(find);
+        //console.log(res);
+        //ranking = res.propuesta.actividades.sort((a: any, b: any) => a.ranking.meGusta - b.ranking.meGusta).toArray();
+        var cursor = db.collection("salas").aggregate([
+            {
+                $project: {
+                    "_id": new ObjectId(salaId),
+                    result: {
+                        $sortArray: {
+                            input: "$propuesta.actividades",
+                            sortBy: { "ranking.meGusta": -1 }
+                        }
+                    }
+                }
+            }
+        ]);
 
+        var res = await cursor.toArray();
+        ranking = res[0].result;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+    return ranking;
+
+}
+
+export async function obtenerVotosActividad(salaId: number, actividadId: number): Promise<any> {
+    try {
+
+        const filtro = {
+            '_id': new ObjectId(salaId),
+            'propuesta.actividades.id': actividadId,
+            activo: true
+        };
+
+        const result = await db.collection('salas').findOne(filtro);
+        if (result) {
+            return result.propuesta.actividades[actividadId -1].ranking
+        } else {
+            return "Error, no se pudo recuperar nada"
+        }
+    } catch (error) {
+        return "Error, no se pudo recuperar nada"
+    }
+}
 
 

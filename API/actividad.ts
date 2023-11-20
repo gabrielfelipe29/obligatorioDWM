@@ -1,11 +1,19 @@
 import { Ranking } from "./ranking";
+
+export enum EstadosActividad {
+    SinJugar, 
+    Jugando, 
+    SeAcaboDeJugar
+}
 export class Actividad {
     public id: number;
     public titulo: String;
     public descripcion: String;
     public calificacion: Ranking;
     public imageLink?: String;
-    
+ 
+    public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
+
     constructor(id: number, titulo: String, descripcion: String, imageLink?: String) {
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -31,7 +39,7 @@ export class Actividad {
         this.calificacion.incrementarMeDaIgual();
     }
 
-    public obtenerResultados(){
+    public obtenerResultados(): any[]{
         return [this.calificacion.meGusta, this.calificacion.noMeGusta, this.calificacion.meDaIgual]
     }
 
