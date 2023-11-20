@@ -30,7 +30,7 @@ export class DetallesComponent {
   actividades: Actividad[] = [];
 
   ngOnInit() {
-    this.servicio. propuestaActual$?.subscribe(
+    this.servicio.propuestaActual$.subscribe(
       propuesta => this.propuestaActual = propuesta
     );
     this.servicio.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
@@ -39,7 +39,7 @@ export class DetallesComponent {
         this.propuestaActual = propuestaEncontrada;
         if (this.propuestaActual.actividades) {
           this.propuestaActual.actividades.forEach(actividad => {
-            console.log('Nombre de la actividad:', actividad.nombre);
+            console.log('Titulo de la actividad:', actividad.titulo);
           });
           this.actividades = this.propuestaActual.actividades;
         } else {
@@ -72,7 +72,7 @@ export class DetallesComponent {
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/propuesta", this.titulo, this.descripcion, this.imagen)
+    this.servicio.guardarCambiosPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen,this.actividades, this.propuestaActual.id)
   }
 
 }

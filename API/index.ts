@@ -9,7 +9,7 @@ import * as socketsModule from './sockets'
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio'
 const uri =
-    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
+    "mongodb://0.0.0.0:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 export var db: any = null;
 const client = new MongoClient(uri);
 
@@ -105,10 +105,6 @@ io.on('connection', async (socket: any) => {
 
 
 
-
-
-
-
 /* Hacemos la conexión a la base de datos y hacemos que el serve quede corriendo */
 async function run() {
     try {
@@ -118,8 +114,9 @@ async function run() {
         await client.db().command({ ping: 1 });
         console.log("Conectado a BDD.");
         httpServer.listen(PORT, HOST, () => {
-            console.log(`Server running on port ${PORT} estas compilando cornudo?`)
+            console.log(`Server running on port ${PORT}`)
         })
+
 
     } catch (error) {
         console.log(error);
