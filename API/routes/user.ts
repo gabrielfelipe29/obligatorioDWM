@@ -6,7 +6,7 @@ import { db } from '..'
 import { ObjectId } from 'mongodb'
 const router = express.Router()
 
-export var admins: { [clave: string]: Administrador } = {};
+export const admins: { [clave: string]: Administrador } = {}; 
 
 
 //registrar usuario
@@ -191,6 +191,7 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
 
 
 })
+
 //borra la propuesta
 router.delete('/propuesta/:propuestaid', async (req, res, next) => {
   try {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-barra-de-navegacion',
@@ -6,19 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./barra-de-navegacion.component.css']
 })
 export class BarraDeNavegacionComponent {
-  nombre: string ="";
-  ngOnInit() {
-    const storedData = localStorage.getItem("usuario");
-    if (storedData) {
-      const info = JSON.parse(storedData);
-      console
-      this.nombre = info.name;
-    } else {
-      console.log('No se encontraron datos en el Local Storage.');
-    }
-  }
+
+  constructor( private cookies: CookieService){}
+
+  nombre: string =this.cookies.get("userID");
 
   cerrarSesion(){
-    localStorage.removeItem("usuario");
+    this.cookies.delete("userID");
   }
 }

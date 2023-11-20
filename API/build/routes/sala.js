@@ -41,6 +41,7 @@ const middleware = __importStar(require("../middleware"));
 const metodos = __importStar(require("../metodos"));
 const mongodb_1 = require("mongodb");
 const router = express_1.default.Router();
+const qrcode = require('qrcode');
 //crea la sala y le devuelve el id con el link y eso
 router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     //el body tiene la propuesta o solo el id propuesta?, con la coleccion de actividades
@@ -77,7 +78,15 @@ router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, vo
                     });
                     if (result.acknowledged) {
                         res.status(200);
-                        res.send(JSON.stringify({ salaId: result.insertedId.toString() }));
+                        const { data } = result.insertedId.toString(); // Datos para generar el código QR
+                        try {
+                            const qrCode = yield qrcode.toDataURL(data);
+                            res.send(JSON.stringify({ salaId: result.insertedId.toString(), codigoQR: qrCode }));
+                        }
+                        catch (error) {
+                            res.status(500);
+                            res.send({ error: 'No se pudo generar el código QR.' });
+                        }
                     }
                     else {
                         res.status(500);

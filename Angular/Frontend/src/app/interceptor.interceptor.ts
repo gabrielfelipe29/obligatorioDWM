@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {LoginService} from './log-in.service.ts'
 
 import {
   HttpRequest,
@@ -8,13 +7,14 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { LogInService } from './services/log-in.service';
 
 @Injectable()
 export class InterceptorInterceptor implements HttpInterceptor {
 
-  constructor(private loginService: LoginService) {}
+  constructor(private loginService: LogInService) { }
 
-intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (this.loginService.estaLogeado()) {
       const reqCopy = request.clone({
@@ -31,3 +31,4 @@ intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<an
 
 
   }
+}
