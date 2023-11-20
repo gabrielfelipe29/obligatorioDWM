@@ -45,7 +45,7 @@ const metodos = __importStar(require("./metodos"));
 const socketsModule = __importStar(require("./sockets"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
-const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
+const uri = "mongodb://0.0.0.0:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 exports.db = null;
 const client = new MongoClient(uri);
 //secreto esta en el middleware
@@ -120,7 +120,7 @@ function run() {
             yield client.db().command({ ping: 1 });
             console.log("Conectado a BDD.");
             httpServer.listen(PORT, HOST, () => {
-                console.log(`Server running on port ${PORT} estas compilando cornudo?`);
+                console.log(`Server running on port ${PORT} `);
             });
             metodos.getRanking('654b84a362564ddf38c64eb0');
         }

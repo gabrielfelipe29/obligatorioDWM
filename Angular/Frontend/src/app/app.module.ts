@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { QRCodeModule } from 'angularx-qrcode';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +28,8 @@ import { CommonModule } from '@angular/common';
 import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
+import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
+import { VeractividadesComponent } from './veractividades/veractividades.component';
 
 
 
@@ -46,22 +47,21 @@ import { RespuestasComponent } from './respuestas/respuestas.component';
     ActividadComponent,
     CrearPropuestaComponent,
     CrearActividadComponent,
-    UnirsePropuestaComponent,
     IngresarPseudonimoComponent,
     VotosComponent,
     JuegoComponent,
     InicioJuegoComponent,
     EsperaJugadorComponent, 
-    RespuestasComponent
-
-
+    RespuestasComponent,
+    TodasLasActividadesComponent,
+    VeractividadesComponent
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    QRCodeModule, 
     CommonModule
 
   ],

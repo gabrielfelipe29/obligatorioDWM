@@ -78,6 +78,7 @@ router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, functio
 }));
 //loguear usuario
 router.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     try {
         var token;
         var user = yield metodos.findOne("administradores", {
@@ -110,6 +111,8 @@ router.get('/propuesta', middleware.verifyUser, (req, res, next) => __awaiter(vo
     try {
         const userId = middleware.decode(req.headers['authorization']).id;
         const user = yield metodos.findOne("administradores", { '_id': new mongodb_1.ObjectId(userId) });
+        console.log(user);
+        //const user = await metodos.findOne("administradores", { 'id': userId });
         const propuestas = user.propuestas;
         res.status(200);
         res.send(propuestas);
@@ -137,7 +140,7 @@ router.get('/propuesta/:propuestaid', middleware.verifyUser, (req, res, next) =>
             'propuestas.id': new mongodb_1.ObjectId(propuestaid)
         }, { '_id': 0, 'propuestas.$': '1' });
         //REVISAR si se puede poner el id de la propuesta en el find
-        const propuestadeseada = user.propuestas.find((variable) => variable.id == propuestaid);
+        const propuestadeseada = user.propuestas.find((variable) => variable._id == propuestaid);
         //var propuestadeseada = user.propuestas
         res.status(200);
         res.send(propuestadeseada);
@@ -156,14 +159,15 @@ router.put('/propuesta', middleware.verifyUser, (req, res, next) => __awaiter(vo
             res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }));
         }
         else {
-            if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
+            if (metodos.isNullOrEmpty(req.body.propuesta._id) ||
                 metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
                 res.status(400);
                 res.send(JSON.stringify({ mensaje: 'Error. Faltán parametros.' }));
             }
             else {
                 const userId = middleware.decode(req.headers['authorization']).id;
-                const filtro = { '_id': new mongodb_1.ObjectId(userId), 'propuestas.id': new mongodb_1.ObjectId(req.body.propuesta.id) };
+                const filtro = { '_id': new mongodb_1.ObjectId(userId), 'propuestas._id': new mongodb_1.ObjectId(req.body.propuesta._id) };
+                const ejemplo = metodos.findOne("administradores", { 'propuestas._id': new mongodb_1.ObjectId(req.body.propuesta._id) });
                 const dato = { $set: { 'propuestas.$.actividades': req.body.propuesta.actividades } };
                 var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
                 //verificar si es con el updateCount?
@@ -198,7 +202,7 @@ router.post('/propuesta', middleware.verifyUser, (req, res, next) => __awaiter(v
             }
             else {
                 const userId = middleware.decode(req.headers['authorization']).id;
-                req.body.propuesta.id = new mongodb_1.ObjectId();
+                req.body.propuesta._id = new mongodb_1.ObjectId();
                 const filtro = { '_id': new mongodb_1.ObjectId(userId) };
                 const dato = { $push: { 'propuestas': req.body.propuesta } };
                 var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
