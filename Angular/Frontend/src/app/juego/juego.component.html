@@ -1,0 +1,21 @@
+
+<!--- tiempo -->
+<div>
+    {{[contador]}}
+</div>
+
+
+<div class="datos">
+    <!--Título-->
+    <h1>{{actividadActual.nombre}}</h1>
+
+    <!--Imagen-->
+    <div><img src={{actividadActual.imagen}} alt=""></div>
+
+    <!--Descripción-->
+    <div><p>{{actividadActual.descripcion}}</p></div>
+
+</div>
+
+<!--- botones para votar -->
+<app-votos-juego *ngIf="[esAdmin]"></app-votos-juego>
