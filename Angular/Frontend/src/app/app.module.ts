@@ -27,9 +27,9 @@ import { JuegoComponent } from './juego/juego.component';
 import { CommonModule } from '@angular/common';
 import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
-import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
+//import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
-import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
+//import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
 import { RankingComponent } from './ranking/ranking.component';
 
 
@@ -56,8 +56,8 @@ import { RankingComponent } from './ranking/ranking.component';
     JuegoComponent,
     InicioJuegoComponent,
     EsperaJugadorComponent, 
-    EsperaJuegoComponent,
-    EsperaAdminComponent,
+    //EsperaJuegoComponent,
+    //EsperaAdminComponent,
     RespuestasComponent,
     RankingComponent,
 
@@ -69,7 +69,6 @@ import { RankingComponent } from './ranking/ranking.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    QRCodeModule, 
     CommonModule
 
   ],
