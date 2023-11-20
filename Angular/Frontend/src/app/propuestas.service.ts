@@ -20,9 +20,24 @@ export class PropuestasService {
     */
     //Lo siguiente es momentaneo 
     let propuestas: Propuesta[] = [
-      { id: 1, titulo: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 1, titulo: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 Descripcion de la tarjeta 1 ', actividades: [], creatorId: "usuario_1", imagen: "#" },
       { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
-      { id: 3, titulo: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', actividades: [], creatorId: "usuario_1", imagen: "#" }
+      { id: 3, titulo: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 4, titulo: 'Tarjeta 4', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 5, titulo: 'Tarjeta 5', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 6, titulo: 'Tarjeta 6', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 7, titulo: 'Tarjeta 7', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 8, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 9, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
+
     ];
 
     return of(propuestas);

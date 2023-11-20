@@ -21,7 +21,13 @@ import { ActividadComponent } from './actividad/actividad.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
 import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
-
+import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
+import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
+import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
+import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
+import { JuegoComponent } from './juego/juego.component';
+import { RankingComponent } from './ranking/ranking.component';
+import { RespuestasComponent } from './respuestas/respuestas.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +43,14 @@ import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
     ActividadComponent,
     CrearPropuestaComponent,
     CrearActividadComponent,
-    UnirseJuegoComponent
+    UnirseJuegoComponent,
+    InicioJuegoComponent,
+    EsperaAdminComponent,
+    EsperaJuegoComponent,
+    EsperaJugadorComponent,
+    JuegoComponent,
+    RankingComponent,
+    RespuestasComponent
   ],
   imports: [
     BrowserModule,
