@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
 
+
+
   constructor(private servicio: PropuestasService, private router: Router) {
     // Inyección de dependencias del servicio en el constructor
   }
@@ -25,6 +27,7 @@ export class PropuestasComponent implements OnInit {
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
+  
 }
 /*
 Tiene q haber un aviso a los demás para que así{

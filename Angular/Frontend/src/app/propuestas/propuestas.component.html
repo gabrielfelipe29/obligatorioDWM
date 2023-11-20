@@ -1,4 +1,4 @@
-<h1>Propuestas Disponibles</h1>
+<h2>Propuestas Disponibles</h2>
 <!--
 <div>
   <div class="contenedor-tarjetas">
@@ -51,35 +51,31 @@
 -->
 
 
-<div class="card">
-  
-  <div *ngFor="let tarjeta of propuestas">
+  <div class="card-container">
+    <div class="card" *ngFor="let tarjeta of propuestas">
+      <div
+        class="card2">
 
-    <div class="card2">
-
-        <div class="card3">
-
-          <div class="card_content">
-            <p class="title">{{ tarjeta.titulo }}</p>
-            <hr>
-            <p class="content">{{ tarjeta.descripcion }}
-            </p>
-          </div>
-
-          <div class="btn">
-            <!--Botón detalles-->
-          <button class="button1" (click)="verDetalles(tarjeta.id)">Detalles</button>
-          <br>
-            <!--Botón jugar-->
-            <button class="button1" routerLink="/inicio-juego">&nbsp;&nbsp;Jugar&nbsp;&nbsp;</button>
-          </div>
-
+        <div class="card_content">
+          <p class="title">{{ tarjeta.titulo }}</p>
+          <hr>
+          <p class="content">{{ tarjeta.descripcion }}</p>
         </div>
+
+        <div class="btn">
+          <button class="button1" (click)="verDetalles(tarjeta.id)">Detalles</button>
+          <button class="button1" routerLink="/inicio-juego">&nbsp;&nbsp;Jugar&nbsp;&nbsp;</button>
+      </div>
+
     </div>
   </div>
-</div>
 
-<!--Botón flotante-->
-<a href="#" class="btn-flotante"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-</svg></a>
+  <!-- Botón flotante -->
+  <a href="#" class="btn-flotante" routerLink="/espera-jugador">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+    </svg>
+  </a>
+
+
+

@@ -8,6 +8,8 @@ import { UnirsePropuestaComponent } from "./unirse-propuesta/unirse-propuesta.co
 import { InicioJuegoComponent } from "./inicio-juego/inicio-juego.component";
 import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
 import { JuegoComponent } from './juego/juego.component';
+import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
+import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
@@ -18,7 +20,9 @@ const routes: Routes = [
   { path: 'unirse-propuesta', component: UnirsePropuestaComponent },
   { path: 'inicio-juego', component: InicioJuegoComponent },
   { path: 'espera-admin', component: EsperaAdminComponent },
-  { path: 'juego', component: JuegoComponent }
+  { path: 'juego', component: JuegoComponent },
+  { path: 'espera-juego', component: EsperaJuegoComponent }, 
+  { path: 'espera-jugador', component:EsperaJugadorComponent }
 ];
 
 @NgModule({
