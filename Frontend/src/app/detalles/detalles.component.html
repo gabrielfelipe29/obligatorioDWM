@@ -27,7 +27,7 @@
               {{actividad.titulo}}
             </span>
           </button>
-          <button (click)="Delete(actividad._id)">
+          <button (click)="retirarDeLista(actividad._id)">
             Eliminar
           </button>
         </li>
@@ -49,19 +49,14 @@
         <ul>
           <li *ngFor="let actividad of actividadesExistentes">
             {{ actividad.titulo }}
-            <button >+</button>
+            <button (click)="agregarALista(actividad)">+</button>
           </li>
         </ul>
       </div>
     </div>
     
       
-      <div class="item-details">
-        <h2>Detalles del Elemento</h2>
-        <div *ngIf="actividadSeleccionada">{{ actividadSeleccionada.descripcion }}</div>
-      </div>  
-    
-      <h2>Actividades a Agregar</h2>
+      
     
   </div>
   

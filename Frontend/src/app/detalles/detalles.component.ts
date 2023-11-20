@@ -54,7 +54,6 @@ export class DetallesComponent {
         console.log("Propuesta no encontrada");
       }
     });
-
     this.obtenerTodasLasActividades()
   }
 
@@ -70,6 +69,7 @@ export class DetallesComponent {
         }
       );
   }
+
   onSelect(actividad: Actividad): void {
     this.actividadSeleccionada = actividad;
   }
@@ -94,11 +94,24 @@ export class DetallesComponent {
   }
 
   agregarALista (actividad: Actividad){
-
+    const existe = this.actividades.find((elem :Actividad ) => elem._id == actividad._id);
+    if (!existe ) {
+      console.log("entre")
+        this.actividades.push(actividad);
+        console.log(`Actividad agregada: ${actividad.titulo}`);
+    } else {
+        console.log("entre acaa")
+        console.log(`El actividad con el titulo ${actividad.titulo} ya existe en la lista.`);
+    } 
+    console.log("Existe:"+!existe)
+    console.log("actividades")
+    console.log(this.actividades)
+    console.log(this.actividadesExistentes)
   }
 
-  retirarDeLista (actividad: Actividad){
-    
+  retirarDeLista (id: string){
+    this.actividades = this.actividades.filter(actividad => actividad._id !== id);
+    console.log(`Objeto con ID ${id} eliminado de la lista.`);
   }
 
   agregarAPropuesta(actividad: Actividad): void {
