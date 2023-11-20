@@ -1,8 +1,8 @@
-import { Actividad } from '../actividad';
+import { Actividad } from '../interfaces/actividad';
 import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { PropuestasService } from '../propuestas.service';
+import { PropuestasService } from '../services/propuestas.service';
 
 
 @Component({

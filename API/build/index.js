@@ -41,6 +41,7 @@ const sala_1 = __importDefault(require("./routes/sala"));
 const user_1 = __importDefault(require("./routes/user"));
 const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
+const metodos = __importStar(require("./metodos"));
 const socketsModule = __importStar(require("./sockets"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
@@ -119,8 +120,9 @@ function run() {
             yield client.db().command({ ping: 1 });
             console.log("Conectado a BDD.");
             httpServer.listen(PORT, HOST, () => {
-                console.log(`Server running on port ${PORT}`);
+                console.log(`Server running on port ${PORT} estas compilando cornudo?`);
             });
+            metodos.getRanking('654b84a362564ddf38c64eb0');
         }
         catch (error) {
             console.log(error);

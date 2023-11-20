@@ -1,0 +1,23 @@
+<!-- Título -->
+<h1>{{tituloActividad}}</h1>
+
+<!-- Puntajes -->
+<div>
+    <!-- Cantidad respuestas "me gusta" -->
+    <div>Me gusta: {{cantidadMeGusta}}</div>
+
+    <!-- Cantidad respuestas "me da iguial -->
+    <div>Me da igual{{cantidadMeDaIgual}}</div>
+    
+    <!-- Cantidad respuestas "no me gusta" -->
+    <div>No me Gusta {{cantidadNoMeGusta}}</div>
+</div>
+
+<div *ngIf="!eraLaUltima && [esAdmin]">
+<button  type="button" class="btn btn-primary" (click)="siguienteActividad()">Next</button>
+    
+</div>
+<div *ngIf="eraLaUltima && [esAdmin]">
+    <button  type="button" class="btn btn-dark" (click)="mostrarRanking()">Mostrar Ranking</button>
+
+</div>
