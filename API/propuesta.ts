@@ -42,7 +42,7 @@ export class Propuesta {
                 segundo = actividad
                 calificacionSegundo = puntaje.meGusta
 
-            } else if (puntaje.meGusta > calificacionTercero) {
+            } else if (puntaje.meGusta == calificacionTercero) {
                 tercero = actividad
                 calificacionTercero = puntaje.meGusta
             }
@@ -50,6 +50,11 @@ export class Propuesta {
 
         return [primero, calificacionPrimero, segundo,calificacionSegundo, tercero, calificacionTercero,]
 
+    }
+
+    public comprobarUltimaActividad(){
+        let esUltima = this.proximaActividad == this.actividades.length 
+        return esUltima
     }
 
     public obtenerResultadosActividad(): any[]{

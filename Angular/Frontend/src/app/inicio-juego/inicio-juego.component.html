@@ -10,7 +10,7 @@
         <div><p>{{jugador.psudonimo}}</p></div>
     </div>
 
-    <div *ngIf="comprobarEsAdmin()">
+    <div *ngIf="[esAdmin]">
         <button (click)="iniciarJuego()">Iniciar juego</button>
     </div>
 </div>

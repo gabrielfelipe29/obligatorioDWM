@@ -27,8 +27,8 @@ import { VotosComponent } from './votos/votos.component';
 import { JuegoComponent } from './juego/juego.component';
 import { CommonModule } from '@angular/common';
 import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
-import { TemporizadorComponent } from './temporizador/temporizador.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
+import { RespuestasComponent } from './respuestas/respuestas.component';
 
 
 
@@ -51,8 +51,8 @@ import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.componen
     VotosComponent,
     JuegoComponent,
     InicioJuegoComponent,
-    TemporizadorComponent,
-    EsperaJugadorComponent
+    EsperaJugadorComponent, 
+    RespuestasComponent
 
 
   ],

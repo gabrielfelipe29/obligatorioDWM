@@ -11,12 +11,13 @@ export class Actividad {
     public descripcion: string;
     public calificacion: Ranking;
     public imagen?: string;
- 
+
     public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
 
     constructor(id: number, titulo: string, descripcion: string, imagen?: string) {
         this.nombre = titulo;
         this.descripcion = descripcion;
+        
 
         if (this.imagen != undefined) {
             this.imagen = imagen;
@@ -32,9 +33,11 @@ export class Actividad {
         this.calificacion.noMeGusta = noMeGusta
         this.calificacion.meDaIgual = meDaIgual
     }
-    public obtenerResultados(): any[]{
-        return [this.calificacion.meGusta, this.calificacion.noMeGusta, this.calificacion.meDaIgual]
+    public obtenerResultados(): object{
+        return {meGusta: this.calificacion.meGusta, noMeGusta: this.calificacion.noMeGusta, meDaIgual: this.calificacion.meDaIgual}
     }
+
+
 
     
 }

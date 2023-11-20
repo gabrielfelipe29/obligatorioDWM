@@ -21,15 +21,18 @@ export class JuegoService {
 
   yaEstaEnSala = false
 
-  contador: number = 0
+  esUltima: boolean = false
 
-  setContadorActual(tiempoRestante: number){
-    this.contador = tiempoRestante
+  getEsUltima(){
+    return of(this.esUltima)
   }
 
   getActividadActual(): Observable<Actividad> {
     return of(this.actividadActual)
   }
+
+
+
 
   getJugadores(): Observable<Jugador[]> {
     const juadoresConst = of(this.jugadores);
@@ -55,7 +58,7 @@ export class JuegoService {
     this.yaEstaEnSala = true
   }
 
-  
+
 
   obtenerCodigoPropuesta() {
     return this.cookies.get("nombreCanal")
@@ -82,7 +85,7 @@ export class JuegoService {
     }
     let codigoSala = this.cookies.get("nombreCanal")
     let codigoActividad = this.actividadActual.id
-    let ruta = "http://localhost:3000/salas/votar/" + codigoSala + "/actividad/" + codigoActividad
+    let ruta = "http://localhost:3000/salas/" + codigoSala + "/actividad/" + codigoActividad
     return this.http.post(ruta, data)
 
   }
@@ -95,4 +98,12 @@ export class JuegoService {
       console.log("Hubo un error haciendo el parse de un tipo de dato a otro")
     }
   }
+
+  getResultadosActividad(): object{
+    return this.actividadActual.obtenerResultados()
+  }
+
+
+
+
 }

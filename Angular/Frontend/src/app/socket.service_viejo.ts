@@ -26,11 +26,6 @@ export class SocketServiceViejo  implements OnInit{
     // Escuchar mensajes en un canal específico
     this.socket.on("1", (mensaje: any) => {
 
-      if (mensaje.asunto !== undefined && mensaje.asunto == "resultadosActividad") {
-        // Aca llegan los resultados de la actividad
-        // this.juegoService.setResultadosActividad(mensaje.resultado.meGusta, mensaje.resultado.noMeGusta, mensaje.resultado.meDaIgual)
-        //this.router.navigateByUrl('/restultadoActividad');
-      }
 
       if (mensaje.asunto !== undefined && mensaje.asunto == "ranking") {
         // Aca llegan los resultados de la propuesta como ta, el ranking de actividades

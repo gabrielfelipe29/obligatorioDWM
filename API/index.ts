@@ -4,7 +4,6 @@ import salaRouter from './routes/sala'
 import userRouter from './routes/user'
 import express, { Request, Response } from 'express';
 import { createServer } from "http";
-import * as metodos from './metodos'
 import * as socketsModule from './sockets'
 
 const { MongoClient } = require("mongodb");
@@ -57,48 +56,48 @@ const io = require('socket.io')(httpServer, {
 
 
 // Sockets
-io.on('connection', (socket: any) => {
+io.on('connection', async (socket: any) => {
     console.log('Cliente conectado');
 
-    socket.on('join', (datos: any) => {
+    socket.on('join',async (datos: any) => {
         console.log(datos)
         socketsModule.join(datos, io, socket)
         console.log("Un cliente se ha unido al canal", datos.codigo)
     });
 
-    socket.on('iniciarJuego', (mensaje: any) => {
-        socketsModule.iniciarJuego(mensaje, io, socket)
+    socket.on('iniciarJuego', async (mensaje: any) => {
+        socketsModule.mostrarActividad(mensaje, io)
         console.log("El admin quizo iniciar el juego")
     });
 
-    socket.on('mostrarActividad', (mensaje: any) => {
+    socket.on('mostrarActividad', async (mensaje: any) => {
         socketsModule.mostrarActividad(mensaje, io)
         console.log("El admin quizo mostrar otra actividad")
     });
 
-    socket.on('mostrarResultadosActividad', (mensaje: any) => {
+    socket.on('mostrarResultadosActividad',async  (mensaje: any) => {
         socketsModule.obtenerResultadosActividad(mensaje, io, socket)
         console.log("El admin quizo obrener el resultado de la actividad")
     });
 
-    socket.on('obtenerRanking', (mensaje: any) => {
+    socket.on('obtenerRanking', async (mensaje: any) => {
         socketsModule.obtenerRanking(mensaje, io, socket)
         console.log("El admin quizo obtener el ranking del juego")
     });
 
     // El administrador termina el juego y saca a los jugadores de la misma
-    socket.on('terminarJuego', (mensaje: any) => {
+    socket.on('terminarJuego', async (mensaje: any) => {
         socketsModule.terminarJuego(mensaje, io)
         console.log("El admin quizo terminar el juego")
     });
 
-    socket.on('salirJuego', (chanel: any) => {
+    socket.on('salirJuego', async (chanel: any) => {
         socketsModule.salirJuego(chanel, socket)
         console.log('Cliente salio del juego');
     });
 
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
         socketsModule.desconectarse(socket, io)
         console.log('Cliente desconectado');
     });

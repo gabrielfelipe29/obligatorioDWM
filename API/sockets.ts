@@ -1,9 +1,8 @@
 import { salas } from "./routes/sala";
-import { Jugador } from "./jugador";
 import { Propuesta } from "./propuesta";
 import { admins } from "./routes/user"
 import { EstadosActividad } from "./actividad";
-import { json } from "body-parser";
+import { obtenerVotosActividad } from './metodos'
 
 /* Para no dejar usuarios  en la sala si se desconectan en medio del juego, 
 o para eviar usuarios repetidos por una reconexión de socket debemos registrar el socketID con la sala. 
@@ -14,45 +13,18 @@ socketID, como clave y como valor el codigo de la sala */
 export var socketsJugadores: { [clave: string]: number } = {}
 export var socketsAdmin: { [clave: string]: number } = {}
 
+
+
 export function mostrarActividad(mensaje: any, io: any) {
-    if (mensaje.adminID !== undefined && mensaje.codigoSala) {
 
-        let chanel = mensaje.codigoSala;
 
-        // Obtenemos la sala 
-        let sala = salas[mensaje.codigoSala]
-        let propuesta = sala.propuesta
-        let actividadObtenida = propuesta.devolerSigueinteActividad()
-
-        let data = {
-            asunto: "actividad",
-            actividad: {
-                idActividad: actividadObtenida?.id,
-                titulo: actividadObtenida?.titulo,
-                descripcion: actividadObtenida?.descripcion,
-                imagen: actividadObtenida?.imageLink
-            }
-        }
-        if (actividadObtenida)
-            actividadObtenida.estadoActividad = EstadosActividad.Jugando
-
-        io.to(chanel).emit(chanel, data);
-        correrActividad(io, mensaje.codigoSala)
-
-    }
-    console.log('Se recibio el pedido de otra actividad:', mensaje);
-}
-
-export function iniciarJuego(mensaje: any, io: any, socket: any) {
-
-    
     let chanel = ""
     try {
         chanel = mensaje.codigoSala;
-        
+
     } catch (error) {
         console.log("No esta el parametro especificado, no se puede hacer nada")
-    } 
+    }
 
     if (mensaje.adminID !== undefined && mensaje.codigoSala && mensaje.codigoSala in salas) {
 
@@ -63,12 +35,18 @@ export function iniciarJuego(mensaje: any, io: any, socket: any) {
         let propuesta = sala.propuesta
         let actividadObtenida = propuesta.devolerSigueinteActividad()
 
-        let data = {
-            actividad: {
-                idActividad: actividadObtenida?.id,
-                titulo: actividadObtenida?.titulo,
-                descripcion: actividadObtenida?.descripcion,
-                imagen: actividadObtenida?.imageLink
+        var data = {}
+
+        if (actividadObtenida) {
+            actividadObtenida.estadoActividad = EstadosActividad.Jugando
+            // Si es la última actividad le agregamos algo que le indique al front que es así
+            data = {
+                actividad: {
+                    idActividad: actividadObtenida.id,
+                    titulo: actividadObtenida.titulo,
+                    descripcion: actividadObtenida.descripcion,
+                    imagen: actividadObtenida.imageLink,
+                }
             }
         }
 
@@ -129,7 +107,6 @@ export function join(datos: any, io: any, socket: any) {
             if (datos.rol == "player" && datos.pseudonimo != undefined) {
                 // Si la sala existe lo agregamos
 
-                console.log(datos.pseudonimo)
                 sala.agregarJugador(sala.obtenerIDUltimoJugador(), datos.pseudonimo, socket.id)
                 socketsJugadores[socket.id] = sala.id;
                 console.log(`Player unido al canal ${channel}`);
@@ -256,23 +233,46 @@ export function desconectarse(socket: any, io: any) {
 }
 
 async function correrActividad(io: any, idSala: number) {
-    let time = 30500
+    /* let time = 31000 */
+    let time = 11000
     if (idSala in salas) {
-        let sala = salas[idSala]
-        let propuesta = sala.propuesta
-        let resultadosActividad: number[] | undefined = propuesta.obtenerResultadosActividad()
-        if (resultadosActividad != undefined) {
-            let data = {
-                meGusta: resultadosActividad[0],
-                noMeGusta: resultadosActividad[1],
-                meDaIgual: resultadosActividad[2]
+        setTimeout(async () => {
+            let sala = salas[idSala]
+            let propuesta = sala.propuesta
+            if (propuesta) {
+                let idActividad = propuesta.actividadActual?.id
+                if (idActividad && propuesta.actividadActual) {
+                    propuesta.actividadActual.estadoActividad = EstadosActividad.SeAcaboDeJugar
+                    var ranking = await obtenerVotosActividad(idSala, idActividad)
+                    if (ranking != "Error, no se pudo recuperar nada") {
+                        console.log("Ultima actividad?" + propuesta.comprobarUltimaActividad())
+
+                        let data = {
+                            ultimaActividad: propuesta.comprobarUltimaActividad(),
+                            resultado: {
+
+                                meGusta: ranking.meGusta,
+                                noMeGusta: ranking.noMeGusta,
+                                meDaIgual: ranking.meDaIgual
+                            }
+
+                        }
+                        console.log("Va a devolver resultados de la activdad")
+                        io.to(idSala).emit("restultadoActividad", data)
+
+                    } else {
+                        io.to(idSala).emit("errores", "No existe la actividad, error")
+                        console.log("Error al recuperar el ranking")
+                    }
+                } else {
+                    io.to(idSala).emit("errores", "No existe la actividad, error")
+                    console.log("No existe la actividad, error")
+                }
             }
-            setTimeout(() => {
-                io.to(idSala).emit("restultadoActividad", data)
-            },
-                time)
-        }
+        },
+            time)
     }
-
-
 }
+
+
+

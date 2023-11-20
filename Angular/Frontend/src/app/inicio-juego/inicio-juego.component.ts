@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { PropuestasService } from '../services/propuestas.service';
 import { Propuesta } from '../interfaces/propuesta';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { SocketService } from '../services/socket.service';
   templateUrl: './inicio-juego.component.html',
   styleUrls: ['./inicio-juego.component.css']
 })
-export class InicioJuegoComponent implements OnInit {
+export class InicioJuegoComponent implements OnInit, AfterViewInit {
 
   private socket: any;
 
@@ -27,8 +27,15 @@ export class InicioJuegoComponent implements OnInit {
   jugadores: Jugador[] = []
   codigoSala: string = ""
   qrCodeUrl: string = ""
+  esAdmin: boolean = false
+
+  ngAfterViewInit(): void {
+    //this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
+    this.esAdmin = this.cookies.check("token")
+  }
 
   ngOnInit() {
+
     this.juegoService.entrarASalaEspera()
     this.codigoSala = this.cookies.get("codigoSala")
     this.qrCodeUrl = this.cookies.get("qrCode")
@@ -44,13 +51,15 @@ export class InicioJuegoComponent implements OnInit {
 
     this.socket.on("actividad", (mensaje: any) => {
       console.log("Llego a donde tenía que llegar", mensaje)
-      console.log("Resultado: " + (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined && 
-        mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined ))
-      if (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined && 
-        mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined ) {
-          this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
-          this.router.navigateByUrl('/actividad');
-        }
+      console.log("Resultado: " + (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined &&
+        mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined))
+      if (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined &&
+        mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined) {
+
+        // Revisa si es la última actividad y pasa el parametro al servicio
+        this.router.navigateByUrl('/actividad');
+        this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
+      }
 
     })
 
@@ -61,12 +70,11 @@ export class InicioJuegoComponent implements OnInit {
 
   }
 
-  public comprobarEsAdmin() {
-    return this.cookies.check("token")
-  }
 
   public iniciarJuego() {
     this.servicioPropuestas.iniciarJuego()
   }
+
+
 
 }

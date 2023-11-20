@@ -20,9 +20,21 @@ export class IngresarPseudonimoComponent implements OnInit {
 
   constructor(private socketService: SocketService, private router: Router, private cookies: CookieService, private juegoService: JuegoService) {
     this.socket = socketService.getSocket();
+    let cookiesUsadas: string[] = ["token","userID","userPassword"]
+
+    // Borramos las cookies que hayan quedado de instancias anteriores del programa
+    console.log(this.cookies.getAll())
+    for (let cookieName of cookiesUsadas){
+      if(this.cookies.check(cookieName)){
+        this.cookies.delete(cookieName)
+        console.log(cookieName)
+      }
+    }
   }
 
   ngOnInit() {
+    
+
     let urlPagina = this.router.url;
     let datos = urlPagina.split("/")
     this.codigo = datos[datos.length - 1]

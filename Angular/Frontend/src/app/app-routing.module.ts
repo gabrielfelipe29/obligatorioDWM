@@ -11,6 +11,7 @@ import { JuegoComponent } from './juego/juego.component';
 import { IngresarPseudonimoComponent } from './ingresar-pseudonimo/ingresar-pseudonimo.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
 import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
+import { RespuestasComponent } from './respuestas/respuestas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'unirsePropuesta/:id', component: IngresarPseudonimoComponent },
   { path: 'actividad', component: JuegoComponent },
   { path: 'esperaJugador', component: EsperaJugadorComponent },
+  { path: 'restultadoActividad', component: RespuestasComponent },
 ];
 
 @NgModule({

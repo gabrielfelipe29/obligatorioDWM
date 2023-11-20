@@ -33,7 +33,15 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                 var decoded = middleware.decode(req.headers['authorization'])
                 try {
 
-          
+                    for (let i = 0; i < req.body.propuesta.actividades.length; i++) {
+                        //req.body.propuesta.actividades[i]._id = new ObjectId(req.body.propuesta.actividades[i]._id)
+                        req.body.propuesta.actividades[i].jugadores = [];
+                        req.body.propuesta.actividades[i].ranking = {
+                            'meGusta': 0,
+                            'noMeGusta': 0,
+                            'meDaIgual': 0
+                        }
+                    }
 
                     //var jsonStr = JSON.stringify(obj);
                     var result = await metodos.addOne("salas",
@@ -47,8 +55,8 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     var codigoJuego = result.insertedId
                     // Pasamos a crear los objetos que necesitamos tener mientras funciona el programa
 
-                    const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id ) });
-                    
+                    const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id) });
+
                     var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta.id === req.body.propuesta.id);
 
                     if (propuestaDeseada) {
@@ -64,11 +72,8 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                         var newSala = new Sala(codigoJuego, newPropuesta, decoded.id)
                         salas[codigoJuego] = newSala
 
-                        //console.log(salas)
 
                         // Fin de lógica para los sockets
-
-
                         if (result.acknowledged) {
                             res.status(200);
 
@@ -92,10 +97,8 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                         res.status(500);
                         res.send({ error: 'La propuesta no fue encontrada' })
                     }
-
                 } catch (error) {
                     res.status(500);
-                    console.log(error)
                     res.send(JSON.stringify({ mensaje: "Error al insertar." }))
                 }
             }
@@ -106,7 +109,6 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
     }
 
 })
-
 
 //manda el resultado de las actividades
 router.post('/:salaid/actividad/:actividadid', async (req, res) => {
@@ -123,12 +125,14 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
                 const jugador = req.body.jugador;
                 const actividadid = req.params.actividadid;
                 const salaid = req.params.salaid;
+
                 const filtro = {
                     '_id': new ObjectId(salaid),
-                    'propuesta.actividades._id': new ObjectId(actividadid),
+                    'propuesta.actividades.id': parseInt(actividadid),
                     activo: true
                 };
                 let dato = null;
+
 
                 if (jugador.ranking.meGusta == "1") {
                     dato = {
@@ -148,6 +152,7 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
                 }
 
                 var result = await db.collection("salas").updateOne(filtro, dato)
+
                 if (result.acknowledged) {
                     res.status(200);
                     res.send()
@@ -163,6 +168,8 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
         res.send(JSON.stringify({ mensaje: 'Error al enviar ranking' }));
     }
 })
+
+
 
 
 

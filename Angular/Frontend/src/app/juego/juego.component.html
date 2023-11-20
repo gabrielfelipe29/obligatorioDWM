@@ -1,6 +1,9 @@
 
 <!--- tiempo -->
-<app-temporizador [contadorActual]="contador"></app-temporizador>
+<div>
+    {{[contador]}}
+</div>
+
 
 <div class="datos">
     <!--Título-->
@@ -10,9 +13,9 @@
     <div><img src={{actividadActual.imagen}} alt=""></div>
 
     <!--Descripción-->
-    <div><p>{{actividadActual.descripcion}}/p></div>
+    <div><p>{{actividadActual.descripcion}}</p></div>
 
 </div>
 
 <!--- botones para votar -->
-<app-votos-juego [contadorActividad]="contador"></app-votos-juego>
+<app-votos-juego *ngIf="[esAdmin]"></app-votos-juego>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { JuegoService } from '../services/juego.service';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class VotosComponent {
 
-  @Input() contadorActividad: number = 0;
   constructor(private juegoService: JuegoService, private router: Router) { }
 
   votar(option: number) {
@@ -40,9 +39,8 @@ export class VotosComponent {
     if (voto) {
       this.juegoService.votarActividad(ranking).subscribe(
         data => {
-          this.juegoService.setContadorActual(this.contadorActividad)
           this.router.navigate(["/esperaJugador"])
-        }, 
+        },
         error => {
           alert("Ocurrio un error: " + error)
         }
