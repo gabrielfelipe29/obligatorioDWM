@@ -29,6 +29,7 @@ import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.componen
 import { RespuestasComponent } from './respuestas/respuestas.component';
 import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
 import { VeractividadesComponent } from './veractividades/veractividades.component';
+import { RankingComponent } from './ranking/ranking.component';
 
 
 
@@ -44,7 +45,7 @@ import { VeractividadesComponent } from './veractividades/veractividades.compone
     SingUpComponent,
     DetallesComponent,
     ActividadComponent,
-    CrearPropuestaComponent,
+    UnirsePropuestaComponent,
     CrearActividadComponent,
     IngresarPseudonimoComponent,
     VotosComponent,
@@ -53,7 +54,9 @@ import { VeractividadesComponent } from './veractividades/veractividades.compone
     EsperaJugadorComponent, 
     RespuestasComponent,
     TodasLasActividadesComponent,
-    VeractividadesComponent
+    VeractividadesComponent,
+    CrearPropuestaComponent, 
+    RankingComponent
   ],
 
   imports: [

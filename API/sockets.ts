@@ -140,8 +140,8 @@ export async function obtenerRanking(mensaje: any, io: any, socket: any) {
 
         // Obtenemos la sala 
         let sala = salas[mensaje.codigoSala]
-        let ranking: Array<any> = await getRanking(mensaje.codigoSala)
-        if (ranking == null) {
+        let resultadosPropuesta: Array<any> = await getRanking(mensaje.codigoSala)
+        if (resultadosPropuesta == null) {
             io.to(chanel).emit("errores", "No se pudo armar el ranking, no hay actividades o ocurrio un error al buscarla")
         } else {
             var respuesta = {
@@ -160,28 +160,26 @@ export async function obtenerRanking(mensaje: any, io: any, socket: any) {
 
             }
 
-            if (ranking.length >= 3) {
+            if (resultadosPropuesta.length >= 3) {
                 respuesta.resultados.tercero = {
-                    nombreActividad: ranking[3].nombre,
-                    puntaje: ranking[3].nombre //Los me gusta
-
+                    nombreActividad: resultadosPropuesta[2].nombre,
+                    puntaje: resultadosPropuesta[2].ranking.meGusta //Los me gusta
                 }
             }
-            if (ranking.length >= 2) {
+            if (resultadosPropuesta.length >= 2) {
                 respuesta.resultados.segundo = {
-                    nombreActividad: ranking[3].nombre,
-                    puntaje: ranking[3].nombre //Los me gusta
-
+                    nombreActividad: resultadosPropuesta[1].nombre,
+                    puntaje:resultadosPropuesta[1].ranking.meGusta//Los me gusta
                 }
             }
-            if (ranking.length >= 1) {
+            if (resultadosPropuesta.length >= 1) {
                 respuesta.resultados.primero = {
-                    nombreActividad: ranking[1].nombre,
-                    puntaje: ranking[1].nombre //Los me gusta
+                    nombreActividad: resultadosPropuesta[0].nombre,
+                    puntaje: resultadosPropuesta[0].ranking.meGusta //Los me gusta
 
                 }
             }
-            io.to(chanel).emit(chanel, respuesta);
+            io.to(chanel).emit("ranking", respuesta);
         }
     }
     console.log('Se pidio el ranking de un juego:', mensaje);

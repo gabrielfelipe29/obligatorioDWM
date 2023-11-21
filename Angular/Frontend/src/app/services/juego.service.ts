@@ -107,9 +107,9 @@ export class JuegoService {
   }
 
   setRanking(primero: any, segundo: any, tercero: any){
-    let p = null
-    let s = null
-    let t = null
+    let p = undefined
+    let s = undefined
+    let t = undefined
     if(primero != undefined){
       p = primero
     }

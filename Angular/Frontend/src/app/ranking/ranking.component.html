@@ -1,5 +1,16 @@
 <div>
-    <div *nfIf="hayPrimerPuesto"></div>
-    <div *nfIf="haySegundoPuesto"></div>
-    <div *nfIf="hayTercerPuesto"></div>
+    <div *ngIf="hayPrimerPuesto">
+        <div>{{resultados.primerLugar.nombreActividad}} </div>
+        <div>Puntaje: {{resultados.primerLugar.puntaje}} </div>
+    </div>
+
+    <div *ngIf="haySegundoPuesto">
+        <div>{{resultados.segundoLugar.nombreActividad}} </div>
+        <div>Puntaje: {{resultados.segundoLugar.puntaje}} </div>
+    </div>
+
+    <div *ngIf="hayTercerPuesto">
+        <div>{{resultados.tercerLugar.nombreActividad}} </div>
+        <div>Puntaje: {{resultados.tercerLugar.puntaje}} </div>
+    </div>
 </div>

@@ -3,12 +3,12 @@
 <div class="container">
   <div class="row">
     <label for="actividad-nombre">Nombre de la Propuesta: </label>
-      <input id="actividad-nombre" [(ngModel)]="propuestaActual.titulo" placeholder="nombre">
+      <input _id="actividad-nombre" [(ngModel)]="propuestaActual.titulo" placeholder="nombre">
       <h3> Descripción de la Actividad</h3>
-        <input id="actividad-descripcion" [(ngModel)]="propuestaActual.descripcion" placeholder="descripcion">
+        <input _id="actividad-descripcion" [(ngModel)]="propuestaActual.descripcion" placeholder="descripcion">
       <h3> Imagén de la Actividad</h3>
       <br>
-      <input id="actividad-imagen" [(ngModel)]="propuestaActual.imagen" placeholder="imagen">
+      <input _id="actividad-imagen" [(ngModel)]="propuestaActual.imagen" placeholder="imagen">
       <img class="imagen" src={{propuestaActual.imagen}} alt>
   </div>
   <button (click)="guardarCambios()">Guardar</button>
@@ -22,12 +22,12 @@
         <li *ngFor="let actividad of actividades">
           <button class="button-list" (click)="onSelect(actividad)"
             [class.selected]="actividad === actividadSeleccionada">
-            <span class="badge">{{actividad.id}}</span>
+            <span class="badge">{{actividad._id}}</span>
             <span class="nombreActividad">
               {{actividad.nombre}}
             </span>
           </button>
-          <button (click)="Delete(actividad.id)">
+          <button (click)="Delete(actividad._id)">
             Eliminar
           </button>
         </li>
@@ -46,18 +46,18 @@
       <form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
         <div class="form-group">
           <label for="titulo">Titulo</label>
-          <input type="text" class="form-control" id="titulo"
+          <input type="text" class="form-control" _id="titulo"
             required
             [(ngModel)]="titulo" name="titulo">
         </div>
         <div class="form-group">
           <label for="descripcion">Descripción</label>
-          <input type="text" class="form-control" id="descripcion"
+          <input type="text" class="form-control" _id="descripcion"
             [(ngModel)]="descripcion" name="descripcion">
         </div>
         <div class="form-group">
           <label for="imagen">Imagén</label>
-          <input type="text" class="form-control" id="imagen"
+          <input type="text" class="form-control" _id="imagen"
             [(ngModel)]="imagen" name="imagen">
         </div>
         <button type="submit" (click)="guardarCambios()">Submit</button>

@@ -11,7 +11,7 @@ export class TodasLasActividadesComponent implements OnInit {
   actividades: Actividad[]= [];
   actividadSeleccionada?: Actividad;
 
-  constructor(private servicio: PropuestasService) {}
+  constructor(/* private servicio: PropuestasService */) {}
 
   ngOnInit(): void {
     /*

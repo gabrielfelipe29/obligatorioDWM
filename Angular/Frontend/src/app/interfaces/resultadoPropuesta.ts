@@ -14,8 +14,8 @@ export class ResultadoPropuesta {
 
     constructor(primerLugar: any, segundoLugar: any, tercerLugar: any){
         this.primerLugar = primerLugar
-        this.segundoLugar = primerLugar
-        this.tercerLugar = primerLugar
+        this.segundoLugar = segundoLugar
+        this.tercerLugar = tercerLugar
     }   
 
 

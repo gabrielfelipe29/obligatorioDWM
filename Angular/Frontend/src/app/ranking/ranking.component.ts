@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { JuegoService } from '../services/juego.service';
+import { ResultadoPropuesta } from '../interfaces/resultadoPropuesta';
 
 @Component({
   selector: 'app-ranking',
@@ -12,8 +13,15 @@ export class RankingComponent {
   haySegundoPuesto = false
   hayTercerPuesto = false
 
+  resultados: ResultadoPropuesta = new ResultadoPropuesta(undefined, undefined, undefined)
+
   constructor(private juegoService: JuegoService){
-    let resultados = this.juegoService.obtenerRanking()
+    this.resultados = this.juegoService.obtenerRanking()
+
+    this.hayPrimerPuesto = this.resultados.primerLugar != undefined
+    this.haySegundoPuesto = this.resultados.segundoLugar != undefined
+    this.hayTercerPuesto = this.resultados.tercerLugar != undefined
+
   }
 
 }
