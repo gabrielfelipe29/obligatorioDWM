@@ -13,6 +13,7 @@ import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.componen
 import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
+import { RankingComponent } from './ranking/ranking.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'actividad', component: JuegoComponent },
   { path: 'esperaJugador', component: EsperaJugadorComponent },
   { path: 'restultadoActividad', component: RespuestasComponent },
+  {path :'ranking',component:RankingComponent},
   {path :'crearpropuesta',component:CrearPropuestaComponent}
 
 ];

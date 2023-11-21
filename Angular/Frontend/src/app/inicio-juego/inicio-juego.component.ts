@@ -12,35 +12,33 @@ import { SocketService } from '../services/socket.service';
   templateUrl: './inicio-juego.component.html',
   styleUrls: ['./inicio-juego.component.css']
 })
-export class InicioJuegoComponent implements OnInit, AfterViewInit {
+export class InicioJuegoComponent implements OnInit {
 
   private socket: any;
-
-  constructor(private servicioPropuestas: PropuestasService, private router: Router, private juegoService: JuegoService, private cookies: CookieService, private socketService: SocketService) {
-    this.socket = socketService.getSocket();
-
-    // Recuperamos los jugadores que se habían unido además del actual
-    this.juegoService.getJugadores().subscribe(jugadores => this.jugadores = jugadores);
-
-  }
 
   jugadores: Jugador[] = []
   codigoSala: string = ""
   qrCodeUrl: string = ""
   esAdmin: boolean = false
 
-  ngAfterViewInit(): void {
-    //this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
-    this.esAdmin = this.cookies.check("token")
-  }
+  constructor(private servicioPropuestas: PropuestasService, private router: Router, private juegoService: JuegoService, private cookies: CookieService, private socketService: SocketService) {
+    this.socket = socketService.getSocket();
 
-  ngOnInit() {
-
+    // Recuperamos los jugadores que se habían unido además del actual
+    this.juegoService.getJugadores().subscribe(jugadores => this.jugadores = jugadores);
     this.juegoService.entrarASalaEspera()
     this.codigoSala = this.cookies.get("codigoSala")
     this.qrCodeUrl = this.cookies.get("qrCode")
-    console.log(this.qrCodeUrl)
+    this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
 
+
+  }
+
+
+
+
+
+  ngOnInit() {
     // El socket  recibe a los jugadores y al admin, pero solo carga el alias de los juegadores
     this.socket.on("esperaJuego", (mensaje: any) => {
       if (mensaje.listaJugadores != undefined) {
@@ -61,6 +59,12 @@ export class InicioJuegoComponent implements OnInit, AfterViewInit {
         this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
       }
 
+    })
+
+
+    this.socket.on("jugadorAbandonoSalaEsperaJuego", (mensaje: any) => {
+      if (mensaje.aliasJugador != undefined)
+        this.juegoService.quitarJugador(mensaje.aliasJugador)
     })
 
 

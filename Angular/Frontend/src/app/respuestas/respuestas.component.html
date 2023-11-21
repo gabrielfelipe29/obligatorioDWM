@@ -13,11 +13,11 @@
     <div>No me Gusta {{cantidadNoMeGusta}}</div>
 </div>
 
-<div *ngIf="!eraLaUltima && [esAdmin]">
+<div *ngIf="!eraLaUltima && esAdmin">
 <button  type="button" class="btn btn-primary" (click)="siguienteActividad()">Next</button>
     
 </div>
-<div *ngIf="eraLaUltima && [esAdmin]">
+<div *ngIf="eraLaUltima && esAdmin">
     <button  type="button" class="btn btn-dark" (click)="mostrarRanking()">Mostrar Ranking</button>
 
 </div>

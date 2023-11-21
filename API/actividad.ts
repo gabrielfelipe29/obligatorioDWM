@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { Ranking } from "./ranking";
 
 export enum EstadosActividad {
@@ -6,7 +7,7 @@ export enum EstadosActividad {
     SeAcaboDeJugar
 }
 export class Actividad {
-    public id: number;
+    public _id: ObjectId;
     public titulo: String;
     public descripcion: String;
     public calificacion: Ranking;
@@ -14,7 +15,7 @@ export class Actividad {
  
     public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
 
-    constructor(id: number, titulo: String, descripcion: String, imageLink?: String) {
+    constructor(id: ObjectId, titulo: String, descripcion: String, imageLink?: String) {
         this.titulo = titulo;
         this.descripcion = descripcion;
 
@@ -24,7 +25,7 @@ export class Actividad {
             this.imageLink = "";
         }
         this.calificacion = new Ranking();
-        this.id = id;
+        this._id = id;
     }
 
     public meGusta() {

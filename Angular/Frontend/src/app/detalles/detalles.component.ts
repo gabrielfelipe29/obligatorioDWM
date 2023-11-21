@@ -39,7 +39,7 @@ export class DetallesComponent {
         this.propuestaActual = propuestaEncontrada;
         if (this.propuestaActual.actividades) {
           this.propuestaActual.actividades.forEach(actividad => {
-            console.log('Titulo de la actividad:', actividad.titulo);
+            console.log('Titulo de la actividad:', actividad.nombre);
           });
           this.actividades = this.propuestaActual.actividades;
         } else {
@@ -67,12 +67,12 @@ export class DetallesComponent {
     this.servicio.agregarActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
   }
 
-  Delete(idActividad: number): void {
+  Delete(idActividad: string): void {
     /* this.servicio.eliminarActividad(idActividad, this.propuestaActual?.id) */
   }
 
   guardarCambios() {
-    this.servicio.guardarCambiosPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen,this.actividades, this.propuestaActual.id)
+    //this.servicio.guardarCambiosPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen, this.actividades, this.propuestaActual.id)
   }
 
 }
