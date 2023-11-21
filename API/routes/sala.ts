@@ -34,7 +34,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                 try {
 
                     for (let i = 0; i < req.body.propuesta.actividades.length; i++) {
-                        //req.body.propuesta.actividades[i]._id = new ObjectId(req.body.propuesta.actividades[i]._id)
+                        req.body.propuesta.actividades[i]._id = new ObjectId(req.body.propuesta.actividades[i]._id)
                         req.body.propuesta.actividades[i].jugadores = [];
                         req.body.propuesta.actividades[i].ranking = {
                             'meGusta': 0,
@@ -56,8 +56,10 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     // Pasamos a crear los objetos que necesitamos tener mientras funciona el programa
 
                     const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id) });
-
-                    var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta._id == req.body.propuesta._id);
+                    var propuestaDeseada = user.propuestas.find((propuesta: any) => {
+                        if(propuesta._id == req.body.propuesta._id)
+                            return propuesta
+                    });
 
                     if (propuestaDeseada) {
                         // Hacer algo con la propuesta deseada
@@ -65,9 +67,9 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                         for (let i = 0; i < propuestaDeseada.actividades.length; i++) {
                             let actividad = propuestaDeseada.actividades[i]
-                            listaActividades.push(new Actividad(actividad.id, actividad.nombre, actividad.descripcion, actividad.imageLink))
+                            listaActividades.push(new Actividad(actividad._id, actividad.nombre, actividad.descripcion, actividad.imageLink))
                         }
-                        let newPropuesta = new Propuesta(propuestaDeseada.nombre, decoded.id, propuestaDeseada.id, listaActividades, propuestaDeseada.rutaImg)
+                        let newPropuesta = new Propuesta(propuestaDeseada.nombre, decoded.id, propuestaDeseada._id, listaActividades, propuestaDeseada.rutaImg)
                         let urlGame = "http://localhost:4200/unirsePropuesta/" + codigoJuego
                         var newSala = new Sala(codigoJuego, newPropuesta, decoded.id)
                         salas[codigoJuego] = newSala
@@ -128,7 +130,9 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
 
                 const filtro = {
                     '_id': new ObjectId(salaid),
-                    'propuesta.actividades._id': actividadid,
+                    'propuesta.actividades': {
+                        $elemMatch: { _id: new ObjectId(actividadid.toString()) }
+                      },
                     activo: true
                 };
 
@@ -152,11 +156,11 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
                     };
                 }
 
-                var result = await db.collection("salas").updateOne(filtro, dato)
+                var result = await db.collection("salas").updateOne(filtro, dato, () =>{})
 
                 if (result.acknowledged) {
                     res.status(200);
-                    res.send()
+                    res.send(JSON.stringify("Voto recibido correctamente"))
                 } else {
                     res.status(500)
                     res.send(JSON.stringify({ mensaje: "Error al enviar ranking." }))

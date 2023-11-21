@@ -6,6 +6,7 @@ import { Propuesta } from '../interfaces/propuesta';
 import { HttpClient } from '@angular/common/http';
 import { Actividad } from '../interfaces/actividad';
 import { CookieService } from 'ngx-cookie-service';
+import {ResultadoPropuesta} from '../interfaces/resultadoPropuesta'
 
 
 @Injectable({
@@ -17,11 +18,13 @@ export class JuegoService {
 
   jugadores: Jugador[] = [];
 
-  actividadActual: Actividad = new Actividad(0, "", "", "")
+  actividadActual: Actividad = new Actividad("", "", "", "")
 
   yaEstaEnSala = false
 
   esUltima: boolean = false
+
+  public resultadoPropuesta: ResultadoPropuesta = new ResultadoPropuesta({}, {}, {})
 
   getEsUltima(){
     return of(this.esUltima)
@@ -69,7 +72,7 @@ export class JuegoService {
   }
 
   setActividad(idActividad: string, actvidadTitulo: string, actvidadDescripcion: string, actvidadImagen: string) {
-    this.actividadActual = new Actividad(Number(idActividad), actvidadTitulo, actvidadDescripcion, actvidadImagen)
+    this.actividadActual = new Actividad(idActividad, actvidadTitulo, actvidadDescripcion, actvidadImagen)
   }
 
   votarActividad(resultados: number[]): Observable<any> {
@@ -84,7 +87,7 @@ export class JuegoService {
       }
     }
     let codigoSala = this.cookies.get("nombreCanal")
-    let codigoActividad = this.actividadActual.id
+    let codigoActividad = this.actividadActual._id
     let ruta = "http://localhost:3000/salas/" + codigoSala + "/actividad/" + codigoActividad
     return this.http.post(ruta, data)
 
@@ -104,7 +107,25 @@ export class JuegoService {
   }
 
   setRanking(primero: any, segundo: any, tercero: any){
+    let p = null
+    let s = null
+    let t = null
+    if(primero != undefined){
+      p = primero
+    }
 
+    if(segundo != undefined){
+      s = segundo
+    }
+
+    if(tercero != undefined){
+      t = tercero
+    }
+    this.resultadoPropuesta = new ResultadoPropuesta(p, s, t)
+  }
+
+  obtenerRanking(){
+    return this.resultadoPropuesta
   }
 
 

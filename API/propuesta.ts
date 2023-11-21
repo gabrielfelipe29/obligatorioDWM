@@ -1,6 +1,6 @@
 import { Actividad, EstadosActividad } from "./actividad";
 export class Propuesta {
-    public id: number;
+    public _id: string;
     public creatorId: String;
     public actividades: Actividad[];
     public proximaActividad: number = 0;
@@ -8,9 +8,9 @@ export class Propuesta {
     public imagen: string;
     public actividadActual: Actividad | undefined;
 
-    constructor(nombre:string, creatorId: String, id: number, actividades: Actividad[], rutaImg: string) {
+    constructor(nombre:string, creatorId: String, id: string, actividades: Actividad[], rutaImg: string) {
         this.creatorId = creatorId;
-        this.id = id;
+        this._id = id;
         this.actividades = actividades;
         this.nombre = nombre
         this.imagen = rutaImg

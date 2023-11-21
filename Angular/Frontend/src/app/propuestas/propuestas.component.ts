@@ -17,15 +17,6 @@ export class PropuestasComponent implements OnInit {
 
   constructor(private servicio: PropuestasService, private router: Router, private juegoService: JuegoService, private cookies: CookieService) {
     // Inyección de dependencias del servicio en el constructor
-    const storedData = localStorage.getItem("usuario");
-    if (storedData) {
-      const info = JSON.parse(storedData);
-      console
-      this.usuario = info.name;
-    } else {
-      console.log('No se encontraron datos en el Local Storage.');
-    }
-
   }
 
   ngOnInit(): void {

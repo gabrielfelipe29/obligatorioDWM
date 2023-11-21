@@ -6,15 +6,16 @@ export enum EstadosActividad {
     SeAcaboDeJugar
 }
 export class Actividad {
-    public id: number;
+    public _id: string;
     public nombre: string;
     public descripcion: string;
     public calificacion: Ranking;
     public imagen?: string;
 
+
     public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
 
-    constructor(id: number, titulo: string, descripcion: string, imagen?: string) {
+    constructor(id: string, titulo: string, descripcion: string, imagen?: string) {
         this.nombre = titulo;
         this.descripcion = descripcion;
         
@@ -25,7 +26,7 @@ export class Actividad {
             this.imagen = "";
         }
         this.calificacion = new Ranking();
-        this.id = id;
+        this._id = id;
     }
 
     public establecerResultado(meGusta: number , noMeGusta: number , meDaIgual: number ){

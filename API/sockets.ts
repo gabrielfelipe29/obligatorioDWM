@@ -2,7 +2,7 @@ import { salas } from "./routes/sala";
 import { Propuesta } from "./propuesta";
 import { admins } from "./routes/user"
 import { EstadosActividad } from "./actividad";
-import { obtenerVotosActividad, getRanking} from './metodos'
+import { obtenerVotosActividad, getRanking } from './metodos'
 
 /* Para no dejar usuarios  en la sala si se desconectan en medio del juego, 
 o para eviar usuarios repetidos por una reconexión de socket debemos registrar el socketID con la sala. 
@@ -15,7 +15,7 @@ export var socketsAdmin: { [clave: string]: number } = {}
 
 
 
-export function mostrarActividad(mensaje: any, io: any) {
+export async function mostrarActividad(mensaje: any, io: any) {
 
 
     let chanel = ""
@@ -42,7 +42,7 @@ export function mostrarActividad(mensaje: any, io: any) {
             // Si es la última actividad le agregamos algo que le indique al front que es así
             data = {
                 actividad: {
-                    idActividad: actividadObtenida.id,
+                    idActividad: actividadObtenida._id,
                     titulo: actividadObtenida.titulo,
                     descripcion: actividadObtenida.descripcion,
                     imagen: actividadObtenida.imageLink,
@@ -60,7 +60,7 @@ export function mostrarActividad(mensaje: any, io: any) {
     }
 }
 
-export function obtenerResultadosActividad(datos: any, io: any, socket: any) {
+export async function obtenerResultadosActividad(datos: any, io: any, socket: any) {
     if (datos.codigo in salas) {
         let chanel = datos.codigo
         let sala = salas[datos.codigo]
@@ -77,7 +77,7 @@ export function obtenerResultadosActividad(datos: any, io: any, socket: any) {
     }
 }
 
-export function join(datos: any, io: any, socket: any) {
+export async function join(datos: any, io: any, socket: any) {
     if (datos.codigo in salas) {
         let channel = datos.codigo
         let sala = salas[datos.codigo]
@@ -133,36 +133,61 @@ export function join(datos: any, io: any, socket: any) {
 
 }
 
-export function obtenerRanking(mensaje: any, io: any, socket: any) {
+export async function obtenerRanking(mensaje: any, io: any, socket: any) {
     if (mensaje.adminID !== undefined && mensaje.codigoSala) {
 
         let chanel = mensaje.codigoSala;
 
         // Obtenemos la sala 
         let sala = salas[mensaje.codigoSala]
-        let ranking = getRanking(mensaje.codigo)
-        /* let respuesta = {
-            primero: {
-                actividad: ranking[0],
-                puntaje: ranking[1],
-            },
-            segundo: {
-                actividad: ranking[2],
-                puntaje: ranking[3],
-            },
-            tercero: {
-                actividad: ranking[4],
-                puntaje: ranking[5],
+        let ranking: Array<any> = await getRanking(mensaje.codigoSala)
+        if (ranking == null) {
+            io.to(chanel).emit("errores", "No se pudo armar el ranking, no hay actividades o ocurrio un error al buscarla")
+        } else {
+            var respuesta = {
+                resultados: {
+
+                    primero: {
+
+                    },
+                    segundo: {
+
+                    },
+                    tercero: {
+
+                    }
+                }
+
             }
-        } */
 
-        //io.to(chanel).emit(chanel, respuesta);
+            if (ranking.length >= 3) {
+                respuesta.resultados.tercero = {
+                    nombreActividad: ranking[3].nombre,
+                    puntaje: ranking[3].nombre //Los me gusta
 
+                }
+            }
+            if (ranking.length >= 2) {
+                respuesta.resultados.segundo = {
+                    nombreActividad: ranking[3].nombre,
+                    puntaje: ranking[3].nombre //Los me gusta
+
+                }
+            }
+            if (ranking.length >= 1) {
+                respuesta.resultados.primero = {
+                    nombreActividad: ranking[1].nombre,
+                    puntaje: ranking[1].nombre //Los me gusta
+
+                }
+            }
+            io.to(chanel).emit(chanel, respuesta);
+        }
     }
     console.log('Se pidio el ranking de un juego:', mensaje);
 }
 
-export function terminarJuego(mensaje: any, io: any) {
+export async function terminarJuego(mensaje: any, io: any) {
     // Obtenemos la sala 
     if (mensaje.adminID !== undefined && mensaje.codigoSala && mensaje.codigoSala in mensaje) {
         let canal = mensaje.codigoSala
@@ -195,7 +220,7 @@ export function terminarJuego(mensaje: any, io: any) {
     }
 }
 
-export function salirJuego(chanel: any, socket: any) {
+export async function salirJuego(chanel: any, socket: any) {
     if (chanel != null && socket.id in socketsJugadores) {
         let sala = salas[socket.id]
         sala.eliminarJugador(socket.id)
@@ -204,7 +229,7 @@ export function salirJuego(chanel: any, socket: any) {
     socket.leave(chanel)
 }
 
-export function desconectarse(socket: any, io: any) {
+export async function desconectarse(socket: any, io: any) {
 
     // Revisamos si estaba en la lista de sockets, por lo cual era un player
     if (socket.id in socketsJugadores) {
@@ -230,7 +255,7 @@ export function desconectarse(socket: any, io: any) {
 
 }
 
-async function correrActividad(io: any, idSala: number) {
+async function correrActividad(io: any, idSala: string) {
     /* let time = 31000 */
     let time = 11000
     if (idSala in salas) {
@@ -238,8 +263,9 @@ async function correrActividad(io: any, idSala: number) {
             let sala = salas[idSala]
             let propuesta = sala.propuesta
             if (propuesta) {
-                let idActividad = propuesta.actividadActual?.id
-                if (idActividad && propuesta.actividadActual) {
+                if (propuesta.actividadActual) {
+                    let idActividad = propuesta.actividadActual._id
+
                     propuesta.actividadActual.estadoActividad = EstadosActividad.SeAcaboDeJugar
                     var ranking = await obtenerVotosActividad(idSala, idActividad)
                     if (ranking != "Error, no se pudo recuperar nada") {

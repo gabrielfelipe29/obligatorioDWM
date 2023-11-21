@@ -42,7 +42,6 @@ router.post('/register', async (req, res) => {
 
 //loguear usuario
 router.post('/login', async (req, res) => {
-  console.log(req.body)
   try {
     var token;
     var user = await metodos.findOne("administradores",
@@ -77,7 +76,7 @@ router.get('/propuesta', middleware.verifyUser, async (req, res, next) => {
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
     const user = await metodos.findOne("administradores", { '_id': new ObjectId(userId) });
-    console.log(user)
+  
     //const user = await metodos.findOne("administradores", { 'id': userId });
     const propuestas = user.propuestas;
     res.status(200)

@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './respuestas.component.html',
   styleUrls: ['./respuestas.component.css']
 })
-export class RespuestasComponent implements OnInit, AfterViewInit{
+export class RespuestasComponent implements OnInit{
 
   tituloActividad: string = ""
   cantidadMeGusta: number = 0
@@ -23,10 +23,10 @@ export class RespuestasComponent implements OnInit, AfterViewInit{
   socket: any
 
   constructor(private juegoService: JuegoService, private socketService: SocketService, private router: Router, private cookies: CookieService) {
-  }
-  ngAfterViewInit(): void {
     this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
+
   }
+
 
   ngOnInit(): void {
     var ranking: any
@@ -57,7 +57,7 @@ export class RespuestasComponent implements OnInit, AfterViewInit{
     })
 
     this.socket.on("ranking", (mensaje: any) => {
-      if(mensaje.resultados != undefined && mensaje.resultados.primero != undefined &&  mensaje.resultados.segundo != undefined &&  mensaje.resultados.tercero != undefined) {
+      if(mensaje.resultados != undefined) {
         this.juegoService.setRanking(mensaje.resultados.primero, mensaje.resultados.segundo, mensaje.resultados.tercero) 
         this.router.navigateByUrl('/ranking');
       } else {
