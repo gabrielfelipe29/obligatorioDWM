@@ -22,6 +22,7 @@ export class LogInComponent {
 
   login() {
     const administrador = { administrador: { id: this.user, contraseña: this.password }};
+    console.log(administrador)
     this.loginService.login(administrador).subscribe(
       data => {
         if (data && data.token) {

@@ -31,6 +31,7 @@ import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.componen
 import { RespuestasComponent } from './respuestas/respuestas.component';
 //import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
 
 
 
@@ -60,6 +61,7 @@ import { RankingComponent } from './ranking/ranking.component';
     //EsperaAdminComponent,
     RespuestasComponent,
     RankingComponent,
+    TodasLasActividadesComponent,
 
 
 

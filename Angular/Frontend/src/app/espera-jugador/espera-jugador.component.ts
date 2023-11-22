@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class EsperaJugadorComponent implements OnInit {
 
   socket: any = null
-  actividadActual: Actividad = new Actividad(0, "", "", "")
+  actividadActual: Actividad = new Actividad("0", "", "", "")
 
   constructor(private juegoService: JuegoService, private socketService: SocketService, private router: Router) {
     this.socket = socketService.getSocket();

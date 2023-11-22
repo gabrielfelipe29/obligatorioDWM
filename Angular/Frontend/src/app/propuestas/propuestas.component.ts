@@ -12,18 +12,32 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
+  nombre: string ="";
+
 
   constructor(private servicio: PropuestasService, private router: Router, private juegoService: JuegoService, private cookies: CookieService) {
     // Inyección de dependencias del servicio en el constructor
   }
 
   ngOnInit(): void {
-    this.servicio.obtenerPropuestas().subscribe(propuestas => {
-      this.propuestas = propuestas;
+    /*
+    const storedData = localStorage.getItem("usuario");
+    if (storedData) {
+      const info = JSON.parse(storedData);
+      console
+      this.nombre = info.name;
+    } else {
+      console.log('No se encontraron datos en el Local Storage.');
+    }
+    */
+    this.servicio.obtenerPropuestas().subscribe(propuesta => {
+      this.propuestas = propuesta;
     });
+    console.log(this.propuestas)
   }
 
-  verDetalles(id: number) {
+  verDetalles(id: string) {
+    console.log(id)
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
@@ -42,7 +56,7 @@ export class PropuestasComponent implements OnInit {
           // { salaId: result.insertedId.toString(), codigoQR: url 
           this.cookies.set("codigoSala", data.salaId)
           this.cookies.set("qrCode", data.codigoQR)
-          this.servicio.unirseSala(data.salaId)
+          //this.servicio.unirseSala(data.salaId)
           this.router.navigate(['inicioJuego'])
         }
 
@@ -63,5 +77,4 @@ Tiene q haber un aviso a los demás para que así{
   el middlewhere es una funcion de validacion de token 
 } 
 */
-
 
