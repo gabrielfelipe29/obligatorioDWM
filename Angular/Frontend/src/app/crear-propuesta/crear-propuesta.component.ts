@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Actividad } from '../actividad';
+import { Actividad } from '../interfaces/actividad';
 import { FormsModule } from '@angular/forms';
-import { PropuestasService } from '../propuestas.service';
+import { PropuestasService } from '../services/propuestas.service';
 @Component({
   selector: 'app-crear-propuesta',
   templateUrl: './crear-propuesta.component.html',

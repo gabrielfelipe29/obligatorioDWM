@@ -33,7 +33,7 @@ export class RespuestasComponent implements OnInit{
     this.socket = this.socketService.getSocket()
     this.juegoService.getActividadActual().subscribe((actividadRecibida) => {
       ranking = actividadRecibida.obtenerResultados()
-      this.tituloActividad = actividadRecibida.nombre
+      this.tituloActividad = actividadRecibida.titulo
       
     });
 

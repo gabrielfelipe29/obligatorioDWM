@@ -12,12 +12,14 @@ import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 import { RankingComponent } from './ranking/ranking.component';
+import { PropuestasComponent } from './propuestas/propuestas.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
   { path: 'inicioSesion', component: LogInComponent },
   { path: 'registro', component: SingUpComponent },
+  { path: 'inicio', component: PropuestasComponent },
   { path: 'detalles/:id', component: DetallesComponent },
   { path: 'unirsePropuesta', component: UnirsePropuestaComponent },
   { path: 'inicioJuego', component: InicioJuegoComponent },

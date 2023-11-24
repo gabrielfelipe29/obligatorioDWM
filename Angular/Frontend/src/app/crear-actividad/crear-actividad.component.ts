@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PropuestasService } from '../propuestas.service';
-import { Propuesta } from '../propuesta';
+import { PropuestasService } from '../services/propuestas.service';
+import { Propuesta } from '../interfaces/propuesta';
 import { NgForm } from '@angular/forms';
 
 @Component({

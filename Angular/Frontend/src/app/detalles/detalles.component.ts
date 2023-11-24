@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Propuesta } from '../propuesta';
-import { Actividad } from '../actividad';
-import { PropuestasService } from '../propuestas.service';
+import { Propuesta } from '../interfaces/propuesta';
+import { Actividad } from '../interfaces/actividad';
+import { PropuestasService } from '../services/propuestas.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -118,7 +118,7 @@ export class DetallesComponent {
     console.log(this.actividadesExistentes)
   }
 
-  retirarDeLista (id: string){
+  retirarDeLista (id: String){
     this.actividades = this.actividades.filter(actividad => actividad._id !== id);
     console.log(`Objeto con ID ${id} eliminado de la lista.`);
   }

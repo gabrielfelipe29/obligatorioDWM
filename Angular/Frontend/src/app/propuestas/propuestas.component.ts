@@ -21,13 +21,11 @@ export class PropuestasComponent implements OnInit {
 
   ngOnInit(): void {
     this.servicio.obtenerPropuestas().subscribe(propuesta => {
-      this.propuestas = propuesta;
     });
-    console.log(this.propuestas)
+    
   }
 
-  verDetalles(id: number) {
-    console.log(id)
+  verDetalles(id: string) {
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
   }
