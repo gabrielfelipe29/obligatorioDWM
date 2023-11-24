@@ -76,6 +76,8 @@ router.get('/propuesta', middleware.verifyUser, async (req, res, next) => {
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
     const user = await metodos.findOne("administradores", { '_id': new ObjectId(userId) });
+  
+    //const user = await metodos.findOne("administradores", { 'id': userId });
     const propuestas = user.propuestas;
     res.status(200)
     res.send(propuestas);
@@ -121,14 +123,14 @@ router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
       res.status(400);
       res.send(JSON.stringify({ mensaje: "Error. Falta propuesta." }))
     } else {
-      if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
+      if (metodos.isNullOrEmpty(req.body.propuesta._id) ||
         metodos.isNullOrEmpty(req.body.propuesta.actividades) ||
         metodos.isNullOrEmpty(req.body.propuesta.titulo)) {
         res.status(400);
         res.send(JSON.stringify({ mensaje: 'Error. Faltan parametros.' }))
       } else {
         const userId = middleware.decode(req.headers['authorization']).id;
-        const filtro = { '_id': new ObjectId(userId), 'propuestas.id': new ObjectId(req.body.propuesta.id) };
+        const filtro = { '_id': new ObjectId(userId), 'propuestas._id': new ObjectId(req.body.propuesta._id) };
         const dato = {
           $set: {
             'propuestas.$.actividades': req.body.propuesta.actividades,
@@ -169,7 +171,7 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
       } else {
 
         const userId = middleware.decode(req.headers['authorization']).id;
-        req.body.propuesta.id = new ObjectId();
+        req.body.propuesta._id = new ObjectId();
         const filtro = { '_id': new ObjectId(userId) };
         const dato = { $push: { 'propuestas': req.body.propuesta } };
         var result = await db.collection("administradores").updateOne(filtro, dato)

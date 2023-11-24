@@ -68,6 +68,8 @@ export class JuegoService {
   }
 
   crearSala(datos: any): Observable<any> {
+    console.log("Ver lo que e envía")
+    console.log(datos)
     return this.http.post("http://localhost:3000/salas/", datos);
   }
 

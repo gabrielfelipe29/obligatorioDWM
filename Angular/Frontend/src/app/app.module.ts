@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PropuestasComponent } from './propuestas/propuestas.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { FormsModule } from '@angular/forms';
-import { RegistradoComponent } from './registrado/registrado.component';
 import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { BarraDeNavegacionComponent } from './barra-de-navegacion/barra-de-navegacion.component';
 import { PieDePaginaComponent } from './pie-de-pagina/pie-de-pagina.component';
@@ -27,13 +25,8 @@ import { JuegoComponent } from './juego/juego.component';
 import { CommonModule } from '@angular/common';
 import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
-//import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
-//import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
 import { RankingComponent } from './ranking/ranking.component';
-import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
-
-
 
 
 
@@ -42,30 +35,24 @@ import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-
     AppComponent,
     PropuestasComponent,
     LogInComponent,
-    RegistradoComponent,
     EncabezadoComponent,
     BarraDeNavegacionComponent,
     PieDePaginaComponent,
     SingUpComponent,
     DetallesComponent,
     ActividadComponent,
-    CrearPropuestaComponent,
-    CrearActividadComponent,
     UnirsePropuestaComponent,
+    CrearActividadComponent,
     IngresarPseudonimoComponent,
     VotosComponent,
     JuegoComponent,
     InicioJuegoComponent,
     EsperaJugadorComponent, 
-    //EsperaJuegoComponent,
-    //EsperaAdminComponent,
     RespuestasComponent,
-    RankingComponent,
-    TodasLasActividadesComponent,
-
-
-
+    CrearPropuestaComponent, 
+    RankingComponent
   ],
+
   imports: [
     BrowserModule,
     AppRoutingModule,

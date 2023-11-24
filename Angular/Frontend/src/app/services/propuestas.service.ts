@@ -3,8 +3,8 @@ import { Propuesta } from '../interfaces/propuesta';
 import { Actividad } from '../interfaces/actividad';
 import { BehaviorSubject, Observable, of } from 'rxjs'
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { SocketService } from './socket.service';
 import { CookieService } from 'ngx-cookie-service';
+import { SocketService } from './socket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +60,7 @@ export class PropuestasService {
     });
   }
 
-  agregarActividad(titulo: string, descripcion: string, imagen: string) { 
+  agregarActividad(titulo: string, descripcion: string, imagen: string | undefined) { 
     /*
       Acá se deberá conectar con back y agregar una actividad a la lista
     */

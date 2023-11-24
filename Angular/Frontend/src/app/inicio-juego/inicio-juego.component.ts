@@ -30,7 +30,11 @@ export class InicioJuegoComponent implements OnInit {
     this.qrCodeUrl = this.cookies.get("qrCode")
     this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
 
+
   }
+
+
+
 
 
   ngOnInit() {
