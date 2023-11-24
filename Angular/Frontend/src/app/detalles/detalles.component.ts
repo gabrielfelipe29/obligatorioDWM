@@ -75,6 +75,9 @@ export class DetallesComponent {
     this.actividadSeleccionada = actividad;
   }
 
+  onSelect2(actividad: Actividad): void {
+    this.actividadSeleccionada2 = actividad;
+  }
 
   mostrarform = false;
 
