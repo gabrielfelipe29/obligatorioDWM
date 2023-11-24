@@ -9,14 +9,15 @@ import { CrearActividadComponent } from './crear-actividad/crear-actividad.compo
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
+  { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'},
+  //{ path: '**', loadComponent: () => import ()},
   { path: 'inicioSesion', component: LogInComponent },
   { path: 'inicio', component: RegistradoComponent },
   { path: 'registro', component: SingUpComponent },
   { path: 'detalles/:id', component: DetallesComponent },
   { path: 'unirseJuego', component: UnirseJuegoComponent },
-  { path: 'crearActividad', component: CrearActividadComponent},
-  {path :'crearPropuesta',component:CrearPropuestaComponent}
+  { path: 'crearActividad', component: CrearActividadComponent },
+  { path :'crearPropuesta',component:CrearPropuestaComponent }
 ];
 
 @NgModule({
