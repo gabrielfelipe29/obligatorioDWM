@@ -7,7 +7,7 @@ export enum EstadosActividad {
 }
 export class Actividad {
     public _id: string;
-    public nombre: string;
+    public titulo: string;
     public descripcion: string;
     public calificacion: Ranking;
     public imagen?: string;
@@ -16,7 +16,7 @@ export class Actividad {
     public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
 
     constructor(id: string, titulo: string, descripcion: string, imagen?: string) {
-        this.nombre = titulo;
+        this.titulo = titulo;
         this.descripcion = descripcion;
         
 

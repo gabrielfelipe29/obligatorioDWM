@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { PropuestasService } from '../propuestas.service';
+import { Propuesta } from '../propuesta';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-crear-actividad',
@@ -6,17 +9,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./crear-actividad.component.css']
 })
 export class CrearActividadComponent {
-/*
-<form (ngSubmit)="crearPropuesta()">
-    <div>
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required>
-    </div>
-    <div>
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" required></textarea>
-    </div>
-    <button type="submit">Crear Propuesta</button>
-</form>
-*/
+  
+  constructor(private servicio: PropuestasService){}
+
+  titulo= "";
+  descripcion= "";
+  imagen = "";
+
+  nombrevalido = false;
+  
+
+  onSubmit(form: NgForm) {
+    this.servicio.crearActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
+  }
 }

@@ -12,7 +12,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class PropuestasComponent implements OnInit {
   propuestas: Propuesta[] = [];
-  nombre: string ="";
+  usuario: string ="";
 
 
   constructor(private servicio: PropuestasService, private router: Router, private juegoService: JuegoService, private cookies: CookieService) {
@@ -20,16 +20,6 @@ export class PropuestasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*
-    const storedData = localStorage.getItem("usuario");
-    if (storedData) {
-      const info = JSON.parse(storedData);
-      console
-      this.nombre = info.name;
-    } else {
-      console.log('No se encontraron datos en el Local Storage.');
-    }
-    */
     this.servicio.obtenerPropuestas().subscribe(propuesta => {
       this.propuestas = propuesta;
     });
@@ -68,14 +58,3 @@ export class PropuestasComponent implements OnInit {
   }
 
 }
-
-/*
-Tiene q haber un aviso a los demás para que así{
-
-
-
-  el middlewhere es una funcion de validacion de token 
-} 
-*/
-
-

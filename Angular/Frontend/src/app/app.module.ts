@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { PropuestasComponent } from './propuestas/propuestas.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { FormsModule } from '@angular/forms';
-import { RegistradoComponent } from './registrado/registrado.component';
 import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { BarraDeNavegacionComponent } from './barra-de-navegacion/barra-de-navegacion.component';
 import { PieDePaginaComponent } from './pie-de-pagina/pie-de-pagina.component';
@@ -27,8 +26,6 @@ import { CommonModule } from '@angular/common';
 import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
-import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
-import { VeractividadesComponent } from './veractividades/veractividades.component';
 import { RankingComponent } from './ranking/ranking.component';
 
 
@@ -38,7 +35,6 @@ import { RankingComponent } from './ranking/ranking.component';
     AppComponent,
     PropuestasComponent,
     LogInComponent,
-    RegistradoComponent,
     EncabezadoComponent,
     BarraDeNavegacionComponent,
     PieDePaginaComponent,
@@ -53,8 +49,6 @@ import { RankingComponent } from './ranking/ranking.component';
     InicioJuegoComponent,
     EsperaJugadorComponent, 
     RespuestasComponent,
-    TodasLasActividadesComponent,
-    VeractividadesComponent,
     CrearPropuestaComponent, 
     RankingComponent
   ],
