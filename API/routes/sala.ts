@@ -57,7 +57,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                     const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id) });
 
-                    var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta.id === req.body.propuesta.id);
+                    var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta._id === req.body.propuesta._id);
 
                     if (propuestaDeseada) {
                         // Hacer algo con la propuesta deseada

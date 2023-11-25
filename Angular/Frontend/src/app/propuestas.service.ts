@@ -1,7 +1,7 @@
 import { HttpClient,HttpResponse} from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
-import { Propuesta } from './propuesta';
+import { Propuesta } from './interfaces/propuesta';
 import { Actividad } from './actividad';
 import { __param } from 'tslib';
 
