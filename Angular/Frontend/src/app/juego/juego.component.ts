@@ -20,6 +20,8 @@ export class JuegoComponent implements OnInit, AfterViewInit {
 
   constructor(private juegoService: JuegoService, private socketService: SocketService, private router: Router, private cookies: CookieService) {
     this.socket = socketService.getSocket();
+    this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
+
 
   }
 
@@ -53,7 +55,6 @@ export class JuegoComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    this.esAdmin = this.cookies.check("token") && this.cookies.check("userID")
 
     this.ejecutarTimer();
   }

@@ -141,7 +141,7 @@ export async function getRanking(salaId: any) {
 
 }
 
-export async function obtenerVotosActividad(salaId: number, actividadId: number): Promise<any> {
+export async function obtenerVotosActividad(salaId: string, actividadId: string): Promise<any> {
     try {
 
         const filtro = {
@@ -152,7 +152,7 @@ export async function obtenerVotosActividad(salaId: number, actividadId: number)
 
         const result = await db.collection('salas').findOne(filtro);
         if (result) {
-            return result.propuesta.actividades[actividadId -1].ranking
+            return null //result.propuesta.actividades[actividadId -1].ranking
         } else {
             return "Error, no se pudo recuperar nada"
         }

@@ -56,7 +56,7 @@ export class PropuestasComponent implements OnInit {
           // { salaId: result.insertedId.toString(), codigoQR: url 
           this.cookies.set("codigoSala", data.salaId)
           this.cookies.set("qrCode", data.codigoQR)
-          //this.servicio.unirseSala(data.salaId)
+          this.servicio.unirseSala(data.salaId)
           this.router.navigate(['inicioJuego'])
         }
 
