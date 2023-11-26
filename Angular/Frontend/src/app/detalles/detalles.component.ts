@@ -26,7 +26,6 @@ export class DetallesComponent {
   imagen = ""
 
   actividadSeleccionada?: Actividad;
-  actividadSeleccionada2?: Actividad;
 
 
   // Lista de actividades de la propuesta

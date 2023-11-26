@@ -162,19 +162,19 @@ export async function obtenerRanking(mensaje: any, io: any, socket: any) {
 
             if (resultadosPropuesta.length >= 3) {
                 respuesta.resultados.tercero = {
-                    nombreActividad: resultadosPropuesta[2].nombre,
+                    nombreActividad: resultadosPropuesta[2].titulo,
                     puntaje: resultadosPropuesta[2].ranking.meGusta //Los me gusta
                 }
             }
             if (resultadosPropuesta.length >= 2) {
                 respuesta.resultados.segundo = {
-                    nombreActividad: resultadosPropuesta[1].nombre,
+                    nombreActividad: resultadosPropuesta[1].titulo,
                     puntaje:resultadosPropuesta[1].ranking.meGusta//Los me gusta
                 }
             }
             if (resultadosPropuesta.length >= 1) {
                 respuesta.resultados.primero = {
-                    nombreActividad: resultadosPropuesta[0].nombre,
+                    nombreActividad: resultadosPropuesta[0].titulo,
                     puntaje: resultadosPropuesta[0].ranking.meGusta //Los me gusta
 
                 }

@@ -105,25 +105,14 @@ export class PropuestasService {
         actividades: actividades
       }
     }
-    alert("Bandera 1")
     return this.http.put(url, dato)
-    /* this.http.put(url, datos, { observe: 'response' }).subscribe(
-      (response: HttpResponse<any>) => {
-        console.log(response)
-      },
-      (error: HttpResponse<any>) => {
-        console.log("Hubo un error en el camino " + error)
-      }
-    ); */
   }
 
   obtenerTodasLasActividades(): Observable<Actividad[]>{
     return this.http.get<Actividad[]>(`http://localhost:3000/actividades/`);
   }
 
-  crearPropuesta(ombre: string, descripcion: string, imagen: string){
 
-  }
 
   crearActividad(nombre: string, descripcion: string, imagen: string){
     let body ={
@@ -144,6 +133,13 @@ export class PropuestasService {
         console.log("Hubo un error en el camino " + error)
       }
     );
+  }
+
+  
+  crearSala(datos: any): Observable<any> {
+    console.log("Ver lo que e envía")
+    console.log(datos)
+    return this.http.post("http://localhost:3000/salas/", datos);
   }
 
   unirseSala(codigoSala: string){

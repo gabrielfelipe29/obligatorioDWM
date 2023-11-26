@@ -1,20 +1,38 @@
-<form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
-    <div class="form-group">
-      <label for="titulo">Titulo</label>
-      <input type="text" class="form-control" id="titulo"
-        required
-        [(ngModel)]="titulo" name="titulo">
-    </div>
-    <div class="form-group">
-      <label for="descripcion">Descripción</label>
-      <input type="text" class="form-control" id="descripcion"
-        [(ngModel)]="descripcion" name="descripcion">
-    </div>
-    <div class="form-group">
-      <label for="imagen">Imagén</label>
-      <input type="text" class="form-control" id="imagen"
-        [(ngModel)]="imagen" name="imagen">
-    </div>
-    <button type="submit">Crear</button>
-    <button routerLink="/inicio">Volver</button>
-</form>
+
+<div class="container">
+  <div class="card">
+      <div class="card2">
+
+          <form class="form" (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
+
+              <p id="heading">¡Crea tu Actividad!</p>
+
+              <div class="field">
+                  <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
+                  <input type="text" class="input-field" id="titulo" required [(ngModel)]="titulo" name="titulo" autocomplete="off" placeholder="Titulo">
+              </div>
+
+              <div class="field">
+                  <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
+                  <input type="text" class="input-field" id="descripcion" [(ngModel)]="descripcion" name="descripcion" autocomplete="off" placeholder="Descripcion">
+              </div>
+
+              <div class="field">
+                  <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
+                  <input type="text" class="input-field" id="imagen" [(ngModel)]="imagen" name="imagen" autocomplete="off" placeholder="Imagen">
+              </div>
+
+
+              <div class="btn">
+
+                  <button class="button2" routerLink="/inicio">Volver</button>
+                  <button type="submit" class="button2">Crear</button>
+
+              </div>
+
+          </form>
+
+
+      </div>
+  </div>
+</div>

@@ -32,20 +32,20 @@ export class PropuestasComponent implements OnInit {
   }
 
   crearSala(propuesta: Propuesta) {
-    /*   this.juegoService.crearSala(propuesta) */
     let datos = {
       "propuesta": propuesta,
     }
 
 
-    this.juegoService.crearSala(datos).subscribe(
+    this.servicio.crearSala(datos).subscribe(
       data => {
         if (data && data.salaId && data.codigoQR) {
+          console.log("Vamos a crear la sala")
           console.log(data)
           // { salaId: result.insertedId.toString(), codigoQR: url 
           this.cookies.set("codigoSala", data.salaId)
           this.cookies.set("qrCode", data.codigoQR)
-          //this.servicio.unirseSala(data.salaId)
+          this.servicio.unirseSala(data.salaId)
           this.router.navigate(['inicioJuego'])
         }
 

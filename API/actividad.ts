@@ -10,7 +10,7 @@ export class Actividad {
     public _id: ObjectId;
     public titulo: String;
     public descripcion: String;
-    public calificacion: Ranking;
+    public ranking: Ranking;
     public imageLink?: String;
  
     public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
@@ -24,24 +24,24 @@ export class Actividad {
         } else {
             this.imageLink = "";
         }
-        this.calificacion = new Ranking();
+        this.ranking = new Ranking();
         this._id = id;
     }
 
     public meGusta() {
-        this.calificacion.incrementarMeGusta();
+        this.ranking.incrementarMeGusta();
     }
 
     public noMeGusta() {
-        this.calificacion.incrementarNoMeGusta();
+        this.ranking.incrementarNoMeGusta();
     }
 
     public meDaIgual() {
-        this.calificacion.incrementarMeDaIgual();
+        this.ranking.incrementarMeDaIgual();
     }
 
     public obtenerResultados(): any[]{
-        return [this.calificacion.meGusta, this.calificacion.noMeGusta, this.calificacion.meDaIgual]
+        return [this.ranking.meGusta, this.ranking.noMeGusta, this.ranking.meDaIgual]
     }
 
     

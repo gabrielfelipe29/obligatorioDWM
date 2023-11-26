@@ -1,32 +1,28 @@
-<h2>Propuestas Disponibles</h2>
+<div class="card-container">
+  <div class="card" *ngFor="let tarjeta of propuestas">
+    <div
+      class="card2">
 
-
-
-  <div class="card-container">
-    <div class="card" *ngFor="let tarjeta of propuestas">
-      <div
-        class="card2">
-
-        <div class="card_content">
-          <p class="title">{{ tarjeta.titulo }}</p>
-          <hr>
-          <p class="content">{{ tarjeta.descripcion }}</p>
-        </div>
-
-        <div class="btn">
-          <button class="button1" (click)="verDetalles(tarjeta._id)">Detalles</button>
-          <button class="button1" routerLink="/inicioJuego">&nbsp;&nbsp;Jugar&nbsp;&nbsp;</button>
+      <div class="card_content">
+        <p class="title">{{ tarjeta.titulo }}</p>
+        <hr>
+        <p class="content">{{ tarjeta.descripcion }}</p>
       </div>
 
+      <div class="btn">
+        <button class="button1" (click)="verDetalles(tarjeta._id)">Detalles</button>
+        <button class="button1" (click)="crearSala(tarjeta)">&nbsp;&nbsp;Jugar&nbsp;&nbsp;</button>
     </div>
-  </div>
 
-  <!-- Botón flotante -->
-  <a href="#" class="btn-flotante" routerLink="">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-    </svg>
-  </a>
+  </div>
+</div>
+
+<!-- Botón flotante -->
+<a href="#" class="btn-flotante" routerLink="/crearPropuesta">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+  </svg>
+</a>
 
 
 

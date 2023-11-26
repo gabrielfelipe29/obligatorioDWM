@@ -67,11 +67,6 @@ export class JuegoService {
     return this.cookies.get("nombreCanal")
   }
 
-  crearSala(datos: any): Observable<any> {
-    console.log("Ver lo que e envía")
-    console.log(datos)
-    return this.http.post("http://localhost:3000/salas/", datos);
-  }
 
   setActividad(idActividad: string, actvidadTitulo: string, actvidadDescripcion: string, actvidadImagen: string) {
     this.actividadActual = new Actividad(idActividad, actvidadTitulo, actvidadDescripcion, actvidadImagen)
