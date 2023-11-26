@@ -3,6 +3,18 @@ h2{
   text-align: center;
   color:#ffffff;
 
+  margin-top: 20px;
+
+  height: 15%;
+  text-align: center;
+  font-size: 34px;
+  letter-spacing: 3px;
+  font-weight: 600;
+  text-shadow: -1px -1px 3px #2CE0B4  ,
+              1px 1px 3px #2CE0B4 ;
+  position: relative;
+  top: -14px;
+
 }
 /*
 .card {

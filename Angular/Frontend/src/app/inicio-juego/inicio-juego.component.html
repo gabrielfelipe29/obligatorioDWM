@@ -1,31 +1,34 @@
-<div>
+<div class="container">
+
+    
+    <h1 id="code">Codigo del juego: {{ codigoSala}}</h1>
+
+    
     <div id="datos_sala">
-        <h1 id="code">Codigo del juego {{codigoSala}}</h1>
         <div *ngIf="qrCodeUrl">
             <img [src]="qrCodeUrl" alt="Código QR" />
-          </div>
-    </div>
-
-    <div class="jugadores" *ngFor="let jugador of jugadores">
-        <div><p>{{jugador.psudonimo}}</p></div>
-    </div>
-
-    <div *ngIf="esAdmin">
-        <button (click)="iniciarJuego()">Iniciar juego</button>
-    </div>
-
-    <div class="container2  mitad">
-        <div class="nombre-votantes">
-            <p>Jugadores:</p>
         </div>
     </div>
-    
-</div>
 
-<div class="btn" *ngIf="esAdmin">
-    <button type="button" class="button1" routerLink="/juego">Iniciar Juego</button>
-</div>
+    <p class="uno">Jugadores:</p>
+    <div class="jugadores-container">
+        <div class="jugadores" *ngFor="let jugador of jugadores">
+            <div><p>{{jugador.psudonimo}}</p></div>
+        </div>
+        
+    </div>
 
+    <!--
+    <div class="btn" *ngIf="esAdmin">
+        <button type="button" class="button1" (click)="iniciarJuego()">Iniciar Juego</button>
+    </div>
+    -->
+
+    <a href="#" class="btn-flotante" (click)="iniciarJuego()">
+        Iniciar Juego
+    </a>
+
+</div>
 
 
 <!---Sebaaaaaa-->
