@@ -6,35 +6,30 @@ export enum EstadosActividad {
     SeAcaboDeJugar
 }
 export class Actividad {
-    public id: number;
-    public nombre: string;
+    public _id: string;
+    public titulo: string;
     public descripcion: string;
-    public calificacion: Ranking;
-    public imagen?: string;
+    public ranking: Ranking;
+    public imagen: string;
+
 
     public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
 
-    constructor(id: number, titulo: string, descripcion: string, imagen?: string) {
-        this.nombre = titulo;
+    constructor(_id: string, titulo: string, descripcion: string, imagen: string) {
+        this.titulo = titulo;
         this.descripcion = descripcion;
-        
-
-        if (this.imagen != undefined) {
-            this.imagen = imagen;
-        } else {
-            this.imagen = "";
-        }
-        this.calificacion = new Ranking();
-        this.id = id;
+        this.imagen = imagen;
+        this.ranking = new Ranking();
+        this._id = _id;
     }
 
     public establecerResultado(meGusta: number , noMeGusta: number , meDaIgual: number ){
-        this.calificacion.meGusta = meGusta
-        this.calificacion.noMeGusta = noMeGusta
-        this.calificacion.meDaIgual = meDaIgual
+        this.ranking.meGusta = meGusta
+        this.ranking.noMeGusta = noMeGusta
+        this.ranking.meDaIgual = meDaIgual
     }
     public obtenerResultados(): object{
-        return {meGusta: this.calificacion.meGusta, noMeGusta: this.calificacion.noMeGusta, meDaIgual: this.calificacion.meDaIgual}
+        return {meGusta: this.ranking.meGusta, noMeGusta: this.ranking.noMeGusta, meDaIgual: this.ranking.meDaIgual}
     }
 
 

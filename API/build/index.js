@@ -41,11 +41,10 @@ const sala_1 = __importDefault(require("./routes/sala"));
 const user_1 = __importDefault(require("./routes/user"));
 const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
-const metodos = __importStar(require("./metodos"));
 const socketsModule = __importStar(require("./sockets"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
-const uri = "mongodb://0.0.0.0:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
+const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 exports.db = null;
 const client = new MongoClient(uri);
 //secreto esta en el middleware
@@ -78,38 +77,42 @@ const io = require('socket.io')(httpServer, {
     cors: { origin: '*' }
 });
 // Sockets
-io.on('connection', (socket) => {
+io.on('connection', (socket) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('Cliente conectado');
-    socket.on('join', (datos) => {
+    socket.on('join', (datos) => __awaiter(void 0, void 0, void 0, function* () {
         socketsModule.join(datos, io, socket);
         console.log("Un cliente se ha unido al canal", datos.codigo);
-    });
-    socket.on('iniciarJuego', (mensaje) => {
-        socketsModule.iniciarJuego(mensaje, io, socket);
+    }));
+    socket.on('iniciarJuego', (mensaje) => __awaiter(void 0, void 0, void 0, function* () {
+        socketsModule.mostrarActividad(mensaje, io);
         console.log("El admin quizo iniciar el juego");
-    });
-    socket.on('mostrarActividad', (mensaje) => {
+    }));
+    socket.on('mostrarActividad', (mensaje) => __awaiter(void 0, void 0, void 0, function* () {
         socketsModule.mostrarActividad(mensaje, io);
         console.log("El admin quizo mostrar otra actividad");
-    });
-    socket.on('obtenerRanking', (mensaje) => {
+    }));
+    socket.on('mostrarResultadosActividad', (mensaje) => __awaiter(void 0, void 0, void 0, function* () {
+        socketsModule.obtenerResultadosActividad(mensaje, io, socket);
+        console.log("El admin quizo obrener el resultado de la actividad");
+    }));
+    socket.on('obtenerRanking', (mensaje) => __awaiter(void 0, void 0, void 0, function* () {
         socketsModule.obtenerRanking(mensaje, io, socket);
         console.log("El admin quizo obtener el ranking del juego");
-    });
+    }));
     // El administrador termina el juego y saca a los jugadores de la misma
-    socket.on('terminarJuego', (mensaje) => {
+    socket.on('terminarJuego', (mensaje) => __awaiter(void 0, void 0, void 0, function* () {
         socketsModule.terminarJuego(mensaje, io);
         console.log("El admin quizo terminar el juego");
-    });
-    socket.on('salirJuego', (chanel) => {
+    }));
+    socket.on('salirJuego', (chanel) => __awaiter(void 0, void 0, void 0, function* () {
         socketsModule.salirJuego(chanel, socket);
         console.log('Cliente salio del juego');
-    });
-    socket.on('disconnect', () => {
-        socketsModule.desconectarse(socket);
+    }));
+    socket.on('disconnect', () => __awaiter(void 0, void 0, void 0, function* () {
+        socketsModule.desconectarse(socket, io);
         console.log('Cliente desconectado');
-    });
-});
+    }));
+}));
 /* Hacemos la conexión a la base de datos y hacemos que el serve quede corriendo */
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -120,9 +123,8 @@ function run() {
             yield client.db().command({ ping: 1 });
             console.log("Conectado a BDD.");
             httpServer.listen(PORT, HOST, () => {
-                console.log(`Server running on port ${PORT} `);
+                console.log(`Server running on port ${PORT}`);
             });
-            metodos.getRanking('654b84a362564ddf38c64eb0');
         }
         catch (error) {
             console.log(error);

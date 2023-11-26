@@ -1,9 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Actividad = void 0;
+exports.Actividad = exports.EstadosActividad = void 0;
 const ranking_1 = require("./ranking");
+var EstadosActividad;
+(function (EstadosActividad) {
+    EstadosActividad[EstadosActividad["SinJugar"] = 0] = "SinJugar";
+    EstadosActividad[EstadosActividad["Jugando"] = 1] = "Jugando";
+    EstadosActividad[EstadosActividad["SeAcaboDeJugar"] = 2] = "SeAcaboDeJugar";
+})(EstadosActividad || (exports.EstadosActividad = EstadosActividad = {}));
 class Actividad {
     constructor(id, titulo, descripcion, imageLink) {
+        this.estadoActividad = EstadosActividad.SinJugar;
         this.titulo = titulo;
         this.descripcion = descripcion;
         if (this.imageLink != undefined) {
@@ -12,20 +19,20 @@ class Actividad {
         else {
             this.imageLink = "";
         }
-        this.calificacion = new ranking_1.Ranking();
-        this.id = id;
+        this.ranking = new ranking_1.Ranking();
+        this._id = id;
     }
     meGusta() {
-        this.calificacion.incrementarMeGusta();
+        this.ranking.incrementarMeGusta();
     }
     noMeGusta() {
-        this.calificacion.incrementarNoMeGusta();
+        this.ranking.incrementarNoMeGusta();
     }
     meDaIgual() {
-        this.calificacion.incrementarMeDaIgual();
+        this.ranking.incrementarMeDaIgual();
     }
     obtenerResultados() {
-        return [this.calificacion.meGusta, this.calificacion.noMeGusta, this.calificacion.meDaIgual];
+        return [this.ranking.meGusta, this.ranking.noMeGusta, this.ranking.meDaIgual];
     }
 }
 exports.Actividad = Actividad;

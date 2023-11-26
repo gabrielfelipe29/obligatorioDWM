@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRanking = exports.userExist = exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
+exports.obtenerVotosActividad = exports.getRanking = exports.userExist = exports.isNullOrEmpty = exports.updateMany = exports.updateOne = exports.addMany = exports.addOne = exports.findMany = exports.findOne = void 0;
 const _1 = require(".");
 const mongodb_1 = require("mongodb");
 function findOne(coleccion, dato) {
@@ -19,8 +19,6 @@ function findOne(coleccion, dato) {
             if (_1.db !== null) {
                 res = yield _1.db.collection(coleccion).findOne(dato);
                 let arr = yield _1.db.collection("administradores").find({}).toArray();
-                _1.db.collection("administradores").insertOne({ id: "1", contraseña: "1" });
-                console.log(arr);
             }
         }
         catch (error) {
@@ -142,30 +140,28 @@ function getRanking(salaId) {
     return __awaiter(this, void 0, void 0, function* () {
         let ranking = [];
         try {
-            var find = { '_id': new mongodb_1.ObjectId(salaId) };
-            //var res = await db.collection("salas").findOne(find);
-            //console.log(res);
-            //ranking = res.propuesta.actividades.sort((a: any, b: any) => a.ranking.meGusta - b.ranking.meGusta).toArray();
-            var cursor = _1.db.collection("salas").aggregate([
+            var resultado2 = yield _1.db.collection("salas").aggregate([
                 {
-                    $project: {
-                        "_id": new mongodb_1.ObjectId(salaId),
-                        result: {
-                            $sortArray: {
-                                input: "$propuesta.actividades",
-                                sortBy: { "ranking.meGusta": -1 }
-                            }
-                        }
+                    $match: {
+                        "_id": new mongodb_1.ObjectId(salaId)
+                    }
+                },
+                {
+                    $unwind: "$propuesta.actividades"
+                },
+                {
+                    $sort: {
+                        "propuesta.actividades.ranking.meGusta": -1
+                    }
+                },
+                {
+                    $group: {
+                        _id: "$_id",
+                        actividades: { $push: "$propuesta.actividades" }
                     }
                 }
-            ]);
-            var res = yield cursor.toArray();
-            /*for await (const doc of cursor) {
-                console.dir(doc);
-            }*/
-            ranking = res[0].result;
-            console.log(ranking);
-            return ranking;
+            ]).toArray();
+            ranking = resultado2[0].actividades;
         }
         catch (error) {
             console.log(error);
@@ -175,4 +171,33 @@ function getRanking(salaId) {
     });
 }
 exports.getRanking = getRanking;
+function obtenerVotosActividad(salaId, actividadId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const filtro = {
+                '_id': new mongodb_1.ObjectId(salaId),
+                'propuesta.actividades._id': actividadId,
+                activo: true
+            };
+            const sala = yield _1.db.collection('salas').findOne(filtro);
+            let idRecibido = actividadId.toString();
+            //console.log(sala.propuesta.actividades)
+            var actividadBuscada = yield sala.propuesta.actividades.find((activdad) => {
+                let id = activdad._id.toString();
+                if (id == idRecibido)
+                    return activdad;
+            });
+            if (actividadBuscada) {
+                return actividadBuscada.ranking;
+            }
+            else {
+                return "Error, no se pudo recuperar nada";
+            }
+        }
+        catch (error) {
+            return "Error, no se pudo recuperar nada";
+        }
+    });
+}
+exports.obtenerVotosActividad = obtenerVotosActividad;
 //# sourceMappingURL=metodos.js.map

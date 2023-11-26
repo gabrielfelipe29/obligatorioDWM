@@ -24,7 +24,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
         } else {
             //como guardar la imagenes? en mongo? o en mongo guardo el url de la img que esta en otro lado?
 
-            if (metodos.isNullOrEmpty(req.body.propuesta.id) ||
+            if (metodos.isNullOrEmpty(req.body.propuesta._id) ||
                 metodos.isNullOrEmpty(req.body.propuesta.actividades)) {
                 res.status(400);
                 res.send(JSON.stringify({ mensaje: "Error en los parametros." }));
@@ -33,8 +33,11 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                 var decoded = middleware.decode(req.headers['authorization'])
                 try {
 
+                    console.log(req.body.propuesta)
                     for (let i = 0; i < req.body.propuesta.actividades.length; i++) {
-                        //req.body.propuesta.actividades[i]._id = new ObjectId(req.body.propuesta.actividades[i]._id)
+                        console.log(req.body.propuesta.actividades[i])
+                        req.body.propuesta.actividades[i]._id = new ObjectId(req.body.propuesta.actividades[i]._id)
+                        console.log("Bandera 1")
                         req.body.propuesta.actividades[i].jugadores = [];
                         req.body.propuesta.actividades[i].ranking = {
                             'meGusta': 0,
@@ -42,6 +45,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                             'meDaIgual': 0
                         }
                     }
+
 
                     //var jsonStr = JSON.stringify(obj);
                     var result = await metodos.addOne("salas",
@@ -56,8 +60,15 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     // Pasamos a crear los objetos que necesitamos tener mientras funciona el programa
 
                     const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id) });
+<<<<<<< HEAD
 
                     var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta._id === req.body.propuesta._id);
+=======
+                    var propuestaDeseada = user.propuestas.find((propuesta: any) => {
+                        if (propuesta._id == req.body.propuesta._id)
+                            return propuesta
+                    });
+>>>>>>> main
 
                     if (propuestaDeseada) {
                         // Hacer algo con la propuesta deseada
@@ -65,9 +76,11 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                         for (let i = 0; i < propuestaDeseada.actividades.length; i++) {
                             let actividad = propuestaDeseada.actividades[i]
-                            listaActividades.push(new Actividad(actividad.id, actividad.nombre, actividad.descripcion, actividad.imageLink))
+                            listaActividades.push(new Actividad(actividad._id, actividad.titulo, actividad.descripcion, actividad.imageLink))
                         }
-                        let newPropuesta = new Propuesta(propuestaDeseada.nombre, decoded.id, propuestaDeseada.id, listaActividades, propuestaDeseada.rutaImg)
+
+                        let newPropuesta = new Propuesta(propuestaDeseada.nombre, decoded.id, propuestaDeseada._id, listaActividades, propuestaDeseada.rutaImg)
+                        console.log(newPropuesta)
                         let urlGame = "http://localhost:4200/unirsePropuesta/" + codigoJuego
                         var newSala = new Sala(codigoJuego, newPropuesta, decoded.id)
                         salas[codigoJuego] = newSala
@@ -128,9 +141,12 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
 
                 const filtro = {
                     '_id': new ObjectId(salaid),
-                    'propuesta.actividades.id': parseInt(actividadid),
+                    'propuesta.actividades': {
+                        $elemMatch: { _id: new ObjectId(actividadid.toString()) }
+                    },
                     activo: true
                 };
+
                 let dato = null;
 
 
@@ -151,11 +167,11 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
                     };
                 }
 
-                var result = await db.collection("salas").updateOne(filtro, dato)
+                var result = await db.collection("salas").updateOne(filtro, dato, () => { })
 
                 if (result.acknowledged) {
                     res.status(200);
-                    res.send()
+                    res.send(JSON.stringify("Voto recibido correctamente"))
                 } else {
                     res.status(500)
                     res.send(JSON.stringify({ mensaje: "Error al enviar ranking." }))

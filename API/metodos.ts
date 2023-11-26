@@ -7,8 +7,6 @@ export async function findOne(coleccion: String, dato: any) {
         if (db !== null) {
             res = await db.collection(coleccion).findOne(dato);
             let arr = await db.collection("administradores").find({}).toArray()
-            db.collection("administradores").insertOne({id: "1", contraseña: "1"})
-            console.log(arr)
         }
     } catch (error) {
         console.log("Error: " + error);
@@ -113,29 +111,33 @@ export async function userExist(id: String, contraseña: String): Promise<boolea
     return res;
 }
 
-export async function getRanking(salaId: any) {
+export async function getRanking(salaId: string) {
     let ranking: any = [];
     try {
-        var find = { '_id': new ObjectId(salaId) }
-        //var res = await db.collection("salas").findOne(find);
-        //console.log(res);
-        //ranking = res.propuesta.actividades.sort((a: any, b: any) => a.ranking.meGusta - b.ranking.meGusta).toArray();
-        var cursor = db.collection("salas").aggregate([
+        var resultado2 = await db.collection("salas").aggregate([
             {
-                $project: {
-                    "_id": new ObjectId(salaId),
-                    result: {
-                        $sortArray: {
-                            input: "$propuesta.actividades",
-                            sortBy: { "ranking.meGusta": -1 }
-                        }
-                    }
+                $match: {
+                    "_id": new ObjectId(salaId)
+                }
+            },
+            {
+                $unwind: "$propuesta.actividades"
+            },
+            {
+                $sort: {
+                    "propuesta.actividades.ranking.meGusta": -1
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    actividades: { $push: "$propuesta.actividades" }
                 }
             }
-        ]);
+        ]).toArray();
 
-        var res = await cursor.toArray();
-        ranking = res[0].result;
+        ranking = resultado2[0].actividades
+        
     } catch (error) {
         console.log(error);
         return null;
@@ -144,18 +146,31 @@ export async function getRanking(salaId: any) {
 
 }
 
-export async function obtenerVotosActividad(salaId: number, actividadId: number): Promise<any> {
+
+export async function obtenerVotosActividad(salaId: string, actividadId: ObjectId): Promise<any> {
     try {
 
         const filtro = {
             '_id': new ObjectId(salaId),
-            'propuesta.actividades.id': actividadId,
+            'propuesta.actividades._id': actividadId,
             activo: true
         };
 
-        const result = await db.collection('salas').findOne(filtro);
-        if (result) {
-            return result.propuesta.actividades[actividadId -1].ranking
+
+        const sala = await db.collection('salas').findOne(filtro);
+
+
+        let idRecibido = actividadId.toString()
+        //console.log(sala.propuesta.actividades)
+
+        var actividadBuscada = await sala.propuesta.actividades.find((activdad: any) => {
+            let id = activdad._id.toString()
+            if (id == idRecibido)
+                return activdad
+        });
+
+        if (actividadBuscada) {
+            return actividadBuscada.ranking
         } else {
             return "Error, no se pudo recuperar nada"
         }

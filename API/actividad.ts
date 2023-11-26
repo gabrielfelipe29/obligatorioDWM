@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { Ranking } from "./ranking";
 
 export enum EstadosActividad {
@@ -6,15 +7,15 @@ export enum EstadosActividad {
     SeAcaboDeJugar
 }
 export class Actividad {
-    public id: number;
+    public _id: ObjectId;
     public titulo: String;
     public descripcion: String;
-    public calificacion: Ranking;
+    public ranking: Ranking;
     public imageLink?: String;
  
     public estadoActividad: EstadosActividad = EstadosActividad.SinJugar
 
-    constructor(id: number, titulo: String, descripcion: String, imageLink?: String) {
+    constructor(id: ObjectId, titulo: String, descripcion: String, imageLink?: String) {
         this.titulo = titulo;
         this.descripcion = descripcion;
 
@@ -23,24 +24,24 @@ export class Actividad {
         } else {
             this.imageLink = "";
         }
-        this.calificacion = new Ranking();
-        this.id = id;
+        this.ranking = new Ranking();
+        this._id = id;
     }
 
     public meGusta() {
-        this.calificacion.incrementarMeGusta();
+        this.ranking.incrementarMeGusta();
     }
 
     public noMeGusta() {
-        this.calificacion.incrementarNoMeGusta();
+        this.ranking.incrementarNoMeGusta();
     }
 
     public meDaIgual() {
-        this.calificacion.incrementarMeDaIgual();
+        this.ranking.incrementarMeDaIgual();
     }
 
     public obtenerResultados(): any[]{
-        return [this.calificacion.meGusta, this.calificacion.noMeGusta, this.calificacion.meDaIgual]
+        return [this.ranking.meGusta, this.ranking.noMeGusta, this.ranking.meDaIgual]
     }
 
     

@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { Actividad } from '../actividad';
+import { Component, OnInit } from '@angular/core';
+import { Actividad } from '../interfaces/actividad';
 import { FormsModule } from '@angular/forms';
-import { PropuestasService } from '../propuestas.service';
+import { PropuestasService } from '../services/propuestas.service';
 @Component({
   selector: 'app-crear-propuesta',
   templateUrl: './crear-propuesta.component.html',
   styleUrls: ['./crear-propuesta.component.css']
 })
-export class CrearPropuestaComponent {
+export class CrearPropuestaComponent implements OnInit {
   titulo="";
   descripcion="";
   imagen="";
@@ -15,6 +15,7 @@ export class CrearPropuestaComponent {
   actividadesSeleccionadas: string[] = [];
   listaguardar:any[]=[]
   lista: any[] = [];
+
 
 
   ngOnInit(): void {

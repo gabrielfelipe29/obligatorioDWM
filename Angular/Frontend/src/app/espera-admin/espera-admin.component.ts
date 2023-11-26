@@ -19,13 +19,12 @@ export class EsperaAdminComponent {
     if (resultado !== undefined) {
       this.propuestaActual = resultado;
     } else {
-      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" }; 
+      this.propuestaActual = { _id: "", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" }; 
     }
   }
 
   terminarJuego(){
 
-    //pregutnar Bru
     
   }
 

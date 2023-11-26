@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PropuestasComponent } from './propuestas/propuestas.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { FormsModule } from '@angular/forms';
-import { RegistradoComponent } from './registrado/registrado.component';
 import { EncabezadoComponent } from './encabezado/encabezado.component';
 import { BarraDeNavegacionComponent } from './barra-de-navegacion/barra-de-navegacion.component';
 import { PieDePaginaComponent } from './pie-de-pagina/pie-de-pagina.component';
@@ -28,8 +26,7 @@ import { CommonModule } from '@angular/common';
 import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
 import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
-import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
-import { VeractividadesComponent } from './veractividades/veractividades.component';
+import { RankingComponent } from './ranking/ranking.component';
 
 
 
@@ -38,14 +35,13 @@ import { VeractividadesComponent } from './veractividades/veractividades.compone
     AppComponent,
     PropuestasComponent,
     LogInComponent,
-    RegistradoComponent,
     EncabezadoComponent,
     BarraDeNavegacionComponent,
     PieDePaginaComponent,
     SingUpComponent,
     DetallesComponent,
     ActividadComponent,
-    CrearPropuestaComponent,
+    UnirsePropuestaComponent,
     CrearActividadComponent,
     IngresarPseudonimoComponent,
     VotosComponent,
@@ -53,8 +49,8 @@ import { VeractividadesComponent } from './veractividades/veractividades.compone
     InicioJuegoComponent,
     EsperaJugadorComponent, 
     RespuestasComponent,
-    TodasLasActividadesComponent,
-    VeractividadesComponent
+    CrearPropuestaComponent, 
+    RankingComponent
   ],
 
   imports: [

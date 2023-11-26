@@ -42,7 +42,8 @@ export class VotosComponent {
           this.router.navigate(["/esperaJugador"])
         },
         error => {
-          alert("Ocurrio un error: " + error)
+          console.log("Ocurrio un error: ") 
+          console.log(error)
         }
       )
     }

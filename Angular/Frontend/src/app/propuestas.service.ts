@@ -2,7 +2,7 @@ import { HttpClient,HttpResponse} from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { Injectable } from '@angular/core';
 import { Propuesta } from './interfaces/propuesta';
-import { Actividad } from './actividad';
+import { Actividad } from './interfaces/actividad';
 import { __param } from 'tslib';
 
 import { BehaviorSubject, Observable, of } from 'rxjs'
@@ -13,7 +13,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs'
 })
 export class PropuestasService {
 
-  private propuestaActual: Propuesta = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  private propuestaActual: Propuesta = { _id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
 
   private propuestaActualSubject = new BehaviorSubject<Propuesta>(this.propuestaActual);
   propuestaActual$: Observable<Propuesta> = this.propuestaActualSubject.asObservable();

@@ -67,6 +67,7 @@ export class SocketService {
         adminID: this.logService.getUserData().user,
         codigoSala: this.getCanal()
       }
+      console.log(datos)
       this.socket.emit('iniciarJuego', datos);
 
     }
@@ -85,6 +86,7 @@ export class SocketService {
 
   obtenerRanking() {
     if (this.logService.estaLogeado()) {
+      console.log("obtener RAnking")
       let datos = {
         adminID: this.logService.getUserData().user,
         codigoSala: this.getCanal()
