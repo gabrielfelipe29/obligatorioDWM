@@ -24,9 +24,15 @@ export class ActividadComponent {
   }
 
   obtenerActividad(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    let id = "";
+  
+    const idFromRoute = this.route.snapshot.paramMap.get('id');
+    if (idFromRoute !== null) {
+      id = idFromRoute;
+    }
+  
     this.servicio.obtenerActividad(id)
-      .subscribe(actividad => this.actividad = this.actividad);
+      .subscribe(actividad => this.actividad = actividad);
   }
 }
 

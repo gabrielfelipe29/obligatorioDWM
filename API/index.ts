@@ -53,7 +53,6 @@ const io = require('socket.io')(httpServer, {
     cors: { origin: '*' }
 });
 
-
 // Sockets
 io.on('connection', async (socket: any) => {
     console.log('Cliente conectado');

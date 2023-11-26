@@ -33,8 +33,11 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                 var decoded = middleware.decode(req.headers['authorization'])
                 try {
 
+                    console.log(req.body.propuesta)
                     for (let i = 0; i < req.body.propuesta.actividades.length; i++) {
+                        console.log(req.body.propuesta.actividades[i])
                         req.body.propuesta.actividades[i]._id = new ObjectId(req.body.propuesta.actividades[i]._id)
+                        console.log("Bandera 1")
                         req.body.propuesta.actividades[i].jugadores = [];
                         req.body.propuesta.actividades[i].ranking = {
                             'meGusta': 0,
@@ -42,6 +45,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                             'meDaIgual': 0
                         }
                     }
+
 
                     //var jsonStr = JSON.stringify(obj);
                     var result = await metodos.addOne("salas",
@@ -57,7 +61,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                     const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id) });
                     var propuestaDeseada = user.propuestas.find((propuesta: any) => {
-                        if(propuesta._id == req.body.propuesta._id)
+                        if (propuesta._id == req.body.propuesta._id)
                             return propuesta
                     });
 
@@ -67,9 +71,11 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                         for (let i = 0; i < propuestaDeseada.actividades.length; i++) {
                             let actividad = propuestaDeseada.actividades[i]
-                            listaActividades.push(new Actividad(actividad._id, actividad.nombre, actividad.descripcion, actividad.imageLink))
+                            listaActividades.push(new Actividad(actividad._id, actividad.titulo, actividad.descripcion, actividad.imageLink))
                         }
+
                         let newPropuesta = new Propuesta(propuestaDeseada.nombre, decoded.id, propuestaDeseada._id, listaActividades, propuestaDeseada.rutaImg)
+                        console.log(newPropuesta)
                         let urlGame = "http://localhost:4200/unirsePropuesta/" + codigoJuego
                         var newSala = new Sala(codigoJuego, newPropuesta, decoded.id)
                         salas[codigoJuego] = newSala
@@ -132,7 +138,7 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
                     '_id': new ObjectId(salaid),
                     'propuesta.actividades': {
                         $elemMatch: { _id: new ObjectId(actividadid.toString()) }
-                      },
+                    },
                     activo: true
                 };
 
@@ -156,7 +162,7 @@ router.post('/:salaid/actividad/:actividadid', async (req, res) => {
                     };
                 }
 
-                var result = await db.collection("salas").updateOne(filtro, dato, () =>{})
+                var result = await db.collection("salas").updateOne(filtro, dato, () => { })
 
                 if (result.acknowledged) {
                     res.status(200);

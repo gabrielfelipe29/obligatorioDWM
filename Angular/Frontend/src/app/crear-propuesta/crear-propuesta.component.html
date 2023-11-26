@@ -1,26 +1,57 @@
-<form >
-    <div>
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required>
-    </div>
-    <div>
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" required></textarea>
-    </div>
-    <div>
-       <div>
-        <ul>
-            <li *ngFor="let actividad of actividadesSeleccionadas">{{ actividad }}</li>
-        </ul>
-</div>
-    </div>
-    <button type="submit" (click)="guardarCambios()">Crear Propuesta</button>
-</form>
 
-<div>
-    <div *ngFor="let actividad of lista">
-        <p>{{actividad.titulo}}</p>
-        <button (click)="agregaractividad(actividad)">subir</button>
+<div class="container">
+    <div class="card">
+        <div class="card2">
+
+            <form class="form">
+
+                <p id="heading">¡Crear Propuesta!</p>
+
+                <div class="field">
+                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
+                    <input type="text" class="input-field"  id="titulo" name="titulo" [(ngModel)]="titulo" required placeholder="Titulo">
+                </div>
+
+                <div class="field">
+                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
+                    <input id="descripcion" class="input-field input2" name="descripcion" [(ngModel)]="descripcion" required placeholder="Descripcion">
+                </div>
+
+                <div>
+                    <div>
+                    <ul>
+                        <li *ngFor="let actividad of actividadesSeleccionadas">{{ actividad }}</li>
+                    </ul>
+                    </div>
+                </div>
+
+                <div class="btn">
+
+                    <button type="submit" class="button2" (click)="guardarCambios()">Crear Propuesta</button>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <div class="container2">
+        <div class="card3">
+            <div class="card4">
+
+                <div class="actividades">
+
+                    <p class="uno">Tus Actividades</p>
+
+                    <div *ngFor="let actividad of lista" class="actividad-item">
+                        <p class="dos">{{actividad.titulo}}</p>
+                        <button class="button2" (click)="agregaractividad(actividad)">Subir</button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
     </div>
 
 </div>

@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { PropuestasService } from '../services/propuestas.service';
-import { Propuesta } from '../interfaces/propuesta';
 import { Router } from '@angular/router';
 import { JuegoService } from '../services/juego.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -78,7 +77,5 @@ export class InicioJuegoComponent implements OnInit {
   public iniciarJuego() {
     this.servicioPropuestas.iniciarJuego()
   }
-
-
 
 }

@@ -25,7 +25,7 @@ export class JuegoComponent implements OnInit, AfterViewInit {
 
   }
 
-  actividadActual: Actividad = new Actividad("", "", "", "")
+  actividadActual: Actividad = new Actividad("0", "", "", "")
 
   contador: number = 30
 
