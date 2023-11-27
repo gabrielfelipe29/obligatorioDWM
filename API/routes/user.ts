@@ -205,7 +205,7 @@ router.delete('/propuesta/:propuestaid', async (req, res, next) => {
     const userId = middleware.decode(req.headers['authorization']).id;
     const propuestaid = req.params.propuestaid;
     const filtro = { '_id': new ObjectId(userId) };
-    const dato = { $pull: { 'propuestas': { id: new ObjectId(propuestaid) } } };
+    const dato = { $pull: { 'propuestas': { _id: new ObjectId(propuestaid) } } };
     var result = await db.collection("administradores").updateOne(filtro, dato)
     res.status(200);
     res.send();
