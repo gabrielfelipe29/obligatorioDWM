@@ -12,22 +12,30 @@ import { BarraDeNavegacionComponent } from './barra-de-navegacion/barra-de-naveg
 import { PieDePaginaComponent } from './pie-de-pagina/pie-de-pagina.component';
 import { SingUpComponent } from './sing-up/sing-up.component';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { LogInService } from './log-in.service';
-import { JuegoService } from './juego.service';
-import { PropuestasService } from './propuestas.service';
+import { LogInService } from './services/log-in.service';
+import { JuegoService } from './services/juego.service';
+import { PropuestasService } from './services/propuestas.service';
 import { InterceptorInterceptor } from './interceptor.interceptor';
 import { DetallesComponent } from './detalles/detalles.component';
 import { ActividadComponent } from './actividad/actividad.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
-import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
-import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
-import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
-import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
-import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
+import { UnirsePropuestaComponent } from './unirse-propuesta/unirse-propuesta.component';
+import { IngresarPseudonimoComponent } from './ingresar-pseudonimo/ingresar-pseudonimo.component';
+import { VotosComponent } from './votos/votos.component';
 import { JuegoComponent } from './juego/juego.component';
-import { RankingComponent } from './ranking/ranking.component';
+import { CommonModule } from '@angular/common';
+import { InicioJuegoComponent } from './inicio-juego/inicio-juego.component';
+import { EsperaJugadorComponent } from './espera-jugador/espera-jugador.component';
+//import { EsperaAdminComponent } from './espera-admin/espera-admin.component';
 import { RespuestasComponent } from './respuestas/respuestas.component';
+//import { EsperaJuegoComponent } from './espera-juego/espera-juego.component';
+import { RankingComponent } from './ranking/ranking.component';
+import { TodasLasActividadesComponent } from './todas-las-actividades/todas-las-actividades.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -43,20 +51,27 @@ import { RespuestasComponent } from './respuestas/respuestas.component';
     ActividadComponent,
     CrearPropuestaComponent,
     CrearActividadComponent,
-    UnirseJuegoComponent,
-    InicioJuegoComponent,
-    EsperaAdminComponent,
-    EsperaJuegoComponent,
-    EsperaJugadorComponent,
+    UnirsePropuestaComponent,
+    IngresarPseudonimoComponent,
+    VotosComponent,
     JuegoComponent,
+    InicioJuegoComponent,
+    EsperaJugadorComponent, 
+    //EsperaJuegoComponent,
+    //EsperaAdminComponent,
+    RespuestasComponent,
     RankingComponent,
-    RespuestasComponent
+    TodasLasActividadesComponent,
+
+
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
 
   ],
   providers: [HttpClient, LogInService, JuegoService, PropuestasService, {
@@ -66,4 +81,5 @@ import { RespuestasComponent } from './respuestas/respuestas.component';
   }],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

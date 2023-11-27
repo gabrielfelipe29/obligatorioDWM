@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { InterceptorInterceptor } from './interceptor.interceptor';
+import { InterceptorInterceptor } from '../interceptor.interceptor';
 
 // Hay que usar npm install ngx-cookie-service --save 
 import { CookieService } from "ngx-cookie-service";

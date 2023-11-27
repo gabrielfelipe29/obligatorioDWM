@@ -1,25 +1,22 @@
-<h1>¡{{ propuestaActual.titulo }}!</h1>
-<p>Codigos para unirse al juego:</p>
+<!--
+<div class="container">
 
+    
+    <h1 id="code">Codigo del juego: {{ codigoSala}}</h1>
 
-<div class="uno">
-    <div class="container mitad">
-            
-        <div class="codigos">
-            
-            <div class="imagen">
-                <img src="https://vocaleyes.co.uk/wp-content/uploads/2021/07/QR_code_for_mobile_English_Wikipedia-1400x700.jpg">
-            </div>
-
-            <div class="code">{{ codigo }}</div>
-
+    
+    <div id="datos_sala">
+        <div *ngIf="qrCodeUrl">
+            <img [src]="qrCodeUrl" alt="Código QR" />
         </div>
     </div>
 
-    <div class="container2  mitad">
-        <div class="nombre-votantes">
-            <p>Jugadores:</p>
+    <p class="uno">Jugadores:</p>
+    <div class="jugadores-container">
+        <div class="jugadores" *ngFor="let jugador of jugadores">
+            <div><p>{{jugador.psudonimo}}</p></div>
         </div>
+        
     </div>
     
 </div>
@@ -28,4 +25,42 @@
     <button type="button" class="button1" routerLink="/juego">Iniciar Juego</button>
 </div>
 
+    <button class="btn-flotante" (click)="iniciarJuego()">
+        Iniciar Juego
+    </a>
 
+</div>
+-->
+
+
+<div class="container">
+    <div class="card">
+        <div class="card2">
+            <form class="form">
+
+                <h1 id="heading">Codigo del juego: {{ codigoSala}}</h1>
+
+                    <div id="datos_sala">
+                        <div *ngIf="qrCodeUrl">
+                            <img [src]="qrCodeUrl" alt="Código QR" />
+                        </div>
+                    </div>
+        
+                <p class="uno">Jugadores:</p>
+                <div class="field">
+                    <div class="jugadores-container">
+                        <div class="jugadores" *ngFor="let jugador of jugadores">
+                            <div><p>{{jugador.psudonimo}}</p></div>
+                        </div>
+                        
+                    </div>
+                </div>
+    
+            </form>
+        </div>
+    </div>
+</div>
+
+<button  class="btn-flotante" (click)="iniciarJuego()">
+    Iniciar Juego
+</button>

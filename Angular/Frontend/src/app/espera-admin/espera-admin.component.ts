@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { PropuestasService } from '../propuestas.service';
-import { Propuesta } from '../propuesta';
+import { PropuestasService } from '../services/propuestas.service';
+import { Propuesta } from '../interfaces/propuesta';
 import { Router } from '@angular/router';
-import { JuegoService } from '../juego.service';
+import { JuegoService } from '../services/juego.service';
 
 @Component({
   selector: 'app-espera-admin',
@@ -19,13 +19,12 @@ export class EsperaAdminComponent {
     if (resultado !== undefined) {
       this.propuestaActual = resultado;
     } else {
-      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], creatorId: "usuario_1", imagen: "#" }; 
+      this.propuestaActual = { id: 0, titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" }; 
     }
   }
 
   terminarJuego(){
 
-    //pregutnar Bru
     
   }
 

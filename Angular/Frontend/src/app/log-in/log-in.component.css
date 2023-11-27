@@ -175,6 +175,7 @@ input[type="submit"],
 
 
 
+
 .container{
     display: flex;
     justify-content: center;
@@ -272,21 +273,6 @@ input[type="submit"],
     color: rgb(0, 255, 200);
   }
   
-  .button3 {
-    margin-bottom: 3em;
-    padding: 0.5em;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    transition: .4s ease-in-out;
-    background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
-    color: rgb(0, 0, 0);
-  }
-  
-  .button3:hover {
-    background-image: linear-gradient(163deg, #a00000fa 0%, #d10050 100%);
-    color: rgb(255, 255, 255);
-  }
   
   .card {
     background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
@@ -314,6 +300,11 @@ input[type="submit"],
     margin-left: 40px;
   }
 
+  .btn0{
+    margin-top: -25px;
+    margin-bottom: 25px;
+  }
+
 
   @media only screen and (max-width: 768px) {
     .form {
@@ -336,5 +327,6 @@ input[type="submit"],
       margin-left: 0;
     }
   }
+
 
 

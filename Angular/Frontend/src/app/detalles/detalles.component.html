@@ -2,8 +2,8 @@
 
 <div class="container">
   <div class="row">
-    <label for="actividad-nombre">Nombre de la Propuesta: </label>
-      <input id="actividad-nombre" [(ngModel)]="propuestaActual.titulo" placeholder="nombre">
+    <label for="actividad-titulo">Titulo de la Propuesta: </label>
+      <input id="actividad-titulo" [(ngModel)]="propuestaActual.titulo" placeholder="titulo">
       <h3> Descripción de la Actividad</h3>
         <input id="actividad-descripcion" [(ngModel)]="propuestaActual.descripcion" placeholder="descripcion">
       <h3> Imagén de la Actividad</h3>
@@ -11,7 +11,7 @@
       <input id="actividad-imagen" [(ngModel)]="propuestaActual.imagen" placeholder="imagen">
       <img class="imagen" src={{propuestaActual.imagen}} alt>
   </div>
-  <button (click)="guardarCambios()">Guardar</button>
+  
 
   <br>
   <h2 style="text-align:center">Actividades de: {{ propuestaActual.titulo }}</h2>
@@ -22,12 +22,11 @@
         <li *ngFor="let actividad of actividades">
           <button class="button-list" (click)="onSelect(actividad)"
             [class.selected]="actividad === actividadSeleccionada">
-            <span class="badge">{{actividad.id}}</span>
-            <span class="nombreActividad">
-              {{actividad.nombre}}
+            <span class="tituloActividad">
+              {{actividad.titulo}}
             </span>
           </button>
-          <button (click)="Delete(actividad.id)">
+          <button (click)="retirarDeLista(actividad._id)">
             Eliminar
           </button>
         </li>
@@ -40,8 +39,40 @@
   <br>
   <br>
   <div class="row">
-    <button (click)="toggleFormulario()">Crear Nueva Actividad</button>
-    <button>Agregar Actividad Existente</button>
+    <button (click)="toggleFormulario()">Agregar Actividad Existente</button>
+    
+    
+    <div *ngIf="mostrarform">
+      <div class="item-list">
+        <h2 style="text-align:center">Actividades existentes</h2>
+        <ul>
+          <li *ngFor="let actividad of actividadesExistentes">
+            {{ actividad.titulo }}
+            <button (click)="agregarALista(actividad)">+</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+      
+      
+    
+  </div>
+  
+</div>
+<br>
+
+<div>
+  <button (click)="guardarCambios()">Guardar</button>   
+  <button routerLink="/inicio">Volver al Inicio</button>
+</div>
+
+
+
+
+
+<!-- <button (click)="toggleFormulario()">Crear Nueva Actividad</button>
+    
     <div *ngIf="mostrarform">
       <form (ngSubmit)="onSubmit(actividadForm)" #actividadForm="ngForm">
         <div class="form-group">
@@ -64,10 +95,4 @@
       </form>
     </div>
   </div>
-  
-</div>
-<br>
-
-<div>
-  <button routerLink="/inicio">Volver al Inicio</button>
-</div>
+ -->
