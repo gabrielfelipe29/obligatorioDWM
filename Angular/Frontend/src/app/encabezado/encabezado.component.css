@@ -1,9 +1,32 @@
 header {
-    background-image: url('https://images.unsplash.com/photo-1580541832626-2a7131ee809f?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNoZXNzfGVufDB8MHwwfHx8MA%3D%3D');
-    background-size: cover;
-    background-position: center;
-    height: 200px;
-    color: #fff;
-    text-align: center;
-    padding: 50px;
-  }
+  /*
+  background-image: url('https://images.unsplash.com/photo-1580541832626-2a7131ee809f?auto=format&fit=crop&q=60&w=500&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNoZXNzfGVufDB8MHwwfHx8MA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  */
+  height: 150px;
+  color: #fff;
+  text-align: center;
+  padding: 50px;
+}
+
+
+
+.title-2 {
+  display: block;
+  margin-top: -0.5rem;
+  font-size: 2.1rem;
+  font-weight: 800;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  -webkit-text-stroke: #2CE0B4 0.1rem;
+  letter-spacing: 0.2rem;
+  color: transparent;
+  position: relative;
+  text-shadow: 0px 0px 16px #2CE0B4;
+}
+
+.title-2 span::before,
+.title-2 span::after {
+  content: '—';
+}

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { LogInService } from '../log-in.service';
-import { NgForm } from '@angular/forms';
+import { LogInService } from '../services/log-in.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,6 +22,7 @@ export class LogInComponent {
 
   login() {
     const administrador = { administrador: { id: this.user, contraseña: this.password }};
+    console.log(administrador)
     this.loginService.login(administrador).subscribe(
       data => {
         if (data && data.token) {

@@ -1,10 +1,12 @@
-
-import { Injectable } from '@angular/core';
-import { Propuesta } from './propuesta';
-import { Actividad } from './actividad';
-import { BehaviorSubject, Observable, of } from 'rxjs'
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient,HttpResponse} from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+import { Injectable } from '@angular/core';
+import { Propuesta } from './interfaces/propuesta';
+import { Actividad } from './interfaces/actividad';
+import { __param } from 'tslib';
+
+import { BehaviorSubject, Observable, of } from 'rxjs'
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +26,10 @@ export class PropuestasService {
 
   // Método encargado de brindar todas las propuestas de un usuario
   obtenerPropuestas(): Observable<Propuesta[]> {
-    let devolver = this.http.get<Propuesta[]>("http://localhost:3000/user/propuesta");
-    return devolver;
+    return this.http.get<Propuesta[]>('http://localhost:3000/user/propuesta');
   }
+
+
   obtenerActividades(): Observable<Actividad[]> {
     return this.http.get<Actividad[]>(`http://localhost:3000/actividades`);
   }
@@ -59,7 +62,9 @@ export class PropuestasService {
     });
   }
 
-  agregarActividad(titulo: string, descripcion: string, imagen: string) { 
+  
+
+  agregarActividad(titulo: string, descripcion: string, imagen: string) {
     /*
       Acá se deberá conectar con back y agregar una actividad a la lista
     */
@@ -88,6 +93,7 @@ export class PropuestasService {
       console.log("el nombre es :" + this.propuestaActual?.titulo)
     });
   }
+  
 
   obtenerPropuestaActual() {
     return this.prop;

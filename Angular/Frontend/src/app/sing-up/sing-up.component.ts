@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { LogInService } from '../log-in.service';
+import { LogInService } from '../services/log-in.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -84,9 +84,17 @@ export class SingUpComponent {
       }
     }
     console.log(this.userValid + " " + this.passValid)
+    debugger
     if (this.userValid && this.passValid) {
-      this.servicioRegistro.singUp(this.user, this.pass);
-      this.router.navigate(['/inicio']);
+      this.servicioRegistro.singUp(this.user, this.pass).subscribe(
+        data => {
+          this.router.navigate(['/inicioSesion']);
+
+        },
+        error => {
+          console.log(error)
+        }
+      );
     }
   }
 }

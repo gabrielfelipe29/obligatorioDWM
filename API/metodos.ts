@@ -1,4 +1,5 @@
 import { db } from ".";
+import { ObjectId } from 'mongodb'
 export async function findOne(coleccion: String, dato: any) {
 
     var res = null;
@@ -6,8 +7,6 @@ export async function findOne(coleccion: String, dato: any) {
         if (db !== null) {
             res = await db.collection(coleccion).findOne(dato);
             let arr = await db.collection("administradores").find({}).toArray()
-            db.collection("administradores").insertOne({id: "1", contraseña: "1"})
-            console.log(arr)
         }
     } catch (error) {
         console.log("Error: " + error);
@@ -112,6 +111,72 @@ export async function userExist(id: String, contraseña: String): Promise<boolea
     return res;
 }
 
+export async function getRanking(salaId: string) {
+    let ranking: any = [];
+    try {
+        var resultado2 = await db.collection("salas").aggregate([
+            {
+                $match: {
+                    "_id": new ObjectId(salaId)
+                }
+            },
+            {
+                $unwind: "$propuesta.actividades"
+            },
+            {
+                $sort: {
+                    "propuesta.actividades.ranking.meGusta": -1
+                }
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    actividades: { $push: "$propuesta.actividades" }
+                }
+            }
+        ]).toArray();
 
+        ranking = resultado2[0].actividades
+        
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+    return ranking;
+
+}
+
+
+export async function obtenerVotosActividad(salaId: string, actividadId: ObjectId): Promise<any> {
+    try {
+
+        const filtro = {
+            '_id': new ObjectId(salaId),
+            'propuesta.actividades._id': actividadId,
+            activo: true
+        };
+
+
+        const sala = await db.collection('salas').findOne(filtro);
+
+
+        let idRecibido = actividadId.toString()
+        //console.log(sala.propuesta.actividades)
+
+        var actividadBuscada = await sala.propuesta.actividades.find((activdad: any) => {
+            let id = activdad._id.toString()
+            if (id == idRecibido)
+                return activdad
+        });
+
+        if (actividadBuscada) {
+            return actividadBuscada.ranking
+        } else {
+            return "Error, no se pudo recuperar nada"
+        }
+    } catch (error) {
+        return "Error, no se pudo recuperar nada"
+    }
+}
 
 

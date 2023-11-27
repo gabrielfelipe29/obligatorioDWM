@@ -8,7 +8,6 @@ export function verifyUser(req: any, res: any, next: any) {
             res.status(400);
             res.send("Error. Falta auth header.")
         } else {
-
             try {
                 if (req.headers['authorization'].split(' ')[0] == "Bearer") {
                     var token = req.headers['authorization'].split(' ')[1];
