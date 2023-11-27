@@ -172,6 +172,10 @@ router.post('/propuesta', middleware.verifyUser, async (req, res, next) => {
       } else {
 
         const userId = middleware.decode(req.headers['authorization']).id;
+
+        for(let actividad of req.body.propuesta.actividades){
+          actividad._id = new ObjectId(actividad._id)
+        }
         req.body.propuesta._id = new ObjectId();
         const filtro = { '_id': new ObjectId(userId) };
         const dato = { $push: { 'propuestas': req.body.propuesta } };

@@ -10,7 +10,7 @@ class Sala {
         this.juegoTerminado = false;
         this.propuesta = propuesta;
         this.creador = creador;
-        this.id = id;
+        this._id = id;
     }
     setQRCode(qr) {
         this.qrCode = qr;
