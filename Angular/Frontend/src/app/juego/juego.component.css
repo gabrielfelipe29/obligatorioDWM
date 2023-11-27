@@ -176,7 +176,38 @@ p{
   color: rgb(0, 255, 200);
 }
 
+.button2 {
+  padding: 0.5em;
+  padding-left: 2.3em;
+  padding-right: 2.3em;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: .4s ease-in-out;
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  color: rgb(0, 0, 0);
+}
 
+.button2:hover {
+  background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
+  color: rgb(0, 255, 200);
+}
+
+.button3 {
+  margin-bottom: 3em;
+  padding: 0.5em;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  transition: .4s ease-in-out;
+  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+  color: rgb(0, 0, 0);
+}
+
+.button3:hover {
+  background-image: linear-gradient(163deg, #a00000fa 0%, #d10050 100%);
+  color: rgb(255, 255, 255);
+}
 
 .card {
   background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
@@ -228,5 +259,33 @@ p{
     margin-right: 10px;
   }
 
+  .btn {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    margin-top: 10px;
+    margin-bottom: 30px;
+    
+  }
+
+  .uno{
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .dos{
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+  }
+
+  .tres{
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+  }
   
 }

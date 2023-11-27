@@ -50,25 +50,7 @@ p{
 }
 
 
-.btn{
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin: 10px;
-}
 
-<<<<<<< HEAD
-.mitad {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-
-.button1 {
-=======
 #datos_sala {
     margin-top: -50px;
     margin-bottom: -60px; 
@@ -86,7 +68,6 @@ p{
 /* Botones */
 .button1 {
     margin-right: 10px;
->>>>>>> 9c77c7ef497386703b52facc0a50b795556d3a61
     padding: 0.5em;
     padding-left: 1.1em;
     padding-right: 1.1em;
@@ -97,19 +78,6 @@ p{
     transition: .4s ease-in-out;
     background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
     color: rgb(255, 255, 255);
-<<<<<<< HEAD
-}
-  
-  .button1:hover {
-    background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
-    color: rgb(0, 255, 200);
-}
-
-
-
-@media only screen and (max-width: 768px) {
-
-=======
     }
     
     .button1:hover {
@@ -262,7 +230,6 @@ p{
         margin-top: 125px;
         width: 95%; 
     }
->>>>>>> 9c77c7ef497386703b52facc0a50b795556d3a61
     h1 {
         font-size: 24px;
     }
@@ -272,31 +239,10 @@ p{
         height: auto;
     }
 
-<<<<<<< HEAD
-    .imagen img{
-        width: 200px; 
-        height: 200px;
-    }
-
-    .container2 {
-        margin-top: 10px;
-        height: 200px !important; /* Add !important to ensure priority */
-        width: 200px !important;  /* Add !important to ensure priority */
-        max-height: 200px !important;
-    }
-=======
->>>>>>> 9c77c7ef497386703b52facc0a50b795556d3a61
 
     .code {
         margin-left: 0; 
     }
 
-<<<<<<< HEAD
-    .mitad {
-        text-align: center; 
-    }
-
-=======
->>>>>>> 9c77c7ef497386703b52facc0a50b795556d3a61
 
 }

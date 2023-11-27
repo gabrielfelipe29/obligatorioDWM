@@ -1,5 +1,6 @@
 import { Ranking } from "./ranking";
 
+
 export enum EstadosActividad {
     SinJugar, 
     Jugando, 
