@@ -26,6 +26,7 @@ export class DetallesComponent {
   imagen = ""
 
   actividadSeleccionada?: Actividad;
+  actividadSeleccionada2?: Actividad;
 
 
   // Lista de actividades de la propuesta
@@ -74,6 +75,9 @@ export class DetallesComponent {
     this.actividadSeleccionada = actividad;
   }
 
+  onSelect2(actividad: Actividad): void {
+    this.actividadSeleccionada2 = actividad;
+  }
 
   mostrarform = false;
 

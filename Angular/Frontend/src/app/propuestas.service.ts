@@ -13,6 +13,9 @@ import { BehaviorSubject, Observable, of } from 'rxjs'
 })
 export class PropuestasService {
 
+  prop : Propuesta = { _id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
+  proppp: Observable<Propuesta> = of(this.prop);
+
   private propuestaActual: Propuesta = { _id: "0", titulo: 'Tarjeta 0', descripcion: 'Descripcion de la tarjeta 0', actividades: [], imagen: "#" };
 
   private propuestaActualSubject = new BehaviorSubject<Propuesta>(this.propuestaActual);
@@ -23,56 +26,25 @@ export class PropuestasService {
 
   // Método encargado de brindar todas las propuestas de un usuario
   obtenerPropuestas(): Observable<Propuesta[]> {
-    /*
-      Acá se deberá conectar con back y pedir la lista de propuestas
-    */
-
     return this.http.get<Propuesta[]>('http://localhost:3000/user/propuesta');
   }
-    
-    //Lo siguiente es momentaneo 
-    /*let propuestas: Propuesta[] = [
-      { id: 1, titulo: 'Tarjeta 1', descripcion: 'Descripcion de la tarjeta 1', actividades: [], creatorId: "usuario_1", imagen: "#" },
-      { id: 2, titulo: 'Tarjeta 2', descripcion: 'Descripcion de la tarjeta 2', actividades: [], creatorId: "usuario_1", imagen: "#" },
-      { id: 3, titulo: 'Tarjeta 3', descripcion: 'Descripcion de la tarjeta 3', actividades: [], creatorId: "usuario_1", imagen: "#" }
-    ];
 
-    return of(propuestas);
-    */
 
   obtenerActividades(): Observable<Actividad[]> {
-    /*
-      Acá se deberá conectar con back y pedir la lista de actividades
-    */
-
     return this.http.get<Actividad[]>(`http://localhost:3000/actividades`);
-    
-
-    /*
-    let listaActividades = [
-      { id: 1, nombre: "Actividad 1", descripcion: "Primera actividad", imagen: "#" },
-      { id: 2, nombre: "Actividad 2", descripcion: "Segunda actividad", imagen: "#" },
-      { id: 3, nombre: "Actividad 3", descripcion: "Tercera actividad", imagen: "#" }
-    ];
-
-
-    return of(listaActividades);
-    */
   }
-  
-  obtenerPropuesta(propuestaId: number): Observable<Propuesta> {
+
+  obtenerPropuesta(propuestaId: string): Observable<Propuesta> {
     return this.http.get<Propuesta>(`http://localhost:3000/user/propuesta/${propuestaId}`);
   }
 
-  obtenerActividad(id: number): Observable<Actividad> {
-    return this.http.get<Actividad>(`http://localhost:3000/user/actividades/${id}`)
+  obtenerActividad(id: string): Observable<Actividad> {
+    return this.http.get<Actividad>(`http://localhost:3000/user/actividades/${id}`);
   }
+  
+
 
   agregarPropuesta(url: string,titulo: string, descripcion: string, imagen: string,listaActividades:Actividad[]) {
-    /*
-      Acá se deberá conectar con back y agregar una propuesta a la lista, 
-      la lista de 
-    */
    let nuevapropuesta={
       propuesta: {
         titulo:titulo,
@@ -98,15 +70,12 @@ export class PropuestasService {
     */
   }
 
-  eliminarPropuesta(id: number): Observable<any> {
-    /*
-      Acá se deberá conectar con back y eliminar una propuesta a la lista
-    */
-      let url = this.url + id
+  eliminarPropuesta(id: string): Observable<any> {
+      let url = this.url + "/propuesta/"+ id
       return this.http.delete(url)
   }
 
-  eliminarActividad(idActividad: number, idPropuesta: number) {
+  eliminarActividad(idActividad: string, idPropuesta: string) {
     
   }
 
@@ -115,6 +84,7 @@ export class PropuestasService {
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
       const propuestaEncontrada = propuestas.find(p => p._id === id);
       if (propuestaEncontrada) {
+        this.prop = propuestaEncontrada;
         this.propuestaActual = propuestaEncontrada;
         this.propuestaActualSubject.next(propuestaEncontrada);
       } else {
@@ -126,24 +96,53 @@ export class PropuestasService {
   
 
   obtenerPropuestaActual() {
-    return this.propuestaActualSubject.value;
+    return this.prop;
   }
 
-  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, actividad:Actividad[],id:any) {
+  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, _id: any, actividades: Actividad[]) {
 
     let dato = {
       propuesta:{
-        id:id
-      },
-      title: titulo,
-      description: desc,
-      img: img,
-      //binario a 
-      actividad:actividad
+        _id: _id,
+        titulo: titulo,
+        descripcion: desc,
+        imgage: img,
+        actividades: actividades
+      }
     }
+    alert("Bandera 1")
+    return this.http.put(url, dato)
+    /* this.http.put(url, datos, { observe: 'response' }).subscribe(
+      (response: HttpResponse<any>) => {
+        console.log(response)
+      },
+      (error: HttpResponse<any>) => {
+        console.log("Hubo un error en el camino " + error)
+      }
+    ); */
+  }
 
-    let datos = JSON.stringify(dato)
-    this.http.put(url, datos, { observe: 'response' }).subscribe(
+  obtenerTodasLasActividades(): Observable<Actividad[]>{
+    return this.http.get<Actividad[]>(`http://localhost:3000/actividades/`);
+  }
+
+  crearPropuesta(ombre: string, descripcion: string, imagen: string){
+
+  }
+
+  crearActividad(nombre: string, descripcion: string, imagen: string){
+    let body ={
+      actividad:{
+        _id:"seba",
+        titulo: nombre,
+        descripcion: descripcion,
+        imagen: imagen
+      }
+    }
+    
+
+    let datos = JSON.stringify(body)
+    this.http.post(this.url+'/actividades/', body,{ observe: 'response' }).subscribe(
       (response: HttpResponse<any>) => {
         console.log(response)
       },
@@ -151,9 +150,5 @@ export class PropuestasService {
         console.log("Hubo un error en el camino " + error)
       }
     );
-  }
-
-  obtenerTodasLasActividades(){
-
   }
 }

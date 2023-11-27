@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 })
 
 export class CrearActividadComponent {
-
+  
   constructor(private servicio: PropuestasService) { }
 
   titulo = "";

@@ -19,7 +19,8 @@ import { VotosComponent } from './votos/votos.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'}, 
+  { path: '', redirectTo: '/inicioSesion', pathMatch: 'full'},
+  //{ path: '**', loadComponent: () => import ()},
   { path: 'inicioSesion', component: LogInComponent },
   { path: 'registro', component: SingUpComponent },
   { path: 'inicio', component: PropuestasComponent },
