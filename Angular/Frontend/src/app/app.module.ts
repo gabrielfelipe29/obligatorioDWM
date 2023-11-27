@@ -21,7 +21,6 @@ import { ActividadComponent } from './actividad/actividad.component';
 import { CrearPropuestaComponent } from './crear-propuesta/crear-propuesta.component';
 import { CrearActividadComponent } from './crear-actividad/crear-actividad.component';
 import { UnirseJuegoComponent } from './unirse-juego/unirse-juego.component';
-import { error-page-component } from './error-page-component/error-page-component.component';
 
 
 @NgModule({
