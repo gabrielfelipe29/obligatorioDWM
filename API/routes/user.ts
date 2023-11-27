@@ -135,8 +135,8 @@ router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
         const dato = {
           $set: {
             'propuestas.$.actividades': req.body.propuesta.actividades,
-            'propuesta.titulo': req.body.propuesta.titulo,
-            'propuesta.img': req.body.propuesta.img
+            'propuestas.$.titulo': req.body.propuesta.titulo,
+            'propuestas.$.img': req.body.propuesta.img
           }
         };
         var result = await db.collection("administradores").updateOne(filtro, dato)
