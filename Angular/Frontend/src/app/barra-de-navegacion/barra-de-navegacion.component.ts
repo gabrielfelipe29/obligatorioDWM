@@ -15,4 +15,9 @@ export class BarraDeNavegacionComponent {
   cerrarSesion(){
     this.cookies.delete("userID");
   }
+
+  mostrar(){ 
+    let botones = document.getElementById("navbarSupportedContent")
+   // botones?.className = "navbar-nav"
+  }
 }

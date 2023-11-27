@@ -15,8 +15,22 @@ export class RankingComponent {
 
   resultados: ResultadoPropuesta = new ResultadoPropuesta(undefined, undefined, undefined)
 
-  constructor(private juegoService: JuegoService){
-    this.resultados = this.juegoService.obtenerRanking()
+  constructor(private juegoService: JuegoService) {
+    //this.resultados = this.juegoService.obtenerRanking()
+    let primero = {
+      nombreActividad: "Pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 1",
+      puntaje: 10
+    }
+    let segundo= {
+      nombreActividad: "Pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 2",
+      puntaje: 7
+    }
+    let tercero =  {
+      nombreActividad: "Pruebaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 3",
+      puntaje: 1  
+    }
+
+    this.resultados = new ResultadoPropuesta(primero, segundo, tercero)
 
     this.hayPrimerPuesto = this.resultados.primerLugar != undefined
     this.haySegundoPuesto = this.resultados.segundoLugar != undefined

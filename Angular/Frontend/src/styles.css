@@ -1,43 +1,8 @@
-/*
-body{
-    background: rgb(78,0,236);
-    background: radial-gradient(circle, rgba(78,0,236,1) 0%, rgba(7,7,23,1) 100%);
-}
-*/
-
-
 .container {
-  /*
-    width: 100vh;
-    height: 100vh;
-    --s: 200px; /* control the size 
-    --c1: #1d1d1d;
-    --c2: #4e4f51;
-    --c3: #3c3c3c;
-  
-    background: repeating-conic-gradient(
-          from 30deg,
-          #0000 0 120deg,
-          var(--c3) 0 180deg
-        )
-        calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
-      repeating-conic-gradient(
-        from 30deg,
-        var(--c1) 0 60deg,
-        var(--c2) 0 120deg,
-        var(--c3) 0 180deg
-      );
-    background-size: var(--s) calc(var(--s) * 0.577);
 
-    /*
-    border: 10px solid #13034b; /* Borde verde 
-    box-shadow: 0 0 10px #2CE0B4; /* Borde de sombra azul 
+  background-color: black;
 
-    */
-
-    background-color: black;
-
-  }
+}
 
 
 

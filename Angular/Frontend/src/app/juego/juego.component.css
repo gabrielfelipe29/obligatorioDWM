@@ -190,6 +190,7 @@ p{
 }
 
 @media (max-width: 600px) {
+  
   .container {
     width: 90%; 
   }
