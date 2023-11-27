@@ -101,7 +101,7 @@ export class PropuestasService {
     return this.prop;
   }
 
-  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, _id: any, actividades: Actividad[]) {
+  guardarCambiosPropuesta(url: string, titulo: string, desc: string, img: string, _id: any, actividades: Actividad[]): Observable<any> {
 
     let dato = {
       propuesta:{
