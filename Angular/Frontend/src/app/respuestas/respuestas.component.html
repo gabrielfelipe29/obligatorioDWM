@@ -1,24 +1,36 @@
-<!-- Título -->
-<h1>{{tituloActividad}}</h1>
 
-<!-- Puntajes -->
-<div>
-    <!-- Cantidad respuestas "me gusta" -->
-    <div>Me gusta: {{cantidadMeGusta}}</div>
+<div class="container">
+    <div class="card">
+        <div class="card2">
+            <form class="form">
+                
+                <p id="heading"> ¡Resultados de: <br> {{tituloActividad}}!</p>
 
-    <!-- Cantidad respuestas "me da iguial -->
-    <div>Me da igual{{cantidadMeDaIgual}}</div>
+                <div class="field">
+                    <!-- Cantidad respuestas "me gusta" -->
+                    <div>  Me gusta: {{cantidadMeGusta}}</div>
+                </div>
+        
+                <div class="field">
+                    <!-- Cantidad respuestas "me da iguial -->
+                    <div>Me da igual: {{cantidadMeDaIgual}}</div>
+                </div>
+
+                <div class="field2">
+                    <!-- Cantidad respuestas "no me gusta" -->
+                    <div>No me Gusta: {{cantidadNoMeGusta}}</div>
+                </div>
     
-    <!-- Cantidad respuestas "no me gusta" -->
-    <div>No me Gusta {{cantidadNoMeGusta}}</div>
+            </form>
+        </div>
+    </div>
 </div>
+ 
 
 <div *ngIf="!eraLaUltima && esAdmin">
-<button  type="button" class="btn btn-primary" (click)="siguienteActividad()">Next</button>
-    
+    <a href="#" class="btn-flotante" (click)="siguienteActividad()">Next</a>    
 </div>
+
 <div *ngIf="eraLaUltima && esAdmin">
-    <button  type="button" class="btn btn-dark" (click)="mostrarRanking()">Mostrar Ranking</button>
-
+    <a href="#" class="btn-flotante" (click)="mostrarRanking()">Mostrar Ranking</a>
 </div>
-

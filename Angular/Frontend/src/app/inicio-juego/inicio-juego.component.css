@@ -1,5 +1,3 @@
-
-
 .btn {
     position: absolute;
     bottom: 0;
@@ -31,28 +29,6 @@ p{
 }
 
 
-h1{
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    color:white;
-
-    height: 15%;
-  text-align: center;
-  font-size: 34px;
-  letter-spacing: 3px;
-  font-weight: 600;
-  text-shadow: -1px -1px 3px #2CE0B4  ,
-              1px 1px 3px #2CE0B4 ;
-  position: relative;
-  top: -14px;
-}
-
-#datos_sala{
-    display: flex;
-    justify-content: center;
-}
-
 
 .jugadores-container {
     margin-top: 50px;
@@ -64,16 +40,6 @@ h1{
 .jugadores{
     margin-left: 10px;
     margin-bottom: 10px;
-
-    height: 15%;
-    text-align: center;
-    font-size: 15px;
-    letter-spacing: 3px;
-    font-weight: 600;
-    text-shadow: -1px -1px 3px #2CE0B4  ,
-                1px 1px 3px #2CE0B4 ;
-    position: relative;
-    top: -14px;
 }
 
 .uno{
@@ -81,66 +47,189 @@ h1{
     margin-top: 40px;
     display: flex;
     justify-content: center;
-
-    height: 15%;
-    text-align: center;
-    font-size: 34px;
-    letter-spacing: 3px;
-    font-weight: 600;
-    text-shadow: -1px -1px 3px #2CE0B4  ,
-                1px 1px 3px #2CE0B4 ;
-    position: relative;
-    top: -14px;
 }
 
-
-
-/* Botón flotante */
-.btn-flotante {
-	color: #ffffff; /* Color del texto */
-	border-radius: 5px; /* Borde del boton */
-	background-color: #1d2ad2; /* Color de fondo */
-	padding: 18px 30px; /* Relleno del boton */
-	position: fixed;
-	bottom: 40px;
-	right: 40px;
-	transition: all 300ms ease 0ms;
-	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
-	z-index: 99;
-
-  border: none;
-  outline: none;
-  transition: .4s ease-in-out;
-  background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
-  color: rgb(255, 255, 255);
-  transition: all 300ms ease 0ms;
-  z-index: 99;
-}
-
-.btn-flotante:hover {
-	background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
-  color: rgb(0, 255, 200);
-	transform: translateY(-7px);
-}
 
 
 #datos_sala {
+    margin-top: -50px;
+    margin-bottom: -60px; 
     display: flex;
     justify-content: center;
-    padding: 20px; /* Optional: Add padding to the container */
-}
-
-#datos_sala img {
-    background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%); /* Set the background color as needed */
-    padding: 20px; /* Optional: Add padding to the image */
+    padding: 20px; 
 }
 
 
 
 
 
-@media only screen and (max-width: 768px) {
 
+
+/* Botones */
+.button1 {
+    margin-right: 10px;
+    padding: 0.5em;
+    padding-left: 1.1em;
+    padding-right: 1.1em;
+    border-radius: 5px;
+    margin-left: 5px;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+    color: rgb(255, 255, 255);
+    }
+    
+    .button1:hover {
+    background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
+    color: rgb(0, 255, 200);
+    }
+    
+    .btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    }  
+    
+    
+    
+    
+    .btn{
+        display: flex;
+        justify-content: center;
+        margin-top: 450px;
+    }  
+    
+    
+    .form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-left: 2em;
+        padding-right: 2em;
+        padding-bottom: 0.4em;
+        background-color: #171717;
+        border-radius: 20px;
+    }
+    
+    #heading {
+        margin-top: -100px;
+        text-align: center;
+        margin: 2em;
+        color: rgb(0, 255, 200);
+        font-size: 1.8em;
+    }
+    
+    .uno{
+        text-align: center;
+        margin: 2em;
+        color: rgb(0, 255, 200);
+        font-size: 1.8em;
+    
+    }
+    
+    
+    .field {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        border-radius: 25px;
+        padding: 0.6em;
+        border: none;
+        outline: none;
+        color: #2CE0B4;
+        background-color: #171717;
+        box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+    }
+    
+    .field2 {
+    
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5em;
+        border-radius: 25px;
+        padding: 0.6em;
+        border: none;
+        outline: none;
+        color: #2CE0B4;
+        background-color: #171717;
+        box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+          
+    }
+    
+
+
+    .container {
+        margin-top: -20px;
+        margin-top: 70px;
+        width: 700px; 
+        height: 390px; 
+        display: flex;
+        justify-content: center;
+    
+        align-items: center;
+    }
+    
+    .card {
+        background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+        border-radius: 22px;
+        transition: all .3s;
+        flex-grow: 1; 
+    }
+    
+    .card2 {
+        border-radius: 22px;
+        transition: all .2s;
+    }
+    
+
+    
+    
+    .btn-flotante {
+
+        color: #ffffff; 
+        border-radius: 5px; 
+        background-color: #1d2ad2; 
+        padding: 18px 30px; 
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        transition: all 300ms ease 0ms;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+        z-index: 99;
+    
+        border: none;
+        outline: none;
+        transition: .4s ease-in-out;
+        background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+        color: rgb(255, 255, 255);
+        transition: all 300ms ease 0ms;
+        z-index: 99;
+    }
+    
+    .btn-flotante:hover {
+        background-image: linear-gradient(163deg, #00642f 0%, #13034b 100%);
+        color: rgb(0, 255, 200);
+        transform: translateY(-7px);
+    }
+    
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+
+    .container {
+        margin-top: 125px;
+        width: 95%; 
+    }
     h1 {
         font-size: 24px;
     }
@@ -150,24 +239,9 @@ h1{
         height: auto;
     }
 
-    .imagen img{
-        width: 200px; 
-        height: 200px;
-    }
-
-    .container2 {
-        margin-top: 10px;
-        height: 200px !important; /* Add !important to ensure priority */
-        width: 200px !important;  /* Add !important to ensure priority */
-        max-height: 200px !important;
-    }
 
     .code {
         margin-left: 0; 
-    }
-
-    .mitad {
-        text-align: center; 
     }
 
 
