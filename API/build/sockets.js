@@ -105,7 +105,7 @@ function join(datos, io, socket) {
                 if (datos.rol == "player" && datos.pseudonimo != undefined) {
                     // Si la sala existe lo agregamos
                     sala.agregarJugador(sala.obtenerIDUltimoJugador(), datos.pseudonimo, socket.id);
-                    exports.socketsJugadores[socket.id] = sala.id;
+                    exports.socketsJugadores[socket._id] = sala._id;
                     console.log(`Player unido al canal ${channel}`);
                 }
                 var data = {
@@ -192,7 +192,7 @@ function terminarJuego(mensaje, io) {
             if (socketDelAdmin) {
                 socketDelAdmin.leave(canal);
             }
-            console.log(`El admin saco a todos del juego ${canal}`);
+            console.log(` El admin saco a todos del juego ${canal} `);
         }
     });
 }

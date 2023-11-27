@@ -20,6 +20,7 @@ export class CrearPropuestaComponent implements OnInit {
 
   ngOnInit(): void {
     this.servicio.obtenerActividades().subscribe(listaActividades => {
+      debugger
       this.lista= listaActividades;
     });
   }
@@ -27,12 +28,13 @@ export class CrearPropuestaComponent implements OnInit {
   
   agregaractividad(actividad:Actividad) {
     let dato={
+      _id: actividad._id,
       titulo:actividad.titulo,
       descripcion:actividad.descripcion,
       imagen:actividad.imagen
     }
     this.actividadesSeleccionadas.push(actividad.titulo)
-    this.listaguardar.push(dato);//guardar json
+    this.listaguardar.push(actividad);//guardar json
   }
 
   guardarCambios() {
