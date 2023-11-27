@@ -67,6 +67,7 @@ export class SocketService {
         adminID: this.logService.getUserData().user,
         codigoSala: this.getCanal()
       }
+      console.log(datos)
       this.socket.emit('iniciarJuego', datos);
 
     }

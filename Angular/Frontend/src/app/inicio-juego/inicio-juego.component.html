@@ -18,6 +18,12 @@
         </div>
         
     </div>
+    
+</div>
+
+<div class="btn" *ngIf="esAdmin">
+    <button type="button" class="button1" (click)="iniciarJuego()">Iniciar Juego</button>
+</div>
 
     <button class="btn-flotante" (click)="iniciarJuego()">
         Iniciar Juego

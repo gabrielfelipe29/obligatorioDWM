@@ -55,7 +55,6 @@ export class JuegoComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit(): void {
-
     this.ejecutarTimer();
   }
 

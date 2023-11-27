@@ -9,8 +9,7 @@ import * as socketsModule from './sockets'
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio'
 const uri =
-    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
-export var db: any = null;
+    "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20"; export var db: any = null;
 const client = new MongoClient(uri);
 
 //secreto esta en el middleware
@@ -47,20 +46,18 @@ app.get('/test', (req: any, res: any) => {
 
 app.use('/actividades', actividadRouter)
 app.use('/salas', salaRouter)
-app.use('/user', userRouter)
+app.use('/user', userRouter) 
 
 const httpServer = createServer(app);
 const io = require('socket.io')(httpServer, {
     cors: { origin: '*' }
 });
 
-
 // Sockets
 io.on('connection', async (socket: any) => {
     console.log('Cliente conectado');
 
-    socket.on('join',async (datos: any) => {
-        console.log(datos)
+    socket.on('join', async (datos: any) => {
         socketsModule.join(datos, io, socket)
         console.log("Un cliente se ha unido al canal", datos.codigo)
     });
@@ -75,7 +72,7 @@ io.on('connection', async (socket: any) => {
         console.log("El admin quizo mostrar otra actividad")
     });
 
-    socket.on('mostrarResultadosActividad',async  (mensaje: any) => {
+    socket.on('mostrarResultadosActividad', async (mensaje: any) => {
         socketsModule.obtenerResultadosActividad(mensaje, io, socket)
         console.log("El admin quizo obrener el resultado de la actividad")
     });
@@ -105,10 +102,6 @@ io.on('connection', async (socket: any) => {
 
 
 
-
-
-
-
 /* Hacemos la conexión a la base de datos y hacemos que el serve quede corriendo */
 async function run() {
     try {
@@ -118,8 +111,9 @@ async function run() {
         await client.db().command({ ping: 1 });
         console.log("Conectado a BDD.");
         httpServer.listen(PORT, HOST, () => {
-            console.log(`Server running on port ${PORT} estas compilando cornudo?`)
+            console.log(`Server running on port ${PORT}`)
         })
+
 
     } catch (error) {
         console.log(error);

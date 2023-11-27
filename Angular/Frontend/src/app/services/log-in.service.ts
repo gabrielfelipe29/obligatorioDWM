@@ -43,7 +43,13 @@ export class LogInService {
 
  
 
-  singUp(user: String, pass: String){
-    
+  singUp(user: String, pass: String): Observable<any>{
+    let datos = {
+      administrador: {
+        id: user,
+        contraseña: pass
+      }
+    }
+    return this.http.post("http://localhost:3000/user/register", datos)
   }
 }

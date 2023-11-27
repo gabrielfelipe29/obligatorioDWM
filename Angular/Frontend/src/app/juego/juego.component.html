@@ -1,6 +1,5 @@
 
 
-
 <div class="container">
 <div class="card">
     <div class="card2">
@@ -21,9 +20,11 @@
         </div>
 
         <!--- botones para votar -->
-        <app-votos-juego *ngIf="esAdmin"></app-votos-juego>
+        <app-votos-juego *ngIf="!esAdmin"></app-votos-juego>
 
       </form>
     </div>
 </div>
 </div>
+
+<!--- botones para votar -->
