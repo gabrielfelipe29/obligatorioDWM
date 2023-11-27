@@ -9,33 +9,38 @@ import { NgForm } from '@angular/forms';
 })
 
 export class CrearActividadComponent {
-  
-    constructor(private servicio: PropuestasService){}
-  
-    titulo= "";
-    descripcion= "";
-    imagen = "";
-  
-    nombrevalido = false;
-    
-    onSubmit(form: NgForm) {
-      this.servicio.crearActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
+
+  constructor(private servicio: PropuestasService) { }
+
+  titulo = "";
+  descripcion = "";
+  imagen = "";
+  nombrevalido = false;
+
+  onSubmit(form: NgForm) {
+
+    const reader = new FileReader();
+    debugger
+    if (document.getElementById('imagen') != null) {
+      let file = (<HTMLInputElement>document.getElementById('imagen')).files[0];
+
+      reader.addEventListener(
+        "load",
+        () => {
+          // convert image file to base64 string
+          console.log(reader.result)
+          this.servicio.crearActividad(form.value.titulo, form.value.descripcion, reader.result)
+        },
+        false,
+      );
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    } else {
+      this.servicio.crearActividad(form.value.titulo, form.value.descripcion, "")
     }
+
   }
 
-/*
-export class CrearActividadComponent {
-
-<form (ngSubmit)="crearPropuesta()">
-    <div>
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" name="titulo" [(ngModel)]="titulo" required>
-    </div>
-    <div>
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" name="descripcion" [(ngModel)]="descripcion" required></textarea>
-    </div>
-    <button type="submit">Crear Propuesta</button>
-</form>
 }
-*/

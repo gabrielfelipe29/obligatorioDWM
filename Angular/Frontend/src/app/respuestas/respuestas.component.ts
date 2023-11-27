@@ -50,8 +50,8 @@ export class RespuestasComponent implements OnInit{
     this.socket.on("actividad", (mensaje: any) => {
       if (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined &&
         mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined) {
-        this.router.navigateByUrl('/actividad');
-        this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
+          this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
+          this.router.navigateByUrl('/actividad');
       }
 
     })

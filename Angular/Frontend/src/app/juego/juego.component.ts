@@ -32,15 +32,19 @@ export class JuegoComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.juegoService.getActividadActual().subscribe(actividadRecibida => this.actividadActual = actividadRecibida);
+    this.juegoService.getActividadActual().subscribe(actividadRecibida => {
+      debugger;
+      this.actividadActual = new Actividad(actividadRecibida._id, actividadRecibida.titulo, actividadRecibida.descripcion, actividadRecibida.imagen);
+      console.log(this.actividadActual);
+    });
 
     this.socket.on("restultadoActividad", (mensaje: any) => {
       this.contador = 0
       if (mensaje.resultado !== undefined && mensaje.resultado.meGusta !== undefined && mensaje.resultado.noMeGusta !== undefined
         && mensaje.resultado.meDaIgual !== undefined) {
         this.juegoService.setResultadosActividad(mensaje.resultado.meGusta, mensaje.resultado.noMeGusta, mensaje.resultado.meDaIgual)
-        
-        if(mensaje.ultimaActividad !== undefined && mensaje.ultimaActividad == true){
+
+        if (mensaje.ultimaActividad !== undefined && mensaje.ultimaActividad == true) {
           this.juegoService.esUltima = true
 
         }

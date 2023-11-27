@@ -13,12 +13,7 @@ class Actividad {
         this.estadoActividad = EstadosActividad.SinJugar;
         this.titulo = titulo;
         this.descripcion = descripcion;
-        if (this.imageLink != undefined) {
-            this.imageLink = imageLink;
-        }
-        else {
-            this.imageLink = "";
-        }
+        this.imageLink = imageLink;
         this.ranking = new ranking_1.Ranking();
         this._id = id;
     }

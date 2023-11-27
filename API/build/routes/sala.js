@@ -97,7 +97,7 @@ router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, vo
                         let listaActividades = [];
                         for (let i = 0; i < propuestaDeseada.actividades.length; i++) {
                             let actividad = propuestaDeseada.actividades[i];
-                            listaActividades.push(new actividad_1.Actividad(actividad._id, actividad.titulo, actividad.descripcion, actividad.imageLink));
+                            listaActividades.push(new actividad_1.Actividad(actividad._id, actividad.titulo, actividad.descripcion, actividad.imagen));
                         }
                         let newPropuesta = new propuesta_1.Propuesta(propuestaDeseada.nombre, decoded.id, propuestaDeseada._id, listaActividades, propuestaDeseada.rutaImg);
                         console.log(newPropuesta);

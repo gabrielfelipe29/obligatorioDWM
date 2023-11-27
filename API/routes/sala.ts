@@ -71,7 +71,7 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
 
                         for (let i = 0; i < propuestaDeseada.actividades.length; i++) {
                             let actividad = propuestaDeseada.actividades[i]
-                            listaActividades.push(new Actividad(actividad._id, actividad.titulo, actividad.descripcion, actividad.imageLink))
+                            listaActividades.push(new Actividad(actividad._id, actividad.titulo, actividad.descripcion, actividad.imagen))
                         }
 
                         let newPropuesta = new Propuesta(propuestaDeseada.nombre, decoded.id, propuestaDeseada._id, listaActividades, propuestaDeseada.rutaImg)

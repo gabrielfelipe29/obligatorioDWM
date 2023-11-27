@@ -8,39 +8,41 @@ import { PropuestasService } from '../services/propuestas.service';
   styleUrls: ['./crear-propuesta.component.css']
 })
 export class CrearPropuestaComponent implements OnInit {
-  titulo="";
-  descripcion="";
-  imagen="";
-  constructor(private servicio: PropuestasService){}
+  titulo = "";
+  descripcion = "";
+  imagen = "";
+  constructor(private servicio: PropuestasService) { }
   actividadesSeleccionadas: string[] = [];
-  listaguardar:any[]=[]
+  listaguardar: any[] = []
   lista: any[] = [];
 
 
 
   ngOnInit(): void {
     this.servicio.obtenerActividades().subscribe(listaActividades => {
-      debugger
-      this.lista= listaActividades;
+      listaActividades.forEach((a) => {
+        this.lista.push(new Actividad(a._id, a.titulo, a.descripcion, a.imagen));
+      });
+      //this.lista = listaActividades;
     });
   }
-    
-  
-  agregaractividad(actividad:Actividad) {
-    let dato={
+
+
+  agregaractividad(actividad: Actividad) {
+    let dato = {
       _id: actividad._id,
-      titulo:actividad.titulo,
-      descripcion:actividad.descripcion,
-      imagen:actividad.imagen
+      titulo: actividad.titulo,
+      descripcion: actividad.descripcion,
+      imagen: actividad.imagen
     }
     this.actividadesSeleccionadas.push(actividad.titulo)
     this.listaguardar.push(actividad);//guardar json
   }
 
   guardarCambios() {
-    this.servicio.agregarPropuesta("http://localhost:3000/user/propuesta",this.titulo, this.descripcion, this.imagen,this.listaguardar)
+    this.servicio.agregarPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen, this.listaguardar)
   }
-  
+
 
 
 }

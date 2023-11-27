@@ -121,7 +121,7 @@ export class PropuestasService {
 
 
 
-  crearActividad(nombre: string, descripcion: string, imagen: string){
+  crearActividad(nombre: string, descripcion: string, imagen: any){
     let body ={
       actividad:{
         _id:"seba",
