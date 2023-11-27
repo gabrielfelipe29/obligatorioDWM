@@ -1,14 +1,14 @@
 <div *ngIf="actividad">
-  <h2>{{actividad.titulo | uppercase}}</h2>
-  <h3>Detalles de la Actividad</h3>
+  <h2 class="texto">{{actividad.titulo | uppercase}}</h2>
+  <h3 class="texto">Detalles de la Actividad</h3>
   <div>
     <div class="detalle">
-      <h5>Titulo de la Actividad</h5>
-      <p>{{actividad.titulo}}</p>
+      <h5 class="texto">Titulo de la Actividad</h5>
+      <p class="texto">{{actividad.titulo}}</p>
     </div>
-    <h5>Descripción de la Actividad</h5>
-    <p>{{actividad.descripcion}}</p>
-    <h5>Imagén de la Actividad</h5>
+    <h5 class="texto">Descripción de la Actividad</h5>
+    <p class="texto">{{actividad.descripcion}}</p>
+    <h5 class="texto">Imagén de la Actividad</h5>
     <br>
     <img class="imagen" src="{{actividad.imagen}}" alt>
   </div>
