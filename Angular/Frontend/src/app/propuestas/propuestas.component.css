@@ -3,6 +3,18 @@ h2{
   text-align: center;
   color:#ffffff;
 
+  margin-top: 20px;
+
+  height: 15%;
+  text-align: center;
+  font-size: 34px;
+  letter-spacing: 3px;
+  font-weight: 600;
+  text-shadow: -1px -1px 3px #2CE0B4  ,
+              1px 1px 3px #2CE0B4 ;
+  position: relative;
+  top: -14px;
+
 }
 /*
 .card {
@@ -146,10 +158,10 @@ h2{
 
 /* Botón flotante */
 .btn-flotante {
-	color: #ffffff; /* Color del texto */
-	border-radius: 5px; /* Borde del boton */
-	background-color: #1d2ad2; /* Color de fondo */
-	padding: 18px 30px; /* Relleno del boton */
+	color: #ffffff; 
+	border-radius: 5px; 
+	background-color: #1d2ad2; 
+	padding: 18px 30px; 
 	position: fixed;
 	bottom: 40px;
 	right: 40px;
@@ -222,7 +234,7 @@ h2{
 
 .btn {
   position: absolute;
-  bottom: 10px; /* Adjust the spacing from the bottom as needed */
+  bottom: 10px;
   left: 112px;
   transform: translateX(-50%);
   display: flex;

@@ -18,7 +18,7 @@ export class JuegoService {
 
   jugadores: Jugador[] = [];
 
-  actividadActual: Actividad = new Actividad("", "", "", "")
+  actividadActual: Actividad = new Actividad("", "Florencia coreea La mas mejor", "Te amooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo", "https://media.admagazine.com/photos/64d1e94eebad238bffb5a28b/1:1/w_2250,h_2250,c_limit/plantas-con-flores-faciles-de-cuidar.jpg")
 
   yaEstaEnSala = false
 

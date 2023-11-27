@@ -2,7 +2,7 @@ import { Propuesta } from "./propuesta";
 import { Jugador } from "./jugador";
 
 export class Sala {
-    public id: number;
+    public _id: string;
     public propuesta: Propuesta;
     //creador le asignamos el id del admin_
     public creador: string;
@@ -11,10 +11,10 @@ export class Sala {
     public qrCode: String = ""
     public juegoTerminado = false
 
-    constructor(id: number, propuesta: Propuesta, creador: string) {
+    constructor(id: string, propuesta: Propuesta, creador: string) {
         this.propuesta = propuesta;
         this.creador = creador;
-        this.id = id;
+        this._id = id;
 
     }
 
