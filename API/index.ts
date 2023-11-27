@@ -46,7 +46,7 @@ app.get('/test', (req: any, res: any) => {
 
 app.use('/actividades', actividadRouter)
 app.use('/salas', salaRouter)
-app.use('/user', userRouter)
+app.use('/user', userRouter) 
 
 const httpServer = createServer(app);
 const io = require('socket.io')(httpServer, {

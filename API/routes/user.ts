@@ -11,6 +11,7 @@ export const admins: { [clave: string]: Administrador } = {};
 
 //registrar usuario
 router.post('/register', async (req, res) => {
+  console.log("Llego papa")
   try {
     if (await metodos.userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
       res.status(400);

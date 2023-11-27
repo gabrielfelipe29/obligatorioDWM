@@ -46,6 +46,7 @@ const router = express_1.default.Router();
 exports.admins = {};
 //registrar usuario
 router.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("Llego papa");
     try {
         if (yield metodos.userExist(req.body.administrador.id, req.body.administrador.contraseña)) {
             res.status(400);
