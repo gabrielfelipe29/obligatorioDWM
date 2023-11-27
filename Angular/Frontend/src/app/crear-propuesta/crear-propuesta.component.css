@@ -7,12 +7,6 @@
     padding: 20px;
 }
 
-.input{
-
-    margin-bottom: 10px;
-    width: 40px;
-    height: 48px;
-}
 
 .input2{
 
@@ -226,4 +220,18 @@
 
 .actividades::-webkit-scrollbar-track {
   background-color: #1a1a1a; 
+}
+
+
+
+@media only screen and (max-width: 768px) {
+  .container {
+    flex-direction: column; 
+    margin-top: -100px;
+  }
+
+  .container2{
+    margin-top: 10px;
+    margin-left: 0;
+  }
 }

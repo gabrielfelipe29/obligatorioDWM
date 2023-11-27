@@ -10,8 +10,8 @@ Cuando se deconecta, se ve el socketID, por lo cual, lo usamos a nuestro favor, 
 socketID, como clave y como valor el codigo de la sala */
 
 
-export var socketsJugadores: { [clave: string]: number } = {}
-export var socketsAdmin: { [clave: string]: number } = {}
+export var socketsJugadores: { [clave: string]: string } = {}
+export var socketsAdmin: { [clave: string]: string } = {}
 
 
 
@@ -108,7 +108,7 @@ export async function join(datos: any, io: any, socket: any) {
                 // Si la sala existe lo agregamos
 
                 sala.agregarJugador(sala.obtenerIDUltimoJugador(), datos.pseudonimo, socket.id)
-                socketsJugadores[socket.id] = sala.id;
+                socketsJugadores[socket._id] = sala._id;
                 console.log(`Player unido al canal ${channel}`);
 
             }
@@ -213,7 +213,7 @@ export async function terminarJuego(mensaje: any, io: any) {
         if (socketDelAdmin) {
             socketDelAdmin.leave(canal);
         }
-        console.log(`El admin saco a todos del juego ${canal}`);
+        console.log( ` El admin saco a todos del juego ${canal} `);
 
     }
 }
@@ -295,6 +295,3 @@ async function correrActividad(io: any, idSala: string) {
             time)
     }
 }
-
-
-
