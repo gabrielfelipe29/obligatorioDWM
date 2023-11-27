@@ -18,12 +18,7 @@ export class Actividad {
     constructor(id: ObjectId, titulo: String, descripcion: String, imageLink?: String) {
         this.titulo = titulo;
         this.descripcion = descripcion;
-
-        if (this.imageLink != undefined) {
-            this.imageLink = imageLink;
-        } else {
-            this.imageLink = "";
-        }
+      this.imageLink = imageLink
         this.ranking = new Ranking();
         this._id = id;
     }

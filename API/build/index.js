@@ -44,7 +44,7 @@ const http_1 = require("http");
 const socketsModule = __importStar(require("./sockets"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
-const uri = "mongodb://0.0.0.0:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
+const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 exports.db = null;
 const client = new MongoClient(uri);
 //secreto esta en el middleware

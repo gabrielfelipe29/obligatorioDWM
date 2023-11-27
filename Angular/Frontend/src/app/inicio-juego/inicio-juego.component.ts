@@ -54,8 +54,9 @@ export class InicioJuegoComponent implements OnInit {
         mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined) {
 
         // Revisa si es la última actividad y pasa el parametro al servicio
-        this.router.navigateByUrl('/actividad');
         this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
+        
+        this.router.navigateByUrl('/actividad');
       }
 
     })
