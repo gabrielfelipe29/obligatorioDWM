@@ -110,10 +110,10 @@ export class PropuestasService {
     
   }
 
-  verDetalles(id: number) {
+  verDetalles(id: string) {
     console.log("el id es:" + id)
     this.obtenerPropuestas().subscribe((propuestas: Propuesta[]) => {
-      const propuestaEncontrada = propuestas.find(p => p.id === id);
+      const propuestaEncontrada = propuestas.find(p => p._id === id);
       if (propuestaEncontrada) {
         this.propuestaActual = propuestaEncontrada;
         this.propuestaActualSubject.next(propuestaEncontrada);

@@ -44,7 +44,7 @@ const http_1 = require("http");
 const socketsModule = __importStar(require("./sockets"));
 const { MongoClient } = require("mongodb");
 const dbName = 'obligatorio';
-const uri = "mongodb://admin:admin@localhost:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
+const uri = "mongodb://0.0.0.0:27017/" + dbName + "?writeConcern=majority&minPoolSize=10&maxPoolSize=20";
 exports.db = null;
 const client = new MongoClient(uri);
 //secreto esta en el middleware
@@ -60,7 +60,7 @@ const app = (0, express_1.default)();
 var corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200,
-    methods: "GET, PUT"
+    methods: "GET, PUT, POST, DELETE"
 };
 app.use(express_1.default.json());
 app.use(cors(corsOptions));

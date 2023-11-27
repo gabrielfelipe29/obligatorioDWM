@@ -60,15 +60,10 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     // Pasamos a crear los objetos que necesitamos tener mientras funciona el programa
 
                     const user = await metodos.findOne("administradores", { '_id': new ObjectId(decoded.id) });
-<<<<<<< HEAD
-
-                    var propuestaDeseada = user.propuestas.find((propuesta: any) => propuesta._id === req.body.propuesta._id);
-=======
                     var propuestaDeseada = user.propuestas.find((propuesta: any) => {
                         if (propuesta._id == req.body.propuesta._id)
                             return propuesta
                     });
->>>>>>> main
 
                     if (propuestaDeseada) {
                         // Hacer algo con la propuesta deseada
