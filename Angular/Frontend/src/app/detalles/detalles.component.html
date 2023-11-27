@@ -1,8 +1,6 @@
 <h2 style="text-align:center">Actividades de: </h2>
 
 <div class="container">
-  <div class="card">
-    <div class="card2">
   <form class="form" ngForm="form2" #form2>
     <p id="heading">Detalles de la Propuesta: {{ propuestaActual.titulo }}</p>
     <p id="heading">Titulo de la Propuesta</p>
@@ -18,8 +16,6 @@
       <input id="actividad-imagen" type="text" name="imagen" class="input-field" placeholder="Imagén" [(ngModel)]="propuestaActual.imagen"  autocomplete="off">
     </div>
   </form>
-    </div>
-  </div>
   <br>
   <h2 style="text-align:center">Actividades de: {{ propuestaActual.titulo }}</h2>
   <br>
@@ -47,45 +43,49 @@
     <div class="col">
       <div class="card3">
         <div class="card4">
-          <app-actividad [actividad]="actividadSeleccionada"></app-actividad>
+        <app-actividad [actividad]="actividadSeleccionada"></app-actividad>
         </div>
       </div>
     </div>
   </div>
   <br>
   <br>
+  
   <div class="row">
     <button (click)="toggleFormulario()">Agregar Actividad Existente</button>
     
     <div *ngIf="mostrarform" class="col-lg-6 col-md-6 col-sm-12 col-xs-12"></div>
-    <div class="row">
-      <div *ngIf="mostrarform">
-        <p id="heading">Actividades Existentes</p>
-      </div>
-      
-      <div class="col">
-        <div *ngIf="mostrarform">
-          
-          <div class="item-list">
-            <ul>
+    <br>
+    <br>
+    <div class="row" *ngIf="mostrarform">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card3">
+          <div class="card4">
+            <p id="heading">Actividades Existentes</p>
+            <ul class="Actividades">
               <li *ngFor="let actividad of actividadesExistentes">
-                <button class="button-list " (click)="onSelect2(actividad)"
-            [class.selected]="actividad === actividadSeleccionada2">
-            <span class="tituloActividad">
-              {{actividad.titulo}}
-            </span>
-          </button>
-                <button (click)="agregarALista(actividad)">+</button>
+                <button class="button-list button2" (click)="onSelect2(actividad)"
+                  [class.selected]="actividad === actividadSeleccionada2">
+                  <span>
+                    {{actividad.titulo}}
+                  </span>
+                </button>
+                <button class="button-list button2" (click)="agregarALista(actividad)">
+                  Agregar
+                </button>
               </li>
             </ul>
           </div>
         </div>
       </div>
       <div class="col">
-        <app-actividad [actividad]="actividadSeleccionada2"></app-actividad>
+        <div class="card3">
+          <div class="card4">
+          <app-actividad [actividad]="actividadSeleccionada2"></app-actividad>
+          </div>
+        </div>
       </div>
-    </div>  
-  </div>
+    </div>
   
 </div>
 <br>
@@ -93,63 +93,6 @@
 <div>
   <button (click)="guardarCambios()">Guardar</button>   
   <button routerLink="/inicio">Volver al Inicio</button>
-</div>
-
-<div class="container">
-  <div class="card">
-      <div class="card2">
-
-          <form class="form">
-
-              <p id="heading">Propuestas Existentes</p>
-
-              <div class="field">
-                  <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
-                  <input type="text" class="input-field input1"  id="titulo" name="titulo" [(ngModel)]="titulo" required placeholder="Titulo">
-              </div>
-
-              <div class="field">
-                  <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
-                  <input id="descripcion" class="input-field input2" name="descripcion" [(ngModel)]="descripcion" required placeholder="Descripcion">
-              </div>
-
-              <div>
-                  <div>
-                  <ul>
-                      <li *ngFor="let actividad of actividades">{{ actividad }}</li>
-                  </ul>
-                  </div>
-              </div>
-
-              <div class="btn">
-
-                  <button type="submit" class="button2">Crear Propuesta</button>
-
-              </div>
-
-          </form>
-      </div>
-  </div>
-
-  <div class="container2">
-      <div class="card3">
-          <div class="card4">
-
-              <div class="actividades">
-
-                  <p class="uno">Detalles de la actividad</p>
-
-                  <div *ngFor="let actividad of actividadesExistentes" class="actividad-item">
-                      <p class="dos">{{actividad.titulo}}</p>
-                      <button class="button2" >Subir</button>
-                  </div>
-
-              </div>
-
-          </div>
-      </div>
-  </div>
-
 </div>
 
 
