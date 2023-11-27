@@ -26,6 +26,17 @@ export class PropuestasComponent implements OnInit {
     
   }
 
+  eliminar(id:string){
+    const tarjetaIndex = this.propuestas.findIndex(tarjeta => tarjeta._id === id);
+
+  if (tarjetaIndex !== -1) {
+    this.servicio.eliminarPropuesta(id);
+    this.propuestas.splice(tarjetaIndex, 1);
+  }
+
+  }
+
+
   verDetalles(id: string) {
     this.servicio.verDetalles(id);
     this.router.navigate(['/detalles', id]);
