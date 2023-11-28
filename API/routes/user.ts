@@ -216,16 +216,13 @@ router.delete('/propuesta/:propuestaid', async (req, res, next) => {
     res.send(JSON.stringify({ mensaje: 'Error al obtener las propuestas del usuario' }))
   }
 })
-/*
-//modifica las actividades en las propuestas del usuario
-router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
-  //en realidad se le manda todas las actividades, y se sustituye todo
+
+router.delete('/propuesta/:propuestaid', async (req, res, next) => {
   try {
     const userId = middleware.decode(req.headers['authorization']).id;
-    const propuestaid = req.body.propuesta.id;
-    const actividadnueva = req.body.propuesta.actividades;
-    const filtro = { id: userId, 'propuesta.id': propuestaid };
-    const dato = { $set: { 'propuesta.$.actividades': actividadnueva } };
+    const propuestaid = req.params.propuestaid;
+    const filtro = { '_id': new ObjectId(userId) };
+    const dato = { $pull: { 'propuestas': { _id: new ObjectId(propuestaid) } } };
     var result = await db.collection("administradores").updateOne(filtro, dato)
     res.status(200);
     res.send();
@@ -233,9 +230,9 @@ router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
   catch (error) {
     console.error(error);
     res.status(500);
-    res.send(JSON.stringify({ mensaje: 'Error al borrar la actividad de la propuesta del usuario' }))
+    res.send(JSON.stringify({ mensaje: 'Error al obtener las propuestas del usuario' }))
   }
 })
-*/
+
 
 export default router

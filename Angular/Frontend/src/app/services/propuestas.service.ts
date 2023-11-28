@@ -67,16 +67,16 @@ export class PropuestasService {
   }
 
   eliminarPropuesta(id: string) {
-      let url = this.url + "/user/propuesta/"+ id
-      return this.http.delete(url,{ observe: 'response' }).subscribe(
-        (response: HttpResponse<any>) => {
-          console.log(response)
-        },
-        (error: HttpResponse<any>) => {
-          console.log("Hubo un error en el camino " + error)
-        }
-      );
-  }
+    let url = this.url + "/user/propuesta/"+ id
+    return this.http.delete(url,{ observe: 'response' }).subscribe(
+      (response: HttpResponse<any>) => {
+        console.log(response)
+      },
+      (error: HttpResponse<any>) => {
+        console.log("Hubo un error en el camino " + error)
+      }
+    );
+}
 
   eliminarActividad(idActividad: string, idPropuesta: string) {
     
