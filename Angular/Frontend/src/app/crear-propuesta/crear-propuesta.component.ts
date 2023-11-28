@@ -40,6 +40,7 @@ export class CrearPropuestaComponent implements OnInit {
   }
 
   guardarCambios() {
+    this.servicio.obtenerPropuestas()
     this.servicio.agregarPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen, this.listaguardar)
   }
 

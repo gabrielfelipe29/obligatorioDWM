@@ -152,7 +152,7 @@ export async function obtenerVotosActividad(salaId: string, actividadId: ObjectI
 
         const filtro = {
             '_id': new ObjectId(salaId),
-            'propuesta.actividades._id': actividadId,
+            'propuesta.actividades._id': new ObjectId(actividadId),
             activo: true
         };
 
