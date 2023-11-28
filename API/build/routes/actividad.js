@@ -86,7 +86,8 @@ router.post('/', middleware.verifyUser, (req, res, next) => __awaiter(void 0, vo
                     req.body.actividad.imagen = null;
                 }
                 try {
-                    yield metodos.addOne("actividades", { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
+                    const result = yield metodos.addOne("actividades", { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
+                    console.log(result);
                     res.status(200);
                     res.send();
                 }

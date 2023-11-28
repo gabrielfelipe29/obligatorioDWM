@@ -233,8 +233,7 @@ function desconectarse(socket, io) {
 exports.desconectarse = desconectarse;
 function correrActividad(io, idSala) {
     return __awaiter(this, void 0, void 0, function* () {
-        /* let time = 31000 */
-        let time = 11000;
+        let time = 31000;
         if (idSala in sala_1.salas) {
             setTimeout(() => __awaiter(this, void 0, void 0, function* () {
                 let sala = sala_1.salas[idSala];

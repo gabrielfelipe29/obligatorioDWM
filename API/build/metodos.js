@@ -176,7 +176,7 @@ function obtenerVotosActividad(salaId, actividadId) {
         try {
             const filtro = {
                 '_id': new mongodb_1.ObjectId(salaId),
-                'propuesta.actividades._id': actividadId,
+                'propuesta.actividades._id': new mongodb_1.ObjectId(actividadId),
                 activo: true
             };
             const sala = yield _1.db.collection('salas').findOne(filtro);

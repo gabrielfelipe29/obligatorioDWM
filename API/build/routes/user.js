@@ -247,26 +247,21 @@ router.delete('/propuesta/:propuestaid', (req, res, next) => __awaiter(void 0, v
         res.send(JSON.stringify({ mensaje: 'Error al obtener las propuestas del usuario' }));
     }
 }));
-/*
-//modifica las actividades en las propuestas del usuario
-router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
-  //en realidad se le manda todas las actividades, y se sustituye todo
-  try {
-    const userId = middleware.decode(req.headers['authorization']).id;
-    const propuestaid = req.body.propuesta.id;
-    const actividadnueva = req.body.propuesta.actividades;
-    const filtro = { id: userId, 'propuesta.id': propuestaid };
-    const dato = { $set: { 'propuesta.$.actividades': actividadnueva } };
-    var result = await db.collection("administradores").updateOne(filtro, dato)
-    res.status(200);
-    res.send();
-  }
-  catch (error) {
-    console.error(error);
-    res.status(500);
-    res.send(JSON.stringify({ mensaje: 'Error al borrar la actividad de la propuesta del usuario' }))
-  }
-})
-*/
+router.delete('/propuesta/:propuestaid', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = middleware.decode(req.headers['authorization']).id;
+        const propuestaid = req.params.propuestaid;
+        const filtro = { '_id': new mongodb_1.ObjectId(userId) };
+        const dato = { $pull: { 'propuestas': { _id: new mongodb_1.ObjectId(propuestaid) } } };
+        var result = yield __1.db.collection("administradores").updateOne(filtro, dato);
+        res.status(200);
+        res.send();
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500);
+        res.send(JSON.stringify({ mensaje: 'Error al obtener las propuestas del usuario' }));
+    }
+}));
 exports.default = router;
 //# sourceMappingURL=user.js.map

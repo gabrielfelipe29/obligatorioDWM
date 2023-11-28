@@ -55,8 +55,9 @@ router.post('/', middleware.verifyUser, async (req, res, next) => {
                     req.body.actividad.imagen = null;
                 }
                 try {
-                    await metodos.addOne("actividades",
+                    const result = await metodos.addOne("actividades",
                         { titulo: req.body.actividad.titulo, descripcion: req.body.actividad.descripcion, imagen: req.body.actividad.imagen });
+                    console.log(result);
                     res.status(200)
                     res.send()
                 } catch (error) {

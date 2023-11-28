@@ -51,6 +51,7 @@ const client = new MongoClient(uri);
 exports.jwt = require('jsonwebtoken');
 const cors = require('cors');
 const _ = require('lodash');
+const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 // Constants
 const PORT = 3000;
@@ -60,8 +61,10 @@ const app = (0, express_1.default)();
 var corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200,
-    methods: "GET, PUT, POST, DELETE"
+    methods: "GET, PUT, POST, DELETE, HEAD"
 };
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express_1.default.json());
 app.use(cors(corsOptions));
 /* Endpoints para trabajar con las solicitudes */

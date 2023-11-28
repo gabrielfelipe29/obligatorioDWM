@@ -18,6 +18,7 @@ export var jwt = require('jsonwebtoken');
 
 const cors = require('cors');
 const _ = require('lodash');
+const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 
 // Constants
@@ -33,8 +34,11 @@ var corsOptions = {
     methods: "GET, PUT, POST, DELETE, HEAD"
 }
 
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(express.json())
 app.use(cors(corsOptions));
+
 
 
 /* Endpoints para trabajar con las solicitudes */
@@ -46,7 +50,7 @@ app.get('/test', (req: any, res: any) => {
 
 app.use('/actividades', actividadRouter)
 app.use('/salas', salaRouter)
-app.use('/user', userRouter) 
+app.use('/user', userRouter)
 
 const httpServer = createServer(app);
 const io = require('socket.io')(httpServer, {

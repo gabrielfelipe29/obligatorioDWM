@@ -18,22 +18,19 @@ export class CrearActividadComponent {
   nombrevalido = false;
 
   onSubmit(form: NgForm) {
-    
-
-    this.servicio.crearActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
-      alert("¡Tu actividad fue creada con exito!")
-      this.titulo= "";
-      this.descripcion= "";
-      this.imagen = "";
 
 
+    //this.servicio.crearActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
 
     const reader = new FileReader();
-    debugger
     if (document.getElementById('imagen') != null) {
       let file = (<HTMLInputElement>document.getElementById('imagen')).files[0];
       if (file == null) {
         this.servicio.crearActividad(form.value.titulo, form.value.descripcion, "")
+        this.titulo = "";
+        this.descripcion = "";
+        this.imagen = "";
+
       }
       reader.addEventListener(
         "load",
@@ -41,6 +38,9 @@ export class CrearActividadComponent {
           // convert image file to base64 string
           console.log(reader.result)
           this.servicio.crearActividad(form.value.titulo, form.value.descripcion, reader.result)
+          this.titulo = "";
+          this.descripcion = "";
+          this.imagen = "";
         },
         false,
       );
@@ -50,7 +50,13 @@ export class CrearActividadComponent {
       }
     } else {
       this.servicio.crearActividad(form.value.titulo, form.value.descripcion, "")
+      this.titulo = "";
+      this.descripcion = "";
+      this.imagen = "";
     }
+
+    alert("¡Tu actividad fue creada con exito!")
+
 
   }
 
