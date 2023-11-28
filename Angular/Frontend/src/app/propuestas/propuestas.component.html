@@ -1,5 +1,7 @@
 <app-barra-de-navegacion></app-barra-de-navegacion>
-  
+
+<h2>Propuestas Disponibles</h2>
+
   <div class="card-container">
     <div class="card" *ngFor="let tarjeta of propuestas">
       <div
@@ -13,19 +15,19 @@
 
         <div class="btn">
           <button class="button1" (click)="verDetalles(tarjeta._id)">Detalles</button>
-          <button class="button1" (click)="eliminar(tarjeta._id)">Eliminar</button>
-          <button class="button1" (click)="crearSala(tarjeta)">&nbsp;&nbsp;Jugar&nbsp;&nbsp;</button>
+          <button class="button1" >Eliminar</button>
+      </div>
+
+      <div>
+        <button class="button2" (click)="crearSala(tarjeta)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jugar&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
       </div>
 
     </div>
   </div>
 
   <!-- Botón flotante -->
-  <button class="btn-flotante" routerLink="/crearPropuesta">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
-    </svg>
-  </button>
-
-
-
+<button class="btn-flotante" routerLink="/crearPropuesta">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+  </svg>
+</button>

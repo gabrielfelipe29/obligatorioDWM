@@ -1,32 +1,27 @@
-<app-barra-de-navegacion></app-barra-de-navegacion>
-
 <div class="container">
     <div class="card">
         <div class="card2">
 
+            <div class="actividades">
             <form class="form">
 
                 <p id="heading">¡Crear Propuesta!</p>
 
                 <div class="field">
-                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16"
-                        xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
-                    <input type="text" class="input-field input1" id="titulo" name="titulo" [(ngModel)]="titulo"
-                        required placeholder="Titulo">
+                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
+                    <input type="text" class="input-field input1"  id="titulo" name="titulo" [(ngModel)]="titulo" required placeholder="Titulo">
                 </div>
 
-                <div class="field">
-                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16"
-                        xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
-                    <input id="descripcion" class="input-field input2" name="descripcion" [(ngModel)]="descripcion"
-                        required placeholder="Descripcion">
+                <div class="field2">
+                    <svg viewBox="0 0 16 16" fill="currentColor" height="16" width="16" xmlns="http://www.w3.org/2000/svg" class="input-icon"></svg>
+                    <input id="descripcion" class="input-field2 input2" name="descripcion" [(ngModel)]="descripcion" required placeholder="Descripcion">
                 </div>
 
                 <div>
                     <div>
-                        <ul>
-                            <li *ngFor="let actividad of actividadesSeleccionadas">{{ actividad }}</li>
-                        </ul>
+                    <ul>
+                        <li *ngFor="let actividad of actividadesSeleccionadas">{{ actividad }}</li>
+                    </ul>
                     </div>
                 </div>
 
@@ -42,6 +37,7 @@
                 </div>
 
             </form>
+            </div>
         </div>
     </div>
 
@@ -56,7 +52,7 @@
                     <div *ngFor="let actividad of lista" class="actividad-item">
                         <p class="dos">{{actividad.titulo}}</p>
                         <img src="{{actividad.imagen}}">
-                        <button class="button2" (click)="agregaractividad(actividad)">Subir</button>
+                        <button class="button2 clase2" (click)="agregaractividad(actividad)">Subir</button>
                     </div>
 
                 </div>
@@ -66,3 +62,5 @@
     </div>
 
 </div>
+
+<button class="btn-flotante" routerLink="/inicio">Volver</button>

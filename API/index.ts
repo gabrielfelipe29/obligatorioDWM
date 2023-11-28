@@ -30,7 +30,7 @@ const app = express();
 var corsOptions = {
     origin: 'http://localhost:4200',
     optionsSuccessStatus: 200,
-    methods: "GET, PUT, POST, DELETE"
+    methods: "GET, PUT, POST, DELETE, HEAD"
 }
 
 app.use(express.json())
