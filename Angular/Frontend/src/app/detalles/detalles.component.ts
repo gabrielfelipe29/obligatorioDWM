@@ -94,6 +94,8 @@ export class DetallesComponent {
   }
 
   guardarCambios() {
+    this.servicio.obtenerPropuestas()
+
     this.servicio.guardarCambiosPropuesta("http://localhost:3000/user/propuesta", this.propuestaActual.titulo, this.propuestaActual.descripcion, this.propuestaActual.imagen, this.propuestaActual._id, this.actividades).subscribe(
       data => {
         console.log(data)

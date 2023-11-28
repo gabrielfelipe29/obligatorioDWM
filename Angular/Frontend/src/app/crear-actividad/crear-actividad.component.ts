@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 })
 
 export class CrearActividadComponent {
-  
+
   constructor(private servicio: PropuestasService) { }
 
   titulo = "";
@@ -32,7 +32,9 @@ export class CrearActividadComponent {
     debugger
     if (document.getElementById('imagen') != null) {
       let file = (<HTMLInputElement>document.getElementById('imagen')).files[0];
-
+      if (file == null) {
+        this.servicio.crearActividad(form.value.titulo, form.value.descripcion, "")
+      }
       reader.addEventListener(
         "load",
         () => {

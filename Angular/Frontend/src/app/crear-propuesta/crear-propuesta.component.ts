@@ -41,16 +41,10 @@ export class CrearPropuestaComponent implements OnInit {
   exitoGuardarCambios: boolean = false;
 
   guardarCambios() {
-    this.servicio.agregarPropuesta("http://localhost:3000/user/propuesta",this.titulo, this.descripcion, this.imagen,this.listaguardar)
-    // Mensaje de éxito
-  alert("¡Tu propuesta se creó con éxito!");
 
-  // Reiniciar los campos
-  this.titulo = '';
-  this.descripcion = '';
-  this.imagen = '';
-  this.actividadesSeleccionadas =[];
-  this.listaguardar=[]
+    this.servicio.obtenerPropuestas()
+    this.servicio.agregarPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen, this.listaguardar)
+
   }
 
 
