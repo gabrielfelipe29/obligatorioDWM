@@ -254,8 +254,7 @@ export async function desconectarse(socket: any, io: any) {
 }
 
 async function correrActividad(io: any, idSala: string) {
-    /* let time = 31000 */
-    let time = 11000
+    let time = 31000
     if (idSala in salas) {
         setTimeout(async () => {
             let sala = salas[idSala]
