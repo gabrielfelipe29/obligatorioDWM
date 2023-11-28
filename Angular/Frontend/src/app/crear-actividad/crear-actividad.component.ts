@@ -18,6 +18,15 @@ export class CrearActividadComponent {
   nombrevalido = false;
 
   onSubmit(form: NgForm) {
+    
+
+    this.servicio.crearActividad(form.value.titulo, form.value.descripcion, form.value.imagen)
+      alert("¡Tu actividad fue creada con exito!")
+      this.titulo= "";
+      this.descripcion= "";
+      this.imagen = "";
+
+
 
     const reader = new FileReader();
     debugger
@@ -42,5 +51,6 @@ export class CrearActividadComponent {
     }
 
   }
+
 
 }
