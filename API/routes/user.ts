@@ -136,6 +136,7 @@ router.put('/propuesta', middleware.verifyUser, async (req, res, next) => {
           $set: {
             'propuestas.$.actividades': req.body.propuesta.actividades,
             'propuestas.$.titulo': req.body.propuesta.titulo,
+            'propuestas.$.descripcion': req.body.propuesta.descripcion,
             'propuestas.$.img': req.body.propuesta.img
           }
         };

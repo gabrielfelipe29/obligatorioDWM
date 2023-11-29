@@ -37,7 +37,7 @@ export class PropuestasService {
   }
 
   obtenerActividad(id: string): Observable<Actividad> {
-    return this.http.get<Actividad>(`http://localhost:3000/user/actividades/${id}`);
+    return this.http.get<Actividad>(`http://localhost:3000/actividades/${id}`);
   }
   
 
