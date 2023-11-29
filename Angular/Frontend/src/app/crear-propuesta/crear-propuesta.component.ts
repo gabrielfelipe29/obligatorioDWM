@@ -28,12 +28,12 @@ export class CrearPropuestaComponent implements OnInit {
   }
 
 
-  agregaractividad(actividad:Actividad) {
-    let dato={
+  agregaractividad(actividad: Actividad) {
+    let dato = {
       _id: actividad._id,
-      titulo:actividad.titulo,
-      descripcion:actividad.descripcion,
-      imagen:actividad.imagen
+      titulo: actividad.titulo,
+      descripcion: actividad.descripcion,
+      imagen: actividad.imagen
     }
     this.actividadesSeleccionadas.push(actividad.titulo)
     this.listaguardar.push(actividad);//guardar json
@@ -42,8 +42,16 @@ export class CrearPropuestaComponent implements OnInit {
 
   guardarCambios() {
 
-    this.servicio.obtenerPropuestas()
+
     this.servicio.agregarPropuesta("http://localhost:3000/user/propuesta", this.titulo, this.descripcion, this.imagen, this.listaguardar)
+    alert("¡Se creó con éxito!");
+    // Reiniciar los campos
+    this.titulo = '';
+    this.descripcion = '';
+    this.imagen = '';
+    this.actividadesSeleccionadas = [];
+    this.listaguardar = []
+    this.servicio.obtenerPropuestas()
 
   }
 

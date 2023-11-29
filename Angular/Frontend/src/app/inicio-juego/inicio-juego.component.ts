@@ -51,7 +51,7 @@ export class InicioJuegoComponent implements OnInit {
       console.log("Resultado: " + (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined &&
         mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined))
       if (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined &&
-        mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined) {
+        mensaje.actividad.descripcion != undefined) {
 
         // Revisa si es la última actividad y pasa el parametro al servicio
         this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)

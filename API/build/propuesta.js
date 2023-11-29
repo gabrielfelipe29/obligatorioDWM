@@ -12,7 +12,7 @@ class Propuesta {
         this.imagen = rutaImg;
     }
     devolerSigueinteActividad() {
-        if (this.proximaActividad < this.actividades.length) {
+        if (this.proximaActividad <= this.actividades.length) {
             let actividad = this.actividades[this.proximaActividad];
             this.proximaActividad++;
             this.actividadActual = actividad;

@@ -6,7 +6,7 @@ import { Propuesta } from '../interfaces/propuesta';
 import { HttpClient } from '@angular/common/http';
 import { Actividad } from '../interfaces/actividad';
 import { CookieService } from 'ngx-cookie-service';
-import {ResultadoPropuesta} from '../interfaces/resultadoPropuesta'
+import { ResultadoPropuesta } from '../interfaces/resultadoPropuesta'
 
 
 @Injectable({
@@ -18,7 +18,7 @@ export class JuegoService {
 
   jugadores: Jugador[] = [];
 
-  actividadActual: Actividad = new Actividad("", "Florencia coreea La mas mejor", "Te amooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo", "https://media.admagazine.com/photos/64d1e94eebad238bffb5a28b/1:1/w_2250,h_2250,c_limit/plantas-con-flores-faciles-de-cuidar.jpg")
+  actividadActual: Actividad = new Actividad("", "", "", "")
 
   yaEstaEnSala = false
 
@@ -26,7 +26,7 @@ export class JuegoService {
 
   public resultadoPropuesta: ResultadoPropuesta = new ResultadoPropuesta({}, {}, {})
 
-  getEsUltima(){
+  getEsUltima() {
     return of(this.esUltima)
   }
 
@@ -99,29 +99,29 @@ export class JuegoService {
     }
   }
 
-  getResultadosActividad(): object{
+  getResultadosActividad(): object {
     return this.actividadActual.obtenerResultados()
   }
 
-  setRanking(primero: any, segundo: any, tercero: any){
+  setRanking(primero: any, segundo: any, tercero: any) {
     let p = undefined
     let s = undefined
     let t = undefined
-    if(primero != undefined){
+    if (primero != undefined) {
       p = primero
     }
 
-    if(segundo != undefined){
+    if (segundo != undefined) {
       s = segundo
     }
 
-    if(tercero != undefined){
+    if (tercero != undefined) {
       t = tercero
     }
     this.resultadoPropuesta = new ResultadoPropuesta(p, s, t)
   }
 
-  obtenerRanking(){
+  obtenerRanking() {
     return this.resultadoPropuesta
   }
 

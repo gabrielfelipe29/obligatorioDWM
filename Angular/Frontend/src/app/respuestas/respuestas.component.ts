@@ -10,7 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
   templateUrl: './respuestas.component.html',
   styleUrls: ['./respuestas.component.css']
 })
-export class RespuestasComponent implements OnInit{
+export class RespuestasComponent implements OnInit {
 
   tituloActividad: string = ""
   cantidadMeGusta: number = 0
@@ -34,13 +34,13 @@ export class RespuestasComponent implements OnInit{
     this.juegoService.getActividadActual().subscribe((actividadRecibida) => {
       ranking = actividadRecibida.obtenerResultados()
       this.tituloActividad = actividadRecibida.titulo
-      
+
     });
 
     this.juegoService.getEsUltima().subscribe(esUltimaService => {
       console.log("Ahora cargamos si es ultima" + esUltimaService)
       this.eraLaUltima = esUltimaService
-    } )
+    })
 
     this.cantidadMeGusta = ranking.meGusta
     this.cantidadMeDaIgual = ranking.meDaIgual
@@ -49,33 +49,33 @@ export class RespuestasComponent implements OnInit{
 
     this.socket.on("actividad", (mensaje: any) => {
       if (mensaje.actividad !== undefined && mensaje.actividad.idActividad != undefined && mensaje.actividad.titulo != undefined &&
-        mensaje.actividad.descripcion != undefined && mensaje.actividad.imagen != undefined) {
-          this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
-          this.router.navigateByUrl('/actividad');
+        mensaje.actividad.descripcion != undefined) {
+        this.juegoService.setActividad(mensaje.actividad.idActividad, mensaje.actividad.titulo, mensaje.actividad.descripcion, mensaje.actividad.imagen)
+        this.router.navigateByUrl('/actividad');
       }
 
     })
 
     this.socket.on("ranking", (mensaje: any) => {
-      if(mensaje.resultados != undefined) {
-        this.juegoService.setRanking(mensaje.resultados.primero, mensaje.resultados.segundo, mensaje.resultados.tercero) 
+      if (mensaje.resultados != undefined) {
+        this.juegoService.setRanking(mensaje.resultados.primero, mensaje.resultados.segundo, mensaje.resultados.tercero)
         this.router.navigateByUrl('/ranking');
       } else {
         alert("Ocurró un error a la hora de obtener el ranking")
       }
-          
-  })
 
-}
+    })
+
+  }
   siguienteActividad() {
     this.socketService.mostrarSiguienteActividad()
   }
 
-  mostrarRanking(){
+  mostrarRanking() {
     this.socketService.obtenerRanking()
   }
 
- 
+
 
 
 }
